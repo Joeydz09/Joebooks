@@ -1,4 +1,251 @@
-const heading = document.createElement('h3');
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#171411">
+<meta name="description" content="مكتبة الأحلام، مكتبتك الإلكترونية للكتب والروايات العربية.">
+<title>مكتبة الأحلام | مكتبتك الإلكترونية</title>
+<style>
+:root{
+  --bg:#171411;
+  --panel:#211c17;
+  --card:#282119;
+  --gold:#d6b36a;
+  --gold-light:#f0d99d;
+  --cream:#f4ead7;
+  --muted:#b9aa95;
+  --border:#443729;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--cream);
+  font-family:Tahoma,Arial,sans-serif;line-height:1.8
+}
+a{color:inherit}
+button,input{font:inherit}
+header{
+  position:relative;overflow:hidden;text-align:center;
+  padding:44px 18px 34px;
+  background:radial-gradient(ellipse at top,#493522 0%,#292017 48%,#171411 100%);
+  border-bottom:1px solid var(--border)
+}
+.brand-icon{
+  width:65px;height:65px;display:grid;place-items:center;
+  margin:0 auto 12px;border:1px solid var(--gold);
+  border-radius:50%;font-size:31px;color:var(--gold-light)
+}
+header h1{margin:0;color:var(--gold-light);font-size:clamp(28px,6vw,42px)}
+header p{margin:7px 0 0;color:#d4c2a5}
+header .ornament{color:var(--gold);margin-top:13px;letter-spacing:8px}
+main{max-width:1050px;margin:auto;padding:25px 16px 45px}
+.intro{text-align:center;margin:0 0 22px}
+.intro h2{font-size:23px;margin:0 0 4px}
+.intro p{color:var(--muted);margin:0;font-size:14px}
+.search-wrap{max-width:700px;margin:22px auto}
+.search-box{position:relative}
+.search-box span{
+  position:absolute;right:16px;top:50%;transform:translateY(-50%);
+  font-size:20px;color:var(--gold)
+}
+#search{
+  width:100%;padding:15px 49px 15px 15px;
+  color:var(--cream);background:#211c17;
+  border:1px solid #655038;border-radius:14px;outline:none
+}
+#search:focus{border-color:var(--gold);box-shadow:0 0 0 3px #d6b36a20}
+.section-label{font-size:14px;color:var(--gold-light);margin:18px 0 10px}
+#categories{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.chip{
+  cursor:pointer;border:1px solid var(--border);border-radius:30px;
+  background:var(--panel);color:var(--cream);padding:7px 14px;
+  font-size:13px
+}
+.chip.active,.chip:hover{background:var(--gold);border-color:var(--gold);color:#21180e}
+#status{color:var(--muted);font-size:13px;text-align:center;margin:18px 0}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.book{
+  min-width:0;background:linear-gradient(145deg,#2a231b,#201b16);
+  border:1px solid var(--border);border-radius:16px;
+  padding:14px;display:flex;flex-direction:column;gap:9px;
+  transition:transform .18s,border-color .18s
+}
+.book:hover{transform:translateY(-3px);border-color:#9e7d47}
+.cover{
+  width:100%;height:170px;object-fit:contain;
+  border-radius:10px;background:#171411
+}
+.cover-placeholder{
+  height:125px;border-radius:10px;background:#211a13;
+  display:grid;place-items:center;color:var(--gold);font-size:38px;
+  border:1px solid #443729
+}
+.book h3{font-size:16px;line-height:1.7;margin:0;color:var(--gold-light);overflow-wrap:anywhere}
+.meta{color:var(--muted);font-size:12px}
+.synopsis{
+  color:#d2c4b0;font-size:13px;line-height:1.9;
+  overflow-wrap:anywhere;white-space:pre-line
+}
+.book-actions{margin-top:auto;padding-top:5px}
+.open-link{
+  display:block;text-align:center;text-decoration:none;
+  padding:9px 12px;border-radius:9px;background:var(--gold);
+  color:#21180e;font-size:13px;font-weight:bold
+}
+.open-link:hover{background:var(--gold-light)}
+#empty{
+  text-align:center;color:var(--muted);padding:35px 10px;
+  border:1px dashed var(--border);border-radius:14px
+}
+#more{
+  display:block;margin:22px auto 0;padding:10px 25px;
+  border:1px solid var(--gold);border-radius:10px;
+  background:transparent;color:var(--gold-light);cursor:pointer
+}
+#more:hover{background:#d6b36a18}
+footer{
+  text-align:center;color:var(--muted);font-size:12px;
+  border-top:1px solid var(--border);padding:22px 12px
+}
+footer span{color:var(--gold)}
+@media(max-width:720px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .book{padding:11px}
+  .cover{height:135px}
+  .cover-placeholder{height:105px}
+}
+@media(max-width:380px){
+  .grid{grid-template-columns:1fr}
+  .cover{height:190px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand-icon" aria-hidden="true">📚</div>
+  <h1>مكتبة الأحلام</h1>
+  <p>حيث تبدأ الحكايات وتعيش الأحلام</p>
+  <div class="ornament" aria-hidden="true">✦ ❖ ✦</div>
+</header>
+
+<main>
+  <section class="intro">
+    <h2>اكتشف كتابك القادم</h2>
+    <p>عالم من الروايات والكتب، اختَر ما يلامس خيالك</p>
+  </section>
+
+  <section class="search-wrap" aria-label="البحث والتصنيفات">
+    <div class="search-box">
+      <span aria-hidden="true">⌕</span>
+      <input id="search" type="search"
+        placeholder="ابحث عن رواية أو كاتب..."
+        aria-label="ابحث عن رواية أو كاتب">
+    </div>
+    <div class="section-label">✦ تصفّح حسب التصنيف</div>
+    <div id="categories">
+      <button class="chip active" data-category="">كل الكتب</button>
+    </div>
+  </section>
+
+  <p id="status" role="status">جارٍ تحميل مكتبة الأحلام...</p>
+  <section id="books" class="grid" aria-label="قائمة الكتب"></section>
+  <p id="empty" hidden>لم نعثر على كتب مطابقة. جرّب كلمة بحث أخرى.</p>
+  <button id="more" hidden>عرض المزيد</button>
+</main>
+
+<footer>
+  <div>✦ <span>مكتبة الأحلام</span> — مكتبتك بين يديك ✦</div>
+  <div>كل حكاية باب إلى عالم جديد</div>
+</footer>
+
+<script>
+const searchInput = document.getElementById('search');
+const booksContainer = document.getElementById('books');
+const categoriesContainer = document.getElementById('categories');
+const statusText = document.getElementById('status');
+const emptyText = document.getElementById('empty');
+const moreButton = document.getElementById('more');
+
+let allBooks = [];
+let selectedCategory = '';
+let visibleLimit = 30;
+
+function text(value){
+  return value == null ? '' : String(value).trim();
+}
+
+function safeBookUrl(value){
+  try {
+    const u = new URL(text(value));
+    if (u.protocol !== 'https:') return '';
+    if (u.hostname !== 't.me') return '';
+    if (!/^\/[A-Za-z0-9_]+\/\d+\/?$/.test(u.pathname)) return '';
+    return u.href;
+  } catch {
+    return '';
+  }
+}
+
+function coverUrl(book){
+  const candidates = [
+    book.cover, book.cover_url, book.image, book.image_url,
+    book.thumbnail, book.thumbnail_url
+  ];
+  for (const value of candidates){
+    try {
+      const u = new URL(text(value));
+      if (u.protocol === 'https:') return u.href;
+    } catch {}
+  }
+  return '';
+}
+
+function normalized(value){
+  return text(value).toLocaleLowerCase('ar');
+}
+
+function addCategories(){
+  const values = [...new Set(allBooks.map(b => text(b.category)).filter(Boolean))]
+    .sort((a,b) => a.localeCompare(b,'ar'));
+
+  for (const category of values){
+    const button = document.createElement('button');
+    button.className = 'chip';
+    button.dataset.category = category;
+    button.textContent = category;
+    categoriesContainer.appendChild(button);
+  }
+}
+
+function createBookCard(book){
+  const article = document.createElement('article');
+  article.className = 'book';
+
+  const cover = coverUrl(book);
+  if (cover){
+    const img = document.createElement('img');
+    img.className = 'cover';
+    img.src = cover;
+    img.alt = 'غلاف ' + (text(book.title) || 'كتاب');
+    img.loading = 'lazy';
+    img.onerror = () => {
+      const placeholder = document.createElement('div');
+      placeholder.className = 'cover-placeholder';
+      placeholder.textContent = '📖';
+      img.replaceWith(placeholder);
+    };
+    article.appendChild(img);
+  } else {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'cover-placeholder';
+    placeholder.textContent = '📖';
+    article.appendChild(placeholder);
+  }
+
+  const heading = document.createElement('h3');
   heading.textContent = text(book.title) || 'كتاب بدون عنوان';
   article.appendChild(heading);
 
