@@ -1,109 +1,128 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Joebooks | مكتبة الكتب والروايات</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f7f3ed;color:#30271f}
-header{background:#49352a;color:white;padding:25px 16px;text-align:center}
-header h1{margin:0 0 8px;font-size:28px}
-header p{margin:0;color:#eee0d0}
-main{max-width:760px;margin:auto;padding:20px 15px}
-input{width:100%;padding:14px;border:1px solid #d5c7b7;border-radius:12px;font-size:16px;margin-bottom:18px}
-h2{font-size:20px}
-.book{background:white;border:1px solid #eadfd2;border-radius:14px;padding:17px;margin-bottom:12px}
-.book h3{margin:0 0 8px}
-.book p{color:#76685d;font-size:14px}
-a{display:inline-block;background:#72513d;color:white;text-decoration:none;padding:10px 16px;border-radius:9px}
-.note{font-size:13px;color:#76685d;text-align:center;margin-top:25px}
-</style>
-</head>
-<body>
-<header>
-<h1>📚 Joebooks</h1>
-<p>مكتبتك الإلكترونية للكتب والروايات</p>
-</header>
-<main>
-<h2>ابحث في المكتبة</h2>
-<input id="search" type="search" placeholder="اكتب اسم الرواية أو الكتاب..." aria-label="البحث عن كتاب">
-<div id="books">
-<article class="book" data-title="رواية وجدتك">
-<h3>رواية وجدتك</h3>
-<p>رواية • اضغط لفتح منشور الكتاب</p>
-<a href="https://t.me/quotes_90/3198" target="_blank" rel="noopener">📖 فتح الكتاب</a>
-</article>
-</div>
-<p id="empty" hidden>لم نعثر على كتاب بهذا الاسم.</p>
-<p class="note">Joebooks — مكتبتك بين يديك</p>
-</main>
-<script>
-const search=document.getElementById('search');
-const books=[...document.querySelectorAll('.book')];
-search.addEventListener('input',()=>{
-let count=0;
-books.forEach(book=>{
-const match=book.dataset.title.toLowerCase().includes(search.value.trim().toLowerCase());
-book.hidden=!match;
-if(match)count++;
+const heading = document.createElement('h3');
+  heading.textContent = text(book.title) || 'كتاب بدون عنوان';
+  article.appendChild(heading);
+
+  const details = [
+    text(book.author) ? '✍️ ' + text(book.author) : '',
+    text(book.category) ? '◈ ' + text(book.category) : '',
+    book.pages ? '📄 ' + text(book.pages) + ' صفحة' : ''
+  ].filter(Boolean);
+
+  if (details.length){
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    meta.textContent = details.join(' · ');
+    article.appendChild(meta);
+  }
+
+  if (text(book.synopsis)){
+    const synopsis = document.createElement('p');
+    synopsis.className = 'synopsis';
+    synopsis.textContent = text(book.synopsis);
+    article.appendChild(synopsis);
+  }
+
+  const url = safeBookUrl(book.url);
+  if (url){
+    const actions = document.createElement('div');
+    actions.className = 'book-actions';
+    const link = document.createElement('a');
+    link.className = 'open-link';
+    link.href = url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = '📖 فتح الكتاب';
+    actions.appendChild(link);
+    article.appendChild(actions);
+  }
+
+  return article;
+}
+
+function render(){
+  const query = normalized(searchInput.value);
+  const filtered = allBooks.filter(book => {
+    const matchesCategory = !selectedCategory ||
+      text(book.category) === selectedCategory;
+    const searchable = [
+      book.title, book.author, book.category, book.synopsis
+    ].map(normalized).join(' ');
+    return matchesCategory && searchable.includes(query);
+  });
+
+  booksContainer.replaceChildren();
+  const shown = filtered.slice(0, visibleLimit);
+  const fragment = document.createDocumentFragment();
+
+  for (const book of shown){
+    fragment.appendChild(createBookCard(book));
+  }
+  booksContainer.appendChild(fragment);
+
+  statusText.textContent =
+    'إجمالي الكتب: ' + allBooks.length +
+    ' | نتائج البحث: ' + filtered.length;
+
+  emptyText.hidden = filtered.length !== 0;
+  moreButton.hidden = filtered.length <= visibleLimit;
+}
+
+categoriesContainer.addEventListener('click', event => {
+  const button = event.target.closest('button[data-category]');
+  if (!button) return;
+  selectedCategory = button.dataset.category;
+  visibleLimit = 30;
+  categoriesContainer.querySelectorAll('.chip').forEach(chip => {
+    chip.classList.toggle('active', chip === button);
+  });
+  render();
 });
-document.getElementById('empty').hidden=count!==0;
+
+searchInput.addEventListener('input', () => {
+  visibleLimit = 30;
+  render();
 });
-</script>
-</body>
-</html><!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Joebooks | مكتبة الكتب والروايات</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f7f3ed;color:#30271f}
-header{background:#49352a;color:white;padding:25px 16px;text-align:center}
-header h1{margin:0 0 8px;font-size:28px}
-header p{margin:0;color:#eee0d0}
-main{max-width:760px;margin:auto;padding:20px 15px}
-input{width:100%;padding:14px;border:1px solid #d5c7b7;border-radius:12px;font-size:16px;margin-bottom:18px}
-h2{font-size:20px}
-.book{background:white;border:1px solid #eadfd2;border-radius:14px;padding:17px;margin-bottom:12px}
-.book h3{margin:0 0 8px}
-.book p{color:#76685d;font-size:14px}
-a{display:inline-block;background:#72513d;color:white;text-decoration:none;padding:10px 16px;border-radius:9px}
-.note{font-size:13px;color:#76685d;text-align:center;margin-top:25px}
-</style>
-</head>
-<body>
-<header>
-<h1>📚 Joebooks</h1>
-<p>مكتبتك الإلكترونية للكتب والروايات</p>
-</header>
-<main>
-<h2>ابحث في المكتبة</h2>
-<input id="search" type="search" placeholder="اكتب اسم الرواية أو الكتاب..." aria-label="البحث عن كتاب">
-<div id="books">
-<article class="book" data-title="رواية وجدتك">
-<h3>رواية وجدتك</h3>
-<p>رواية • اضغط لفتح منشور الكتاب</p>
-<a href="https://t.me/quotes_90/3198" target="_blank" rel="noopener">📖 فتح الكتاب</a>
-</article>
-</div>
-<p id="empty" hidden>لم نعثر على كتاب بهذا الاسم.</p>
-<p class="note">Joebooks — مكتبتك بين يديك</p>
-</main>
-<script>
-const search=document.getElementById('search');
-const books=[...document.querySelectorAll('.book')];
-search.addEventListener('input',()=>{
-let count=0;
-books.forEach(book=>{
-const match=book.dataset.title.toLowerCase().includes(search.value.trim().toLowerCase());
-book.hidden=!match;
-if(match)count++;
+
+moreButton.addEventListener('click', () => {
+  visibleLimit += 30;
+  render();
 });
-document.getElementById('empty').hidden=count!==0;
-});
+
+async function loadBooks(){
+  try {
+    const response = await fetch('./books.json', {cache:'no-store'});
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    const data = await response.json();
+    if (!Array.isArray(data)) throw new Error('تنسيق ملف الكتب غير صحيح');
+
+    allBooks = data.filter(book => book && text(book.title));
+
+    // إبقاء رواية «وجدتك» ضمن العرض إذا لم تكن موجودة في ملف البيانات.
+    const hasWajadtuk = allBooks.some(book =>
+      normalized(book.title).includes('وجدتك') &&
+      safeBookUrl(book.url)
+    );
+    if (!hasWajadtuk){
+      allBooks.unshift({
+        title:'رواية وجدتك',
+        category:'روايات',
+        url:'https://t.me/quotes_90/3198'
+      });
+    }
+
+    addCategories();
+    render();
+  } catch (error) {
+    console.error(error);
+    statusText.textContent =
+      'تعذر تحميل الكتب. تأكد من نشر books.json بجانب index.html في الموقع.';
+    emptyText.hidden = false;
+    emptyText.textContent =
+      'لم نتمكن من تحميل المكتبة الآن. حاول تحديث الصفحة لاحقًا.';
+  }
+}
+
+loadBooks();
 </script>
 </body>
 </html>
