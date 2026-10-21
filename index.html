@@ -456,13 +456,28 @@
       gap: 8px;
     }
 
-    .book-title {
-      font-size: 14px;
-      line-height: 1.7;
-      color: var(--white);
-      margin: 0;
-      overflow-wrap: anywhere;
-    }
+    
+.book-title {
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0;
+  overflow-wrap: anywhere;
+  transition: color .25s ease;
+}
+
+.book-card:hover .book-title {
+  color: var(--gold-light);
+}
+
+@media (max-width: 720px) {
+  .book-title {
+    font-size: 13px;
+    line-height: 1.65;
+  }
+}
+
 
     .book-author {
       font-size: 11px;
