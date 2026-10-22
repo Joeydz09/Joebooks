@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -1271,9 +1271,6 @@
     <div class="container nav">
       
 <a class="brand" href="#" aria-label="مكتبة الأحلام - الصفحة الرئيسية">
-  
-
-<img src="./logo.png.jpg" alt="شعار مكتبة الأحلام" class="site-logo">
 
 
   <span>
@@ -1514,10 +1511,32 @@
     }
 
     function safeHttpsUrl(value) {
+      const raw = getValue(value).trim();
+      if (!raw || raw.startsWith("//")) return "";
+
       try {
-        const url = new URL(getValue(value), window.location.href);
-        if (url.protocol !== "https:") return "";
-        return url.href;
+        const isLocalCover =
+          raw.startsWith("./covers/") || raw.startsWith("covers/");
+
+        if (isLocalCover) {
+          const parts = raw.replace(/^\.\//, "").split("/");
+          if (parts.some(part => !part || part === "." || part === "..")) return "";
+
+          const encodedPath = parts.map(part => encodeURIComponent(part)).join("/");
+          return new URL(encodedPath, window.location.href).href;
+        }
+
+        const url = new URL(raw, window.location.href);
+        if (url.protocol === "https:") return url.href;
+
+        if (
+          url.origin === window.location.origin &&
+          url.protocol === window.location.protocol
+        ) {
+          return url.href;
+        }
+
+        return "";
       } catch {
         return "";
       }
