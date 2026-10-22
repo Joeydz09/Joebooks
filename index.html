@@ -1231,7 +1231,38 @@
   }
 }
 
+/* أزرار رفّي الخاص داخل بطاقات الكتب */
+.shelf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  width: 100%;
+}
 
+.shelf-actions .shelf-btn {
+  flex: 1 1 120px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(201, 179, 138, 0.45);
+  border-radius: 10px;
+  background: rgba(201, 179, 138, 0.08);
+  color: var(--gold, #c9b38a);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.shelf-actions .shelf-btn:hover {
+  background: rgba(201, 179, 138, 0.18);
+  transform: translateY(-2px);
+}
+
+.shelf-actions .shelf-btn:focus-visible {
+  outline: 2px solid var(--gold, #c9b38a);
+  outline-offset: 3px;
+}
   </style>
 </head>
 
