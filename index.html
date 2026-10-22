@@ -1145,6 +1145,92 @@
   box-shadow: 0 3px 14px rgba(214, 184, 117, .12);
 }
 
+.book-shelf-section {
+  margin: 24px 0 32px;
+  padding: 20px;
+  border: 1px solid rgba(201, 179, 138, 0.3);
+  border-radius: 18px;
+  background: linear-gradient(145deg, #111f35, #0b1426);
+  color: #dce4ef;
+}
+
+.book-shelf-section h2 {
+  margin: 0 0 10px;
+  color: #eee5d3;
+  font-size: 1.35rem;
+}
+
+.book-shelf-section > p {
+  line-height: 1.8;
+  color: #b9c5d6;
+}
+
+.shelf-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.shelf-tab,
+.shelf-btn {
+  padding: 9px 13px;
+  border: 1px solid rgba(201, 179, 138, 0.4);
+  border-radius: 10px;
+  background: #15243a;
+  color: #dce4ef;
+  cursor: pointer;
+  font: inherit;
+}
+
+.shelf-tab.active {
+  background: #dce4ef;
+  color: #0b1426;
+  border-color: #dce4ef;
+}
+
+.shelf-tab span {
+  margin-inline-start: 5px;
+  font-weight: bold;
+}
+
+.shelf-list {
+  display: grid;
+  gap: 10px;
+}
+
+.shelf-book-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid rgba(220, 228, 239, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.shelf-book-title {
+  flex: 1 1 180px;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+}
+
+.shelf-btn:hover,
+.shelf-tab:hover {
+  border-color: #dce4ef;
+}
+
+@media (max-width: 480px) {
+  .book-shelf-section {
+    padding: 14px;
+  }
+
+  .shelf-book-row .shelf-btn {
+    flex: 1;
+  }
+}
+
 
   </style>
 </head>
@@ -1237,6 +1323,24 @@
         </div>
         <div id="resultCount" aria-live="polite">جارٍ تحميل الكتب...</div>
       </div>
+
+<section class="book-shelf-section" id="bookShelfSection">
+  <h2>📚 رفّي الخاص</h2>
+  <p>كتبك التي تريد قراءتها والكتب التي أنهيت قراءتها، محفوظة على هذا المتصفح.</p>
+
+  <div class="shelf-tabs">
+    <button type="button" class="shelf-tab active" data-shelf-status="want">
+      أريد قراءتها <span id="wantCount">0</span>
+    </button>
+    <button type="button" class="shelf-tab" data-shelf-status="read">
+      قرأتها <span id="readCount">0</span>
+    </button>
+  </div>
+
+  <div id="bookShelfList" class="shelf-list">
+    <p>لم تضف أي كتب إلى رفّك بعد.</p>
+  </div>
+</section>
 
       <div class="books-grid" id="booksGrid" aria-live="polite">
         <div class="state-box">
@@ -1542,6 +1646,124 @@
       return wrap;
     }
 
+const BOOK_SHELF_KEY = "maktabat_al_ahlam_shelf_v1";
+
+function getBookShelf() {
+  try {
+    const saved = localStorage.getItem(BOOK_SHELF_KEY);
+    return saved ? JSON.parse(saved) : {};
+  } catch (error) {
+    console.warn("تعذر قراءة رف الكتب المحفوظ.", error);
+    return {};
+  }
+}
+
+
+function setBookShelfStatus(book, status) {
+  if (!book || book.id == null) {
+    alert("تعذر حفظ الكتاب لعدم وجود معرّف له.");
+    return;
+  }
+
+  try {
+    const shelf = getBookShelf();
+    shelf[String(book.id)] = {
+      status: status,
+      updatedAt: new Date().toISOString()
+    };
+
+    localStorage.setItem(BOOK_SHELF_KEY, JSON.stringify(shelf));
+
+    renderBookShelf();
+
+    alert(
+      status === "read"
+        ? "أُضيف الكتاب إلى قائمة «قرأتها»."
+        : "أُضيف الكتاب إلى قائمة «أريد قراءتها»."
+    );
+  } catch (error) {
+    alert("تعذر حفظ الكتاب. تحقق من إعدادات التخزين في المتصفح.");
+  }
+}
+
+let activeShelfStatus = "want";
+
+function renderBookShelf() {
+  const list = document.getElementById("bookShelfList");
+  const wantCount = document.getElementById("wantCount");
+  const readCount = document.getElementById("readCount");
+
+  if (!list || !wantCount || !readCount) return;
+
+  const shelf = getBookShelf();
+  const entries = Object.entries(shelf);
+  const wantBooks = entries.filter(([, item]) => item.status === "want");
+  const readBooks = entries.filter(([, item]) => item.status === "read");
+
+  wantCount.textContent = wantBooks.length.toLocaleString("ar");
+  readCount.textContent = readBooks.length.toLocaleString("ar");
+
+  document.querySelectorAll("[data-shelf-status]").forEach((button) => {
+    const active = button.dataset.shelfStatus === activeShelfStatus;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+
+  const selected = activeShelfStatus === "read" ? readBooks : wantBooks;
+  list.replaceChildren();
+
+  if (!selected.length) {
+    const message = document.createElement("p");
+    message.textContent = activeShelfStatus === "read"
+      ? "لم تضف كتبًا إلى قائمة «قرأتها» بعد."
+      : "لم تضف كتبًا إلى قائمة «أريد قراءتها» بعد.";
+    list.appendChild(message);
+    return;
+  }
+
+  for (const [bookId, item] of selected) {
+    const book = allBooks.find((candidate) => String(candidate.id) === bookId);
+    if (!book) continue;
+
+    const row = document.createElement("div");
+    row.className = "shelf-book-row";
+
+    const title = document.createElement("span");
+    title.className = "shelf-book-title";
+    title.textContent = getTitle(book);
+    row.appendChild(title);
+
+    const changeButton = document.createElement("button");
+    changeButton.type = "button";
+    changeButton.className = "shelf-btn";
+    changeButton.textContent = item.status === "want" ? "✓ قرأتها" : "＋ أريد قراءتها";
+    changeButton.addEventListener("click", () => {
+      setBookShelfStatus(book, item.status === "want" ? "read" : "want");
+    });
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.className = "shelf-btn";
+    removeButton.textContent = "حذف";
+    removeButton.addEventListener("click", () => {
+      const currentShelf = getBookShelf();
+      delete currentShelf[bookId];
+      localStorage.setItem(BOOK_SHELF_KEY, JSON.stringify(currentShelf));
+      renderBookShelf();
+    });
+
+    row.append(changeButton, removeButton);
+    list.appendChild(row);
+  }
+}
+
+document.querySelectorAll("[data-shelf-status]").forEach((button) => {
+  button.addEventListener("click", () => {
+    activeShelfStatus = button.dataset.shelfStatus;
+    renderBookShelf();
+  });
+});
+
     function makeBookCard(book) {
       const card = createElement("article", "book-card");
       const title = getTitle(book);
@@ -1613,6 +1835,23 @@
 
       info.appendChild(actions);
       card.appendChild(info);
+
+            const shelfActions = createElement("div", "shelf-actions");
+
+      const wantButton = createElement("button", "shelf-btn", "＋ أريد قراءتها");
+      wantButton.type = "button";
+      wantButton.addEventListener("click", () => {
+        setBookShelfStatus(book, "want");
+      });
+
+      const readButton = createElement("button", "shelf-btn", "✓ قرأتها");
+      readButton.type = "button";
+      readButton.addEventListener("click", () => {
+        setBookShelfStatus(book, "read");
+      });
+
+      shelfActions.append(wantButton, readButton);
+      card.appendChild(shelfActions);
 
       return card;
     }
@@ -1718,6 +1957,7 @@
 
         renderCategories();
         applyFilters();
+        renderBookShelf();
 
       } catch (error) {
         console.error("تعذر تحميل books.json:", error);
@@ -1735,7 +1975,9 @@
       }
     }
 
+    
     loadBooks();
   </script>
 </body>
 </html>
+
