@@ -1723,7 +1723,30 @@ function renderBookShelf() {
 
   for (const [bookId, item] of selected) {
     const book = allBooks.find((candidate) => String(candidate.id) === bookId);
-    if (!book) continue;
+
+if (!book) {
+  const row = document.createElement("div");
+  row.className = "shelf-book-row";
+
+  const title = document.createElement("span");
+  title.className = "shelf-book-title";
+  title.textContent = "كتاب محفوظ سابقًا (لم يعد موجودًا في المكتبة)";
+
+  const removeButton = document.createElement("button");
+  removeButton.type = "button";
+  removeButton.className = "shelf-btn";
+  removeButton.textContent = "حذف";
+  removeButton.addEventListener("click", () => {
+    const currentShelf = getBookShelf();
+    delete currentShelf[bookId];
+    localStorage.setItem(BOOK_SHELF_KEY, JSON.stringify(currentShelf));
+    renderBookShelf();
+  });
+
+  row.append(title, removeButton);
+  list.appendChild(row);
+  continue;
+}
 
     const row = document.createElement("div");
     row.className = "shelf-book-row";
