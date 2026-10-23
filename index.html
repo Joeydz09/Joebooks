@@ -1516,7 +1516,8 @@
 
       try {
         const isLocalCover =
-          raw.startsWith("./covers/") || raw.startsWith("covers/");
+          raw.startsWith("./covers/") || raw.startsWith("covers/") ||
+          raw.startsWith("./covers_batch/") || raw.startsWith("covers_batch/");
 
         if (isLocalCover) {
           const parts = raw.replace(/^\.\//, "").split("/");

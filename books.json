@@ -7,7 +7,8 @@
     "category": "إثارة نفسية",
     "pages": 444,
     "synopsis": "تستيقظ تيس ستريبل كل صباح لتجد أنها لا تستطيع التعرف على وجهها، أو غرفتها، أو المنزل الذي تعيش فيه.\n• الحادثة: تعرضت تيس لحادث سيارة مروع قبل عام واحد، ومنذ ذلك الحين أصبحت تفقد ذاكرتها كل ليلة، وتستيقظ في صباح اليوم التالي غير متذكرية أي شيء من العقد الماضي، بما في ذلك زواجها.\n• الزوج: بجانبها في السرير رجل وسيم يدعي أنه زوجها، وتجد رسالة مكتوبة بخط يدها (في يوم نادر كانت فيه بوعيها الكامل) تشرح لها تفاصيل حياتها الحالية وتطلب منها الوثوق به.\n• نقطة التحول: تتغير الأحداث تماماً عندما تتلقى تيس رسالة نصية غامضة على هاتفها تحذرها قائلة: «لا تفتقدي الثقة بالرجل الذي يسمي نفسه زوجك» أو بتعبير أدق: «لا تثقي في الرجل الذي يطلق على نفسه زوجك», مما يقلب الموازين ويجعلها تشك في كل شيء حولها وفي حقيقة ما حدث لها.",
-    "created_at": "2026-10-18 12:47:24"
+    "created_at": "2026-10-18 12:47:24",
+    "cover": "./covers_batch/book_2054.jpg"
   },
   {
     "id": 2053,
@@ -27,7 +28,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-18 01:12:13"
+    "created_at": "2026-10-18 01:12:13",
+    "cover": "./covers_batch/book_2052.jpg"
   },
   {
     "id": 2051,
@@ -59,7 +61,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2048.jpg"
   },
   {
     "id": 2047,
@@ -69,7 +72,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2047.jpg"
   },
   {
     "id": 2046,
@@ -100,7 +104,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2044.jpg"
   },
   {
     "id": 2043,
@@ -121,7 +126,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2042.jpg"
   },
   {
     "id": 2041,
@@ -142,7 +148,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2040.jpg"
   },
   {
     "id": 2039,
@@ -174,7 +181,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2037.jpg"
   },
   {
     "id": 2036,
@@ -228,7 +236,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2032.jpg"
   },
   {
     "id": 2031,
@@ -238,7 +247,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2031.jpg"
   },
   {
     "id": 2030,
@@ -248,7 +258,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2030.jpg"
   },
   {
     "id": 2029,
@@ -291,7 +302,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2026.jpg"
   },
   {
     "id": 2025,
@@ -301,7 +313,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2025.jpg"
   },
   {
     "id": 2024,
@@ -312,7 +325,7 @@
     "pages": null,
     "synopsis": "",
     "created_at": "2026-10-16 13:40:41",
-    "cover": "./covers/رواية-الساحرة-الهجينة- - مجهول.jpg"
+    "cover": "./covers_batch/book_2024.jpg"
   },
   {
     "id": 2023,
@@ -322,7 +335,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2023.jpg"
   },
   {
     "id": 2022,
@@ -332,7 +346,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2022.jpg"
   },
   {
     "id": 2021,
@@ -386,7 +401,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2017.jpg"
   },
   {
     "id": 2016,
@@ -396,7 +412,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2016.jpg"
   },
   {
     "id": 2015,
@@ -406,7 +423,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2015.jpg"
   },
   {
     "id": 2014,
@@ -416,7 +434,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2014.jpg"
   },
   {
     "id": 2013,
@@ -459,7 +478,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2010.jpg"
   },
   {
     "id": 2009,
@@ -469,7 +489,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2009.jpg"
   },
   {
     "id": 2008,
@@ -522,7 +543,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2004.jpg"
   },
   {
     "id": 2003,
@@ -532,7 +554,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2003.jpg"
   },
   {
     "id": 2002,
@@ -542,7 +565,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_2002.jpg"
   },
   {
     "id": 2001,
@@ -607,7 +631,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1996.jpg"
   },
   {
     "id": 1995,
@@ -650,7 +675,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1992.jpg"
   },
   {
     "id": 1991,
@@ -693,7 +719,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1988.jpg"
   },
   {
     "id": 1987,
@@ -704,7 +731,7 @@
     "pages": null,
     "synopsis": "",
     "created_at": "2026-10-16 13:40:41",
-    "cover": "./covers/auto_1987_سييرا_6_-_مارك_غريني.jpg"
+    "cover": "./covers_batch/book_1987.jpg"
   },
   {
     "id": 1986,
@@ -714,7 +741,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1986.jpg"
   },
   {
     "id": 1985,
@@ -790,7 +818,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1979.jpg"
   },
   {
     "id": 1978,
@@ -800,7 +829,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1978.jpg"
   },
   {
     "id": 1977,
@@ -810,7 +840,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1977.jpg"
   },
   {
     "id": 1976,
@@ -820,7 +851,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1976.jpg"
   },
   {
     "id": 1975,
@@ -830,7 +862,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1975.jpg"
   },
   {
     "id": 1974,
@@ -840,7 +873,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1974.jpg"
   },
   {
     "id": 1973,
@@ -872,7 +906,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1971.jpg"
   },
   {
     "id": 1970,
@@ -882,7 +917,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1970.jpg"
   },
   {
     "id": 1969,
@@ -958,7 +994,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1963.jpg"
   },
   {
     "id": 1962,
@@ -968,7 +1005,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1962.jpg"
   },
   {
     "id": 1961,
@@ -989,7 +1027,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1960.jpg"
   },
   {
     "id": 1959,
@@ -1065,7 +1104,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1953.jpg"
   },
   {
     "id": 1952,
@@ -1163,7 +1203,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1944.jpg"
   },
   {
     "id": 1943,
@@ -1173,7 +1214,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1943.jpg"
   },
   {
     "id": 1942,
@@ -1227,7 +1269,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1938.jpg"
   },
   {
     "id": 1937,
@@ -1291,7 +1334,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1932.jpg"
   },
   {
     "id": 1931,
@@ -1301,7 +1345,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1931.jpg"
   },
   {
     "id": 1930,
@@ -1311,7 +1356,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1930.jpg"
   },
   {
     "id": 1929,
@@ -1332,7 +1378,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1928.jpg"
   },
   {
     "id": 1927,
@@ -1342,7 +1389,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1927.jpg"
   },
   {
     "id": 1926,
@@ -1352,7 +1400,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1926.jpg"
   },
   {
     "id": 1925,
@@ -1362,7 +1411,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1925.jpg"
   },
   {
     "id": 1924,
@@ -1372,7 +1422,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1924.jpg"
   },
   {
     "id": 1923,
@@ -1382,7 +1433,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1923.jpg"
   },
   {
     "id": 1922,
@@ -1392,7 +1444,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1922.jpg"
   },
   {
     "id": 1921,
@@ -1413,7 +1466,8 @@
     "category": "🧙 خيال وفانتازيا",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1920.jpg"
   },
   {
     "id": 1919,
@@ -1434,7 +1488,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1918.jpg"
   },
   {
     "id": 1917,
@@ -1444,7 +1499,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1917.jpg"
   },
   {
     "id": 1916,
@@ -1454,7 +1510,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1916.jpg"
   },
   {
     "id": 1915,
@@ -1486,7 +1543,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1913.jpg"
   },
   {
     "id": 1912,
@@ -1496,7 +1554,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1912.jpg"
   },
   {
     "id": 1911,
@@ -1572,7 +1631,8 @@
     "category": "",
     "pages": null,
     "synopsis": "",
-    "created_at": "2026-10-16 13:40:41"
+    "created_at": "2026-10-16 13:40:41",
+    "cover": "./covers_batch/book_1905.jpg"
   },
   {
     "id": 1904,
