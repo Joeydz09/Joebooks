@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -47,6 +47,7 @@ button {
 button:disabled { opacity: .6; }
 a { color: #dce4ef; }
 </style>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
 <main>
@@ -72,11 +73,68 @@ a { color: #dce4ef; }
 <label for="content">نص الإبداع</label>
 <textarea id="content" maxlength="15000" required></textarea>
 
-<button type="submit" disabled>الإرسال قيد التجهيز</button>
+<button type="submit" disabled>إرسال المشاركة</button>
 <p id="message" role="status">
 سنفعّل الإرسال بعد ربط الاستمارة بخدمة Cloudflare.
 </p>
 </form>
 </main>
+<script>
+const form = document.getElementById("submissionForm");
+const button = form.querySelector('button[type="submit"]');
+const message = document.getElementById("message");
+const telegram = window.Telegram?.WebApp;
+
+if (telegram) telegram.ready();
+
+if (telegram?.initData) {
+  button.disabled = false;
+  button.textContent = "إرسال المشاركة";
+  message.textContent = "ستُراجع مشاركتك قبل نشرها.";
+} else {
+  message.textContent = "لإرسال مشاركتك، افتح الاستمارة من تطبيق مكتبة الأحلام داخل تيليجرام.";
+}
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (!telegram?.initData || button.disabled) return;
+
+  button.disabled = true;
+  button.textContent = "جارٍ الإرسال...";
+  message.textContent = "";
+
+  try {
+    const response = await fetch(
+      "https://maktabat-writers.jo-dz-jd.workers.dev/api/submit",
+      {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          initData: telegram.initData,
+          author: document.getElementById("author").value.trim(),
+          title: document.getElementById("title").value.trim(),
+          category: document.getElementById("category").value,
+          content: document.getElementById("content").value.trim()
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.error || "تعذر إرسال المشاركة");
+    }
+
+    message.textContent = result.message || "تم استلام مشاركتك.";
+    form.reset();
+  } catch (error) {
+    message.textContent = error.message || "حدث خطأ أثناء الإرسال.";
+  } finally {
+    button.disabled = false;
+    button.textContent = "إرسال المشاركة";
+  }
+});
+</script>
 </body>
 </html>
