@@ -86,14 +86,18 @@ const message = document.getElementById("message");
 const telegram = window.Telegram?.WebApp;
 let initData = telegram?.initData || "";
 
+console.log("TELEGRAM_DATA_SOURCE", {
+  direct: Boolean(telegram?.initData)
+});
+
 if (!initData) {
   try {
     initData = sessionStorage.getItem("maktabat_telegram_init_data") || "";
+    console.log("TELEGRAM_STORAGE_USED", Boolean(initData));
   } catch (error) {
     console.warn("Telegram session storage unavailable");
   }
 }
-
 if (telegram) telegram.ready();
 
 if (initData) {
