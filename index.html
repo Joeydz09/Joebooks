@@ -1483,19 +1483,56 @@
   </main>
 
 
-<section class="container" id="audio-books" style="padding-top: 48px; padding-bottom: 48px;">
+
+<section class="container" id="audio-books" style="padding:48px 0;">
   <h2 class="section-title">🎧 آخر روايات مسموعة</h2>
-  <p style="color: var(--muted, #aebbd0); margin-bottom: 24px;">
-    اكتشف الروايات المسموعة الجديدة واستمتع بالاستماع إليها.
-  </p>
-  <div class="audio-books-empty" style="padding: 24px; border: 1px solid rgba(220,228,239,.18); border-radius: 16px; text-align: center;">
-    <div style="font-size: 2rem; margin-bottom: 12px;">🎧</div>
-    <p style="margin: 0;">ستظهر أحدث الروايات المسموعة هنا قريبًا.</p>
-    <p style="margin: 8px 0 0; color: var(--muted, #aebbd0); font-size: .9rem;">
-      لم تتم إضافة روايات صوتية بعد.
-    </p>
+  <div id="audio-books-list" style="display:grid;gap:16px;">
+    <p>جارٍ تحميل الروايات الصوتية...</p>
   </div>
 </section>
+
+<script>
+(async function () {
+  const list = document.getElementById("audio-books-list");
+  try {
+    const response = await fetch("./audio-library/audiobooks.json");
+    if (!response.ok) throw new Error("HTTP " + response.status);
+
+    const data = await response.json();
+    if (!Array.isArray(data)) throw new Error("Invalid audio data");
+
+    const books = data.slice(-5).reverse();
+    list.replaceChildren();
+
+    if (!books.length) {
+      list.textContent = "لا توجد روايات صوتية حاليا.";
+      return;
+    }
+
+    for (const book of books) {
+      const card = document.createElement("article");
+      card.style.cssText = "padding:20px;background:#14223a;border:1px solid #34445b;border-radius:16px;";
+
+      const title = document.createElement("h3");
+      title.textContent = book.title || "رواية صوتية";
+
+      const link = document.createElement("a");
+      link.href = book.youtube_url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "استمع الآن";
+      link.style.cssText = "display:inline-block;margin-top:12px;color:#dce4ef;";
+
+      card.append(title, link);
+      list.appendChild(card);
+    }
+  } catch (error) {
+    list.textContent = "تعذر تحميل الروايات الصوتية.";
+    console.error(error);
+  }
+})();
+</script>
+
 
   <section class="container" id="writers-corner" style="padding: 48px 0;">
   <div class="section-heading">
