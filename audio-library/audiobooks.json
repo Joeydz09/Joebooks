@@ -5,5 +5,68 @@
         "source":  "youtube",
         "youtube_id":  "XPPAi6qEnc0",
         "youtube_url":  "https://www.youtube.com/watch?v=XPPAi6qEnc0"
+    },
+    {
+        "id":  2,
+        "title":  "رواية صوتية 2",
+        "source":  "youtube",
+        "youtube_id":  "j8TGe7m5zz0",
+        "youtube_url":  "https://www.youtube.com/watch?v=j8TGe7m5zz0"
+    },
+    {
+        "id":  3,
+        "title":  "رواية صوتية 3",
+        "source":  "youtube",
+        "youtube_id":  "oxxn0C52Obg",
+        "youtube_url":  "https://www.youtube.com/watch?v=oxxn0C52Obg"
+    },
+    {
+        "id":  4,
+        "title":  "رواية صوتية 4",
+        "source":  "youtube",
+        "youtube_id":  "Gy-aEPGABno",
+        "youtube_url":  "https://www.youtube.com/watch?v=Gy-aEPGABno"
+    },
+    {
+        "id":  5,
+        "title":  "رواية صوتية 5",
+        "source":  "youtube",
+        "youtube_id":  "xVgmiSyQGOk",
+        "youtube_url":  "https://www.youtube.com/watch?v=xVgmiSyQGOk"
+    },
+    {
+        "id":  6,
+        "title":  "رواية صوتية 6",
+        "source":  "youtube",
+        "youtube_id":  "VrSZ88mmz6E",
+        "youtube_url":  "https://www.youtube.com/watch?v=VrSZ88mmz6E"
+    },
+    {
+        "id":  7,
+        "title":  "رواية صوتية 7",
+        "source":  "youtube",
+        "youtube_id":  "u21r7wcv_YY",
+        "youtube_url":  "https://www.youtube.com/watch?v=u21r7wcv_YY"
+    },
+    {
+        "id":  8,
+        "title":  "رواية صوتية 8",
+        "source":  "youtube",
+        "youtube_id":  "1isNIDo_Hu4",
+        "youtube_url":  "https://www.youtube.com/watch?v=1isNIDo_Hu4"
+    },
+    {
+        "id":  9,
+        "title":  "رواية صوتية - الجزء الأول",
+        "source":  "youtube",
+        "youtube_id":  "MeTfS71jUPE",
+        "youtube_url":  "https://www.youtube.com/watch?v=MeTfS71jUPE"
+    },
+    {
+        "id":  10,
+        "title":  "رواية صوتية - الجزء الثاني",
+        "source":  "youtube",
+        "youtube_id":  "OiO-2TtCxhw",
+        "youtube_url":  "https://www.youtube.com/watch?v=OiO-2TtCxhw"
     }
 ]
