@@ -84,10 +84,19 @@ const form = document.getElementById("submissionForm");
 const button = form.querySelector('button[type="submit"]');
 const message = document.getElementById("message");
 const telegram = window.Telegram?.WebApp;
+let initData = telegram?.initData || "";
+
+if (!initData) {
+  try {
+    initData = sessionStorage.getItem("maktabat_telegram_init_data") || "";
+  } catch (error) {
+    console.warn("Telegram session storage unavailable");
+  }
+}
 
 if (telegram) telegram.ready();
 
-if (telegram?.initData) {
+if (initData) {
   button.disabled = false;
   button.textContent = "إرسال المشاركة";
   message.textContent = "ستُراجع مشاركتك قبل نشرها.";
@@ -98,7 +107,7 @@ if (telegram?.initData) {
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  if (!telegram?.initData || button.disabled) return;
+  if (!initData || button.disabled) return;
 
   button.disabled = true;
   button.textContent = "جارٍ الإرسال...";
@@ -111,7 +120,7 @@ form.addEventListener("submit", async (event) => {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-          initData: telegram.initData,
+          initData: initData,
           author: document.getElementById("author").value.trim(),
           title: document.getElementById("title").value.trim(),
           category: document.getElementById("category").value,

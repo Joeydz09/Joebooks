@@ -1343,6 +1343,7 @@
   #continueReadingSection .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 }
 </style>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
@@ -2316,6 +2317,18 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
     🎧 المكتبة الصوتية
   </a>
 </div>
+<script>
+(function () {
+  const tg = window.Telegram?.WebApp;
+  if (!tg?.initData) return;
+
+  try {
+    sessionStorage.setItem("maktabat_telegram_init_data", tg.initData);
+  } catch (error) {
+    console.warn("Telegram session storage unavailable");
+  }
+})();
+</script>
 </body>
 </html>
 
