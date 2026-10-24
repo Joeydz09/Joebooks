@@ -1263,7 +1263,86 @@
   outline: 2px solid var(--gold, #c9b38a);
   outline-offset: 3px;
 }
-  </style>
+
+/* القائمة الجانبية */
+.nav { position: relative; }
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid rgba(201,179,138,.5);
+  border-radius: 10px;
+  background: linear-gradient(145deg,#293b55,#111c2e);
+  color: #eee5d3;
+  font-size: 25px;
+  cursor: pointer;
+}
+#writersMenu.nav-links {
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 220px;
+  padding: 12px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  background: #111c2e;
+  border: 1px solid rgba(201,179,138,.4);
+  border-radius: 14px;
+  box-shadow: 0 14px 32px rgba(0,0,0,.3);
+}
+#writersMenu.nav-links.menu-open { display: flex; }
+#writersMenu .nav-link {
+  display: block;
+  padding: 12px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+#writersMenu .nav-link:hover { background: #293b55; }
+
+/* Continue reading - royal navy and gold */
+#continueReadingSection {
+  margin-top: 22px;
+  margin-bottom: 28px;
+  padding: 24px;
+  border: 1px solid rgba(201, 179, 138, 0.38);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(22, 39, 63, 0.96), rgba(9, 19, 35, 0.98));
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+}
+#continueReadingSection .section-title {
+  color: #eee5d3;
+}
+#continueReadingSection .section-subtitle {
+  color: #c5cfdd;
+}
+#continueReadingSection .books-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px;
+}
+#continueReadingSection #clearContinueReading {
+  border: 1px solid #c9b38a;
+  border-radius: 10px;
+  color: #eee5d3;
+  background: rgba(201, 179, 138, 0.10);
+  padding: 9px 14px;
+  cursor: pointer;
+}
+#continueReadingSection #clearContinueReading:hover {
+  background: rgba(201, 179, 138, 0.22);
+}
+@media (max-width: 1000px) {
+  #continueReadingSection .books-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  #continueReadingSection { padding: 16px; border-radius: 15px; }
+  #continueReadingSection .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+}
+</style>
 </head>
 
 <body>
@@ -1282,10 +1361,17 @@
 
 
       
-<div class="nav-links">
+<button class="menu-toggle" id="writersMenuToggle"
+        type="button" aria-expanded="false"
+        aria-controls="writersMenu" aria-label="فتح القائمة">
+  <span aria-hidden="true">☰</span>
+</button>
+<nav class="nav-links" id="writersMenu" aria-label="القائمة الرئيسية">
   <a class="nav-link" href="#library">اكتشف المكتبة ←</a>
   <a class="nav-link" href="#my-sites">مواقعي الإلكترونية</a>
-</div>
+<a class="nav-link" href="#audio-books">🎧 آخر روايات مسموعة</a>
+<a class="nav-link" href="#writers-corner">✍️ ركن المبدعين</a>
+</nav>
 
 
 
@@ -1371,6 +1457,16 @@
   </div>
 </section>
 
+<section class="container" id="continueReadingSection" style="padding-top:32px;padding-bottom:24px;" hidden>
+  <div class="section-heading">
+    <div>
+      <h2 class="section-title">&#128214; أكمل قراءتك</h2>
+      <div class="section-subtitle">عُد إلى الكتب التي فتحتها مؤخرًا</div>
+    </div>
+    <button type="button" class="shelf-btn" id="clearContinueReading">مسح السجل</button>
+  </div>
+  <div class="books-grid" id="continueReadingGrid"></div>
+</section>
       <div class="books-grid" id="booksGrid" aria-live="polite">
         <div class="state-box">
           <div class="state-icon" aria-hidden="true"></div>
@@ -1424,8 +1520,72 @@
     </article>
   </div>
 </section>
+<section class="container" id="audio-books" style="padding-top: 48px; padding-bottom: 48px;">
+  <h2 class="section-title">🎧 آخر روايات مسموعة</h2>
+  <p style="color: var(--muted, #aebbd0); margin-bottom: 24px;">
+    اكتشف الروايات المسموعة الجديدة واستمتع بالاستماع إليها.
+  </p>
+  <div class="audio-books-empty" style="padding: 24px; border: 1px solid rgba(220,228,239,.18); border-radius: 16px; text-align: center;">
+    <div style="font-size: 2rem; margin-bottom: 12px;">🎧</div>
+    <p style="margin: 0;">ستظهر أحدث الروايات المسموعة هنا قريبًا.</p>
+    <p style="margin: 8px 0 0; color: var(--muted, #aebbd0); font-size: .9rem;">
+      لم تتم إضافة روايات صوتية بعد.
+    </p>
+  </div>
+</section>
 
-  <footer class="site-footer">
+  <section class="container" id="writers-corner" style="padding: 48px 0;">
+  <div class="section-heading">
+    <div>
+      <h2 class="section-title">✍️ ركن المبدعين</h2>
+      <p class="section-subtitle">
+        مساحة تجمع الكلمة الجميلة والخيال والإبداع الأدبي.
+      </p>
+    </div>
+  </div>
+
+  <div style="padding: 24px; margin-bottom: 24px; border: 1px solid rgba(220,228,239,.18); border-radius: 18px; background: rgba(220,228,239,.035);">
+    <h3 style="margin: 0 0 12px;">🌟 هل تكتب؟ شاركنا إبداعك</h3>
+    <p style="color: var(--muted, #aebbd0); line-height: 1.9; margin: 0;">
+      نستقبل الخواطر والقصص القصيرة والقصائد عبر تلغرام.
+      تُراجع المشاركات قبل اختيار ما يُنشر في هذا الركن.
+    </p>
+    <p style="color: var(--muted, #aebbd0); line-height: 1.9; margin: 12px 0 0;">
+      أرفق اسم الكاتب أو الاسم المستعار، وعنوان النص، ونوع المشاركة،
+      وأكد أن النص من كتابتك أو أن لديك إذنًا بنشره.
+    </p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px;">
+    <article style="padding: 22px; border: 1px solid rgba(220,228,239,.18); border-radius: 16px;">
+      <div style="font-size: 2rem; margin-bottom: 12px;">🖋️</div>
+      <h3 style="margin: 0 0 10px;">خواطر</h3>
+      <p style="color: var(--muted, #aebbd0); line-height: 1.8;">
+        كلمات تعبّر عن المشاعر والتجارب ولحظات الحياة.
+      </p>
+      <p style="margin-bottom: 0; font-size: .9rem;">سيُعرض هنا ما يُختار للنشر.</p>
+    </article>
+
+    <article style="padding: 22px; border: 1px solid rgba(220,228,239,.18); border-radius: 16px;">
+      <div style="font-size: 2rem; margin-bottom: 12px;">📖</div>
+      <h3 style="margin: 0 0 10px;">قصص قصيرة</h3>
+      <p style="color: var(--muted, #aebbd0); line-height: 1.8;">
+        حكايات موجزة تحمل فكرة أو تجربة أو نهاية غير متوقعة.
+      </p>
+      <p style="margin-bottom: 0; font-size: .9rem;">سيُعرض هنا ما يُختار للنشر.</p>
+    </article>
+
+    <article style="padding: 22px; border: 1px solid rgba(220,228,239,.18); border-radius: 16px;">
+      <div style="font-size: 2rem; margin-bottom: 12px;">🌙</div>
+      <h3 style="margin: 0 0 10px;">قصائد</h3>
+      <p style="color: var(--muted, #aebbd0); line-height: 1.8;">
+        نصوص شعرية تعبّر عن الخيال والجمال وتجارب الإنسان.
+      </p>
+      <p style="margin-bottom: 0; font-size: .9rem;">سيُعرض هنا ما يُختار للنشر.</p>
+    </article>
+  </div>
+</section>
+<footer class="site-footer">
     <div class="container">
       <div class="footer-brand"> مكتبة الأحلام</div>
       <p class="footer-text">لكل قارئ حكاية، ولكل حكاية مكان.</p>
@@ -1839,6 +1999,55 @@ document.querySelectorAll("[data-shelf-status]").forEach((button) => {
   });
 });
 
+
+// Continue reading: store recently opened books in this browser.
+const CONTINUE_READING_KEY = "maktabat_al_ahlam_recently_opened_v1";
+
+function getContinueReadingIds() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CONTINUE_READING_KEY) || "[]");
+    return Array.isArray(saved) ? saved.map(String) : [];
+  } catch {
+    return [];
+  }
+}
+
+function recordRecentlyOpened(book) {
+  if (!book || book.id == null) return;
+  try {
+    const id = String(book.id);
+    const ids = getContinueReadingIds().filter(savedId => savedId !== id);
+    ids.unshift(id);
+    localStorage.setItem(CONTINUE_READING_KEY, JSON.stringify(ids.slice(0, 10)));
+    renderContinueReading();
+  } catch (error) {
+    console.warn("تعذر حفظ سجل القراءة.", error);
+  }
+}
+
+function renderContinueReading() {
+  const section = document.getElementById("continueReadingSection");
+  const grid = document.getElementById("continueReadingGrid");
+  if (!section || !grid || !Array.isArray(allBooks)) return;
+
+  const ids = getContinueReadingIds();
+  const books = ids
+    .map(id => allBooks.find(book => book.id != null && String(book.id) === id))
+    .filter(book => book && getBookUrl(book));
+
+  grid.replaceChildren();
+  for (const book of books) grid.appendChild(makeBookCard(book));
+  section.hidden = books.length === 0;
+}
+
+document.getElementById("clearContinueReading")?.addEventListener("click", () => {
+  try {
+    localStorage.removeItem(CONTINUE_READING_KEY);
+    renderContinueReading();
+  } catch (error) {
+    console.warn("تعذر مسح سجل القراءة.", error);
+  }
+});
     function makeBookCard(book) {
       const card = createElement("article", "book-card");
       const title = getTitle(book);
@@ -1900,6 +2109,7 @@ document.querySelectorAll("[data-shelf-status]").forEach((button) => {
         link.href = url;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
+        link.addEventListener("click", () => recordRecentlyOpened(book));
         link.setAttribute("aria-label", "فتح رابط كتاب " + title);
         actions.appendChild(link);
       } else {
@@ -2033,6 +2243,7 @@ document.querySelectorAll("[data-shelf-status]").forEach((button) => {
         renderCategories();
         applyFilters();
         renderBookShelf();
+        renderContinueReading();
 
       } catch (error) {
         console.error("تعذر تحميل books.json:", error);
@@ -2053,6 +2264,41 @@ document.querySelectorAll("[data-shelf-status]").forEach((button) => {
     
     loadBooks();
   </script>
+<script>
+(() => {
+  const button = document.getElementById("writersMenuToggle");
+  const menu = document.getElementById("writersMenu");
+  if (!button || !menu) return;
+
+  function closeMenu() {
+    menu.classList.remove("menu-open");
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "فتح القائمة");
+  }
+
+  button.addEventListener("click", () => {
+    const opening = !menu.classList.contains("menu-open");
+    menu.classList.toggle("menu-open", opening);
+    button.setAttribute("aria-expanded", String(opening));
+    button.setAttribute("aria-label", opening ? "إغلاق القائمة" : "فتح القائمة");
+  });
+
+  menu.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  document.addEventListener("click", event => {
+    if (!menu.contains(event.target) && !button.contains(event.target)) closeMenu();
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      closeMenu();
+      button.focus();
+    }
+  });
+})();
+</script>
 </body>
 </html>
 
