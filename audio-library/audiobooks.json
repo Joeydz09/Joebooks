@@ -1,7 +1,9 @@
-﻿{
-    "id":  1,
-    "title":  "رواية صوتية 1",
-    "source":  "youtube",
-    "youtube_id":  "XPPAi6qEnc0",
-    "youtube_url":  "https://www.youtube.com/watch?v=XPPAi6qEnc0"
-}
+[
+    {
+        "id":  1,
+        "title":  "رواية صوتية 1",
+        "source":  "youtube",
+        "youtube_id":  "XPPAi6qEnc0",
+        "youtube_url":  "https://www.youtube.com/watch?v=XPPAi6qEnc0"
+    }
+]
