@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -99,7 +99,7 @@ select { padding: 10px; border-radius: 10px; }
     <div class="cover">📖</div>
     <h2 id="title"></h2>
     <p>رواية صوتية كاملة</p>
-    <audio id="audio" controls preload="metadata"></audio>
+    <div id="youtubePlayer" style="display:none"></div><audio id="audio" controls preload="metadata"></audio>
     <p>سرعة التشغيل</p>
     <select id="speed">
       <option value="0.75">0.75×</option>
@@ -152,7 +152,28 @@ function openBook(book) {
   currentBook = book;
   title.textContent = book.title;
   status.textContent = "جاهز للاستماع";
+  const yt = document.getElementById("youtubePlayer");
+yt.innerHTML = "";
+yt.style.display = "none";
+audio.style.display = "block";
+
+if (book.source === "youtube" && book.youtube_id) {
+  audio.removeAttribute("src");
+  audio.load();
+  audio.style.display = "none";
+  yt.style.display = "block";
+  const frame = document.createElement("iframe");
+  frame.src = "https://www.youtube-nocookie.com/embed/" +
+              encodeURIComponent(book.youtube_id);
+  frame.style.width = "100%";
+  frame.style.aspectRatio = "16 / 9";
+  frame.style.border = "0";
+  frame.allow = "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share";
+  frame.allowFullscreen = true;
+  yt.appendChild(frame);
+} else {
   audio.src = book.audio_url;
+}
   audio.load();
   speed.value = "1";
   audio.playbackRate = 1;
@@ -161,7 +182,8 @@ function openBook(book) {
 
 document.getElementById("back").onclick = () => {
   audio.pause();
-  player.classList.remove("active");
+  document.getElementById("youtubePlayer").innerHTML = "";
+player.classList.remove("active");
 };
 
 speed.onchange = () => {
