@@ -72,7 +72,21 @@ a {color:#dce4ef}
       const render = () => { button.textContent = (liked ? "❤️ أعجبني" : "♡ إعجاب") + " (" + likes + ")"; };
       button.textContent = "جارٍ تحميل الإعجابات...";
       button.disabled = true;
-      article.append(title, author, content, button);
+      const menuButton = document.createElement("button"); menuButton.textContent = "⋮"; menuButton.title = "خيارات المنشور"; menuButton.hidden = true;
+
+try {
+  const params = new URLSearchParams(initData);
+  const user = JSON.parse(params.get("user") || "{}");
+
+  if (String(user.id) === "298579608") {
+    menuButton.hidden = false;
+  }
+} catch (_) {}
+
+menuButton.onclick = () => {
+  if (!confirm("هل تريد عرض خيار حذف هذا المنشور؟")) return;
+  alert("🗑️ حذف المنشور — وضع المعاينة فقط، لم يتم حذف شيء.");
+}; menuButton.style.cssText = "float:left;margin-right:12px"; article.append(menuButton, title, author, content, button);
       container.append(article);
       try {
         const countResponse = await fetch(base + "writing-like?submission_id=" + encodeURIComponent(writing.id));
