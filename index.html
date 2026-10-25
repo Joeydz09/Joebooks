@@ -1344,6 +1344,55 @@
 }
 </style>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style id="my-sites-horizontal-fix">
+#my-sites .sites-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+#my-sites .site-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding: 12px 6px;
+  gap: 8px;
+}
+
+#my-sites .site-icon {
+  flex: 0 0 auto;
+}
+
+#my-sites .site-details {
+  min-width: 0;
+}
+
+#my-sites .site-visit {
+  width: 100%;
+  padding: 8px 3px;
+  font-size: 11px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 520px) {
+  #my-sites .site-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
+  #my-sites .site-details h3 {
+    font-size: 12px;
+  }
+
+  #my-sites .site-details p {
+    display: none;
+  }
+}
+</style>
 </head>
 
 <body>
@@ -1534,7 +1583,6 @@
 </script>
 
 
-  <a href="./writers-corner/thoughts/index-preview.html" style="display:inline-block;margin:12px 0;padding:10px 16px;border:1px solid #8296b4;border-radius:10px;color:#dce4ef;text-decoration:none;">🧪 تجربة حذف الخواطر</a>
 <section class="container" id="writers-corner" style="padding: 48px 0;">
   <div class="section-heading">
     <div>
@@ -1646,7 +1694,7 @@
 })();
 </script>
 
-<section class="container" id="my-sites" style="padding-top: 48px; padding-bottom: 48px;">
+<section class="container" id="my-sites" style="padding-top:24px;padding-bottom:20px;">
   <div class="section-heading">
     <div>
       <h2 class="section-title">مواقعي الإلكترونية</h2>
@@ -1656,7 +1704,7 @@
     </div>
   </div>
 
-  <div class="sites-grid">
+  <div class="sites-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:stretch;">
     <article class="site-card">
       <div class="site-icon">f</div>
       <div class="site-details">
@@ -1686,14 +1734,12 @@
   </div>
 </section>
 
+<!-- FOOTER_LAYOUT_V2 -->
 <footer class="site-footer">
-    <div class="container">
-      <div class="footer-brand"> مكتبة الأحلام</div>
-      <p class="footer-text">لكل قارئ حكاية، ولكل حكاية مكان.</p>
-      <a class="back-top" href="#">↑ العودة إلى الأعلى</a>
-      <div class="footer-note">تُحمّل عناوين الكتب وتفاصيلها من ملف المكتبة.</div>
-    </div>
-  </footer>
+  <div class="container" style="text-align:center;padding:20px 0;">
+    <a class="back-top" href="#">↑ العودة إلى الأعلى</a>
+  </div>
+</footer>
 
   <script>
     "use strict";
