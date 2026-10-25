@@ -1512,11 +1512,11 @@
           <button class="clear-btn" id="clearSearch" type="button">مسح</button>
         </div>
 
-        <div class="filter-heading">
+        <div class="filter-heading" id="categoryToggle" role="button" tabindex="0" aria-expanded="false" aria-controls="categories" style="cursor:pointer;">
           <strong>تصفّح حسب التصنيف</strong>
           <span id="categoryCount">جارٍ التحميل...</span>
         </div>
-        <div class="categories" id="categories">
+        <div class="categories" id="categories" hidden>
           <button class="category-btn active" type="button" data-category="all">كل الكتب</button>
         </div>
       </div>
@@ -2478,6 +2478,35 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
   }
 })();
 </script>
+
+<style>
+#categories[hidden] { display: none !important; }
+#categoryToggle:focus-visible { outline: 2px solid #d6b77a; }
+#categoryToggle::after { content: '\2193'; margin-inline-start: 10px; }
+#categoryToggle[aria-expanded="true"]::after { content: '\2191'; }
+</style>
+<script>
+(function () {
+  const toggle = document.getElementById("categoryToggle");
+  const categories = document.getElementById("categories");
+  if (!toggle || !categories) return;
+
+  function switchCategories() {
+    const opening = categories.hidden;
+    categories.hidden = !opening;
+    toggle.setAttribute("aria-expanded", String(opening));
+  }
+
+  toggle.addEventListener("click", switchCategories);
+  toggle.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      switchCategories();
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
 
