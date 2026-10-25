@@ -1393,6 +1393,48 @@
   }
 }
 </style>
+
+<style id="compact-social-footer-final">
+.site-footer {
+  border-top: 1px solid rgba(214,184,117,.4);
+}
+.compact-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 12px;
+}
+.compact-social {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 420px;
+}
+.compact-social a {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 9px 4px;
+  border: 1px solid rgba(214,184,117,.35);
+  border-radius: 10px;
+  color: #f0dba8;
+  text-decoration: none;
+}
+.compact-social a span { font-size: 17px; }
+.compact-social a small { font-size: 12px; }
+.compact-footer .back-top { margin-top: 0; }
+@media (max-width: 380px) {
+  .compact-social { gap: 5px; }
+  .compact-social a { padding: 8px 2px; }
+  .compact-social a small { font-size: 11px; }
+}
+</style>
+
 </head>
 
 <body>
@@ -1694,50 +1736,18 @@
 })();
 </script>
 
-<section class="container" id="my-sites" style="padding-top:24px;padding-bottom:20px;">
-  <div class="section-heading">
-    <div>
-      <h2 class="section-title">مواقعي الإلكترونية</h2>
-      <div class="section-subtitle">
-        تابعوا مكتبة الأحلام عبر منصاتنا الإلكترونية
-      </div>
-    </div>
-  </div>
 
-  <div class="sites-grid" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:stretch;">
-    <article class="site-card">
-      <div class="site-icon">f</div>
-      <div class="site-details">
-        <h3>الفيسبوك</h3>
-        <p>تابعوا صفحتنا على الفيسبوك</p>
-      </div>
-      <a class="site-visit" href="https://www.facebook.com/share/1FqvrPEpzs/" target="_blank" rel="noopener noreferrer">زيارة الصفحة ↗</a>
-    </article>
-
-    <article class="site-card">
-      <div class="site-icon">✈</div>
-      <div class="site-details">
-        <h3>تلجرام</h3>
-        <p>تابعوا الكتب والروايات الجديدة</p>
-      </div>
-      <a class="site-visit" href="https://t.me/quotes_90" target="_blank" rel="noopener noreferrer">زيارة القناة ↗</a>
-    </article>
-
-    <article class="site-card">
-      <div class="site-icon">◎</div>
-      <div class="site-details">
-        <h3>انستغرام</h3>
-        <p>تابعونا على إنستغرام</p>
-      </div>
-      <a class="site-visit" href="https://www.instagram.com/books_online.pdf?dlrf=bWk2MmFkbzh6MHU1" target="_blank" rel="noopener noreferrer">زيارة الحساب ↗</a>
-    </article>
-  </div>
-</section>
 
 <!-- FOOTER_LAYOUT_V2 -->
+
 <footer class="site-footer">
-  <div class="container" style="text-align:center;padding:20px 0;">
-    <a class="back-top" href="#">↑ العودة إلى الأعلى</a>
+  <div class="container compact-footer">
+    <div id="my-sites" class="compact-social">
+      <a href="https://www.facebook.com/share/1FqvrPEpzs/" target="_blank" rel="noopener noreferrer"><span>f</span><small>??????</small></a>
+<a href="https://t.me/quotes_90" target="_blank" rel="noopener noreferrer"><span>?</span><small>??????</small></a>
+<a href="https://www.instagram.com/books_online.pdf?dlrf=bWk2MmFkbzh6MHU1" target="_blank" rel="noopener noreferrer"><span>?</span><small>????????</small></a>
+    </div>
+    <a class="back-top" href="#">? ?????? ??? ??????</a>
   </div>
 </footer>
 
