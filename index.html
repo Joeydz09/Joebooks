@@ -2257,7 +2257,20 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
 
       const actions = createElement("div", "book-actions");
 
-      if (url) {
+      if (Number(book.id) === 2019 && url) {
+        const readLink = createElement("a", "open-book", "📖 اقرأ الكتاب");
+        readLink.href = "./reader.html?id=2019";
+        readLink.addEventListener("click", () => recordRecentlyOpened(book));
+        readLink.setAttribute("aria-label", "قراءة " + title + " داخل المكتبة");
+        actions.appendChild(readLink);
+
+        const downloadLink = createElement("a", "open-book", "⬇️ تحميل الكتاب");
+        downloadLink.href = url;
+        downloadLink.target = "_blank";
+        downloadLink.rel = "noopener noreferrer";
+        downloadLink.setAttribute("aria-label", "تحميل " + title + " عبر تيليجرام");
+        actions.appendChild(downloadLink);
+      } else if (url) {
         const link = createElement("a", "open-book", "اقرأ الكتاب ↗");
         link.href = url;
         link.target = "_blank";
