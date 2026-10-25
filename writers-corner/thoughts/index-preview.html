@@ -72,7 +72,7 @@ a {color:#dce4ef}
       const render = () => { button.textContent = (liked ? "❤️ أعجبني" : "♡ إعجاب") + " (" + likes + ")"; };
       button.textContent = "جارٍ تحميل الإعجابات...";
       button.disabled = true;
-      const menuButton = document.createElement("button"); menuButton.textContent = "⋮"; menuButton.title = "خيارات المنشور"; menuButton.hidden = true;
+      const menuButton = document.createElement("button"); menuButton.textContent = "⋮"; menuButton.title = "خيارات المنشور"; menuButton.hidden = true; console.log("ADMIN CHECK:", initData ? "Telegram data available" : "Telegram data missing");
 
 try {
   const params = new URLSearchParams(initData);
