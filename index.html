@@ -1342,6 +1342,25 @@
   #continueReadingSection { padding: 16px; border-radius: 15px; }
   #continueReadingSection .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 }
+
+/* أزرار القراءة والتحميل الجديدة */
+.book-actions { display: grid; gap: 8px; }
+.book-actions .read-soon {
+  opacity: .42;
+  background: rgba(220, 228, 239, .06);
+  border-color: rgba(220, 228, 239, .20);
+  color: #c5cfdd;
+  box-shadow: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.book-actions .read-soon:hover { filter: none; transform: none; box-shadow: none; }
+.book-actions .download-book {
+  background: linear-gradient(135deg, #365b92, #213b64);
+  border-color: rgba(169, 194, 231, .55);
+  color: #f8faff;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, .15);
+}
 </style>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style id="my-sites-horizontal-fix">
@@ -1531,23 +1550,7 @@
         <div id="resultCount" aria-live="polite">جارٍ تحميل الكتب...</div>
       </div>
 
-<section class="book-shelf-section" id="bookShelfSection">
-  <h2>📚 رفّي الخاص</h2>
-  <p>كتبك التي تريد قراءتها والكتب التي أنهيت قراءتها، محفوظة على هذا المتصفح.</p>
 
-  <div class="shelf-tabs">
-    <button type="button" class="shelf-tab active" data-shelf-status="want">
-      أريد قراءتها <span id="wantCount">0</span>
-    </button>
-    <button type="button" class="shelf-tab" data-shelf-status="read">
-      قرأتها <span id="readCount">0</span>
-    </button>
-  </div>
-
-  <div id="bookShelfList" class="shelf-list">
-    <p>لم تضف أي كتب إلى رفّك بعد.</p>
-  </div>
-</section>
 
 <section class="container" id="continueReadingSection" style="padding-top:32px;padding-bottom:24px;" hidden>
   <div class="section-heading">
@@ -2263,46 +2266,26 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         readLink.addEventListener("click", () => recordRecentlyOpened(book));
         readLink.setAttribute("aria-label", "قراءة " + title + " داخل المكتبة");
         actions.appendChild(readLink);
+      } else {
+        const readSoon = createElement("span", "open-book read-soon", "📖 اقرأ الكتاب · قريبًا");
+        readSoon.setAttribute("aria-disabled", "true");
+        actions.appendChild(readSoon);
+      }
 
-        const downloadLink = createElement("a", "open-book", "⬇️ تحميل الكتاب");
+      if (url) {
+        const downloadLink = createElement("a", "open-book download-book", "⬇️ تحميل الكتاب");
         downloadLink.href = url;
         downloadLink.target = "_blank";
         downloadLink.rel = "noopener noreferrer";
-        downloadLink.setAttribute("aria-label", "تحميل " + title + " عبر تيليجرام");
+        downloadLink.setAttribute("aria-label", "فتح كتاب " + title + " على تيليجرام");
         actions.appendChild(downloadLink);
-      } else if (url) {
-        const link = createElement("a", "open-book", "اقرأ الكتاب ↗");
-        link.href = url;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.addEventListener("click", () => recordRecentlyOpened(book));
-        link.setAttribute("aria-label", "فتح رابط كتاب " + title);
-        actions.appendChild(link);
       } else {
-        actions.appendChild(
-          createElement("span", "no-link", "لا يتوفر رابط لهذا الكتاب")
-        );
+        actions.appendChild(createElement("span", "no-link", "لا يتوفر رابط تحميل لهذا الكتاب"));
       }
 
       info.appendChild(actions);
       card.appendChild(info);
 
-            const shelfActions = createElement("div", "shelf-actions");
-
-      const wantButton = createElement("button", "shelf-btn", "＋ أريد قراءتها");
-      wantButton.type = "button";
-      wantButton.addEventListener("click", () => {
-        setBookShelfStatus(book, "want");
-      });
-
-      const readButton = createElement("button", "shelf-btn", "✓ قرأتها");
-      readButton.type = "button";
-      readButton.addEventListener("click", () => {
-        setBookShelfStatus(book, "read");
-      });
-
-      shelfActions.append(wantButton, readButton);
-      card.appendChild(shelfActions);
 
       return card;
     }
