@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>أعلام الأدب | مكتبة الأحلام</title>
+<style>
+:root{--bg:#0b1426;--card:#14223a;--gold:#d6b875;--pale:#f0dba8;--text:#f8faff;--muted:#a8b6c9;--border:rgba(214,184,117,.25)}*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:radial-gradient(ellipse at 50% 0,rgba(76,107,157,.19),transparent 55%),var(--bg);color:var(--text);line-height:1.85}a{color:inherit}.wrap{width:min(1120px,calc(100% - 30px));margin:auto}header{border-bottom:1px solid var(--border);background:rgba(9,18,34,.92)}.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0}.brand{color:var(--pale);font-weight:bold;text-decoration:none}.back{font-size:13px;text-decoration:none;border:1px solid var(--border);border-radius:10px;padding:7px 12px}.hero{text-align:center;padding:58px 0 28px}.eyebrow{color:var(--gold);font-size:13px}.hero h1{font-size:clamp(28px,5vw,46px);margin:8px 0;color:var(--pale)}.hero p{color:var(--muted);max-width:650px;margin:0 auto}.controls{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;margin:25px 0}.tabs{display:flex;gap:8px;flex-wrap:wrap}.tab{border:1px solid var(--border);background:#16243a;color:var(--pale);padding:9px 16px;border-radius:12px;cursor:pointer}.tab[aria-pressed=true]{background:linear-gradient(130deg,#f0dba8,#c6a45f);color:#172034;font-weight:bold}input{min-width:210px;flex:1;max-width:360px;background:#101e33;color:white;border:1px solid var(--border);border-radius:12px;padding:10px 14px;font:inherit}input::placeholder{color:#91a1b8}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.author{border:1px solid var(--border);border-radius:18px;background:linear-gradient(150deg,#192a44,#101b30);padding:22px;display:flex;flex-direction:column;gap:10px;min-width:0}.monogram{display:grid;place-items:center;width:66px;height:66px;border:1px solid rgba(214,184,117,.45);border-radius:50%;font-size:25px;color:var(--pale);background:#24344d}.author h2{font-size:19px;margin:0;color:var(--pale)}.meta{font-size:12px;color:var(--muted)}.bio{font-size:13px;color:#d4deec;margin:0;flex:1}.works{font-size:12px;color:#d4deec;border-top:1px solid var(--border);padding-top:10px}.works strong{color:var(--gold)}.empty{color:var(--muted);text-align:center;padding:35px}footer{text-align:center;padding:38px 0;color:var(--muted);font-size:12px}@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:540px){.grid{grid-template-columns:1fr}.hero{padding-top:35px}.controls{flex-direction:column}input{max-width:none;width:100%}}
+
+/* صورة موثقة من صفحة المؤلف في ويكيبيديا؛ تظهر الأحرف عند تعذر تحميلها */
+.author .monogram{width:94px;height:94px;overflow:hidden;position:relative;margin-bottom:6px}
+.author .monogram img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;border-radius:50%;background:#24344d}
+.author .photo-source{font-size:10px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;display:block;margin-top:-4px;margin-bottom:5px}
+</style>
+</head>
+<body>
+<header><div class="wrap nav"><a class="brand" href="../index.html">✦ مكتبة الأحلام</a><a class="back" href="../index.html">العودة إلى المكتبة ←</a></div></header>
+<main class="wrap"><section class="hero"><div class="eyebrow">أسماء خلدتها الكتب</div><h1>✒️ أعلام الأدب</h1><p>تعرّف على نخبة من الكتّاب والشعراء الذين تركوا بصمتهم في الأدب العربي والعالمي. هذه الصفحة تعريفية، ولا تعني أن جميع أعمالهم متاحة في المكتبة.</p></section>
+<section class="controls" aria-label="تصفية المؤلفين"><div class="tabs"><button class="tab" data-filter="all" aria-pressed="true">جميع المؤلفين</button><button class="tab" data-filter="arab" aria-pressed="false">مؤلفون عرب</button><button class="tab" data-filter="world" aria-pressed="false">مؤلفون عالميون</button></div><input type="search" id="search" placeholder="ابحث عن مؤلف أو عمل..." aria-label="بحث عن مؤلف"></section>
+<div id="count" class="meta" aria-live="polite" style="margin-bottom:14px"></div><section class="grid" id="grid" aria-label="بطاقات المؤلفين"></section><p class="empty" id="empty" hidden>لا توجد نتائج مطابقة.</p></main><footer>مكتبة الأحلام — رحلة بين أعلام الأدب</footer>
+<script>
+const authors=[
+{wiki:'Naguib Mahfouz',name:'نجيب محفوظ',country:'مصر',group:'arab',kind:'الرواية',bio:'روائي مصري حاز جائزة نوبل في الأدب عام 1988، واشتهر بتصوير المجتمع المصري وتحولاته.',works:['الثلاثية','أولاد حارتنا','زقاق المدق']},
+{wiki:'Taha Hussein',name:'طه حسين',country:'مصر',group:'arab',kind:'الأدب والفكر',bio:'كاتب وناقد مصري، من أبرز رموز النهضة الأدبية العربية الحديثة.',works:['الأيام','دعاء الكروان','في الشعر الجاهلي']},
+{wiki:'Nizar Qabbani',name:'نزار قباني',country:'سوريا',group:'arab',kind:'الشعر',bio:'شاعر سوري عُرف بلغته القريبة من القراء وقصائده العاطفية والاجتماعية والسياسية.',works:['قالت لي السمراء','الرسم بالكلمات','قصائد متوحشة']},
+{wiki:'Kahlil Gibran',name:'جبران خليل جبران',country:'لبنان',group:'arab',kind:'الأدب والفلسفة',bio:'أديب وفنان لبناني أمريكي كتب بالعربية والإنجليزية، وامتازت أعماله بالنزعة التأملية.',works:['النبي','الأجنحة المتكسرة','دمعة وابتسامة']},
+{wiki:'Ghassan Kanafani',name:'غسان كنفاني',country:'فلسطين',group:'arab',kind:'القصة والرواية',bio:'كاتب وصحفي فلسطيني ارتبط أدبه بقضايا اللجوء والهوية والذاكرة الفلسطينية.',works:['رجال في الشمس','عائد إلى حيفا','ما تبقى لكم']},
+{wiki:'Ahlam Mosteghanemi',name:'أحلام مستغانمي',country:'الجزائر',group:'arab',kind:'الرواية',bio:'روائية جزائرية عُرفت بأسلوبها الشعري في السرد وبموضوعات الذاكرة والحب والوطن.',works:['ذاكرة الجسد','فوضى الحواس','عابر سرير']},
+{wiki:'Agatha Christie',name:'أغاثا كريستي',country:'المملكة المتحدة',group:'world',kind:'الغموض والجريمة',bio:'روائية بريطانية من أشهر كتّاب الأدب البوليسي، ابتكرت شخصيتي هيركيول بوارو والآنسة ماربل.',works:['جريمة في قطار الشرق السريع','ثم لم يبق أحد','موت على النيل']},
+{wiki:'Fyodor Dostoevsky',name:'فيودور دوستويفسكي',country:'روسيا',group:'world',kind:'الرواية النفسية',bio:'روائي روسي تناول أسئلة الأخلاق والحرية والذنب والصراع النفسي في أعماله.',works:['الجريمة والعقاب','الإخوة كارامازوف','الأبله']},
+{wiki:'Victor Hugo',name:'فيكتور هوغو',country:'فرنسا',group:'world',kind:'الرواية والشعر',bio:'أديب فرنسي بارز من رموز الحركة الرومانسية، تناول قضايا العدالة والفقر والإنسان.',works:['البؤساء','أحدب نوتردام','عمال البحر']},
+{wiki:'Jane Austen',name:'جين أوستن',country:'المملكة المتحدة',group:'world',kind:'الرواية الاجتماعية',bio:'روائية إنجليزية اشتهرت بتصوير المجتمع والعلاقات والطبقات الاجتماعية بأسلوب ساخر ودقيق.',works:['كبرياء وتحامل','العقل والعاطفة','إيما']},
+{wiki:'Gabriel García Márquez',name:'غابرييل غارسيا ماركيز',country:'كولومبيا',group:'world',kind:'الواقعية السحرية',bio:'روائي كولومبي حاز جائزة نوبل في الأدب عام 1982، ومن أبرز أعلام الواقعية السحرية.',works:['مئة عام من العزلة','الحب في زمن الكوليرا','وقائع موت معلن']},
+{wiki:'Franz Kafka',name:'فرانز كافكا',country:'التشيك',group:'world',kind:'الرواية والقصة',bio:'كاتب باللغة الألمانية عُرف بأعمال تتناول الاغتراب والسلطة والقلق الوجودي.',works:['المسخ','المحاكمة','القلعة']}
+];
+
+const photoCache=new Map();
+async function loadAuthorPhoto(author,avatar,card){
+  const title=author.wiki;
+  if(!title)return;
+  try{
+    let info=photoCache.get(title);
+    if(!info){
+      const api='https://en.wikipedia.org/w/api.php?'+new URLSearchParams({action:'query',format:'json',prop:'pageimages',piprop:'thumbnail',pithumbsize:'420',redirects:'1',titles:title,origin:'*'});
+      const response=await fetch(api);
+      if(!response.ok)throw Error('Wikipedia request failed');
+      const data=await response.json();
+      const record=Object.values(data.query?.pages||{})[0];
+      if(!record?.thumbnail?.source)throw Error('No verified portrait');
+      info={src:record.thumbnail.source,url:'https://en.wikipedia.org/wiki/'+encodeURIComponent(record.title.replaceAll(' ','_'))};
+      photoCache.set(title,info);
+    }
+    if(!avatar.isConnected||avatar.dataset.wiki!==title)return;
+    const img=document.createElement('img');img.alt='صورة '+author.name;img.loading='lazy';img.referrerPolicy='no-referrer';
+    img.addEventListener('error',()=>img.remove(),{once:true});
+    img.src=info.src;
+    avatar.appendChild(img);
+    const credit=document.createElement('a');credit.className='photo-source';credit.href=info.url;credit.target='_blank';credit.rel='noopener noreferrer';credit.textContent='مصدر الصورة: ويكيبيديا';
+    avatar.insertAdjacentElement('afterend',credit);
+  }catch(err){/* إبقاء الحروف بدلاً من عرض صورة غير مؤكدة */}
+}
+
+const grid=document.getElementById('grid'),search=document.getElementById('search'),count=document.getElementById('count'),empty=document.getElementById('empty');let filter='all';
+function render(){const q=search.value.trim().toLocaleLowerCase('ar');const found=authors.filter(a=>(filter==='all'||a.group===filter)&&[a.name,a.country,a.kind,a.bio,...a.works].join(' ').toLocaleLowerCase('ar').includes(q));grid.replaceChildren();for(const a of found){const card=document.createElement('article');card.className='author';const initials=a.name.split(' ').slice(0,2).map(w=>w[0]).join('');const avatar=document.createElement('div');avatar.className='monogram';avatar.textContent=initials;avatar.dataset.wiki=a.wiki;const title=document.createElement('h2');title.textContent=a.name;const meta=document.createElement('div');meta.className='meta';meta.textContent=a.country+' · '+a.kind;const bio=document.createElement('p');bio.className='bio';bio.textContent=a.bio;const works=document.createElement('div');works.className='works';const strong=document.createElement('strong');strong.textContent='من أشهر أعماله: ';works.append(strong,document.createTextNode(a.works.join(' · ')));card.append(avatar,title,meta,bio,works);grid.append(card);loadAuthorPhoto(a,avatar,card)}count.textContent='عدد المؤلفين المعروضين: '+found.length;empty.hidden=found.length!==0}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-pressed',String(t===b)));render()}));search.addEventListener('input',render);render();
+</script></body></html>
