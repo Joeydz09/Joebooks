@@ -1,12 +1,11 @@
 /**
- * Front-end integration template for Joebooks Maktabati.
- * PREVIEW ONLY: set API_BASE after deploying and testing a dedicated Worker.
- * Do not put BOT_TOKEN or any server secret in this file.
+ * Front-end integration for Joebooks Maktabati.
+ * Preview branch only. Never place BOT_TOKEN or server secrets here.
  */
 (() => {
   "use strict";
 
-  const API_BASE = ""; // Example after approval: "https://YOUR-DEDICATED-WORKER.workers.dev"
+  const API_BASE = "https://joebooks-maktabati.jo-dz-jd.workers.dev";
   const tg = window.Telegram?.WebApp;
 
   function hasLiveConfig() {
@@ -14,7 +13,7 @@
   }
 
   async function api(method, bookId) {
-    if (!hasLiveConfig()) throw new Error("TELEGRAM_LIBRARY_NOT_CONFIGURED");
+    if (!hasLiveConfig()) throw new Error("OPEN_IN_TELEGRAM_MINI_APP");
     const options = {
       method,
       headers: {
@@ -22,7 +21,7 @@
         "X-Telegram-Init-Data": tg.initData
       }
     };
-    if (bookId !== undefined) options.body = JSON.stringify({ book_id: bookId });
+    if (bookId !== undefined) options.body = JSON.stringify({ book_id: Number(bookId) });
     const response = await fetch(API_BASE.replace(/\/$/, "") + "/api/library", options);
     const result = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(result.error || "LIBRARY_REQUEST_FAILED");
@@ -32,26 +31,25 @@
   async function getBookIds() {
     const result = await api("GET");
     if (!Array.isArray(result.book_ids)) throw new Error("INVALID_LIBRARY_RESPONSE");
-    return result.book_ids.map(Number).filter(Number.isSafeInteger);
+    return result.book_ids.map(Number).filter((id) => Number.isSafeInteger(id) && id > 0);
   }
 
   async function addBook(bookId) {
-    return api("POST", Number(bookId));
+    const id = Number(bookId);
+    if (!Number.isSafeInteger(id) || id <= 0) throw new Error("INVALID_BOOK_ID");
+    return api("POST", id);
   }
 
   async function removeBook(bookId) {
-    return api("DELETE", Number(bookId));
+    const id = Number(bookId);
+    if (!Number.isSafeInteger(id) || id <= 0) throw new Error("INVALID_BOOK_ID");
+    return api("DELETE", id);
   }
 
-  // Expose only library operations, never identity or secrets.
   window.JoebooksMaktabatiAPI = Object.freeze({
     isConfigured: hasLiveConfig,
     getBookIds,
     addBook,
     removeBook
   });
-
-  // This file deliberately does not auto-connect or change the preview UI.
-  // Integration into the real book cards should happen only after API deployment
-  // and testing, then must be reviewed before merging to the default branch.
 })();
