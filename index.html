@@ -1455,56 +1455,7 @@
 </style>
 
 
-<style id="dreams-theme-style">
-html[data-theme="light"] {
-  color-scheme: light;
-  --navy: #f7f3eb;
-  --navy-light: #eee8dc;
-  --navy-card: #ffffff;
-  --silver: #35445a;
-  --silver-muted: #526176;
-  --silver-dark: #68788b;
-  --white: #17253a;
-  --line: rgba(132, 105, 58, .22);
-  --shadow: 0 12px 32px rgba(35, 42, 55, .10);
-  --gold-light: #8b6425;
-}
 
-html[data-theme="light"] body {
-  background: #f7f3eb;
-  color: #17253a;
-}
-
-html[data-theme="light"] .topbar {
-  background: rgba(250, 247, 240, .96);
-}
-
-html[data-theme="light"] .book-card,
-html[data-theme="light"] .stat {
-  background: #ffffff;
-  color: #17253a;
-}
-
-html[data-theme="light"] #searchInput {
-  background: #ffffff;
-  color: #17253a;
-}
-
-html[data-theme="light"] .category-btn:not(.active) {
-  background: #eee8dc;
-  color: #35445a;
-}
-
-#dreams-theme-toggle {
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--navy-card);
-  color: var(--silver);
-  padding: 8px 12px;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-</style>
 
 
 <style id="dreams-light-text-fix">
@@ -1608,9 +1559,7 @@ html[data-theme="light"] #clearSearch {
 
       
 
-<button id="dreams-theme-toggle"
-        type="button"
-        aria-label="????? ??? ?????">&#9728;</button>
+
 
 <button class="menu-toggle" id="writersMenuToggle"
         type="button" aria-expanded="false"
@@ -2632,38 +2581,7 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
 </script>
 
 
-<script>
-(function () {
-  const key = "dreams-library-theme";
-  let saved = "dark";
-  try {
-    saved = localStorage.getItem(key) || "dark";
-  } catch (_) {}
 
-  function applyTheme(theme) {
-    const light = theme === "light";
-    document.documentElement.dataset.theme = light ? "light" : "dark";
-    const button = document.getElementById("dreams-theme-toggle");
-    if (button) {
-      button.textContent = light ? "\u263D" : "\u2600";
-      button.title = light ? "????? ??????" : "????? ???????";
-      button.setAttribute("aria-pressed", String(light));
-    }
-  }
-
-  applyTheme(saved);
-
-  document.getElementById("dreams-theme-toggle")
-    ?.addEventListener("click", function () {
-      const next = document.documentElement.dataset.theme === "light"
-        ? "dark" : "light";
-      applyTheme(next);
-      try {
-        localStorage.setItem(key, next);
-      } catch (_) {}
-    });
-})();
-</script>
 
 </body>
 </html>
