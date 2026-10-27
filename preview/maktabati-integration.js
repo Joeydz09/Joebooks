@@ -8,17 +8,30 @@
   const API_BASE = "https://joebooks-maktabati.jo-dz-jd.workers.dev";
   const tg = window.Telegram?.WebApp;
 
+  function getInitData() {
+    const direct = typeof tg?.initData === "string" ? tg.initData.trim() : "";
+    if (direct) return direct;
+
+    try {
+      const saved = window.sessionStorage?.getItem("maktabat_telegram_init_data");
+      return typeof saved === "string" ? saved.trim() : "";
+    } catch {
+      return "";
+    }
+  }
+
   function hasLiveConfig() {
-    return Boolean(API_BASE && tg?.initData);
+    return Boolean(API_BASE && getInitData());
   }
 
   async function api(method, bookId) {
-    if (!hasLiveConfig()) throw new Error("OPEN_IN_TELEGRAM_MINI_APP");
+    const initData = getInitData();
+    if (!API_BASE || !initData) throw new Error("OPEN_IN_TELEGRAM_MINI_APP");
     const options = {
       method,
       headers: {
         "content-type": "application/json",
-        "X-Telegram-Init-Data": tg.initData
+        "X-Telegram-Init-Data": initData
       }
     };
     if (bookId !== undefined) options.body = JSON.stringify({ book_id: Number(bookId) });
