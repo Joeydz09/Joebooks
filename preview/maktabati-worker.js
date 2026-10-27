@@ -38,7 +38,7 @@ async function verifiedTelegramUser(initData, botToken) {
   params.delete("hash");
   const entries = [...params.entries()].sort(([a], [b]) => a.localeCompare(b));
   const checkString = entries.map(([k, v]) => `${k}=${v}`).join("\n");
-  const secretKey = await hmac(new TextEncoder().encode("WebAppData"), botToken);
+  const secretKey = await hmac(new TextEncoder().encode(botToken), "WebAppData");
   const expectedHash = hex(await hmac(secretKey, checkString));
   if (!safeEqual(expectedHash, receivedHash.toLowerCase())) throw new Error("INVALID_TELEGRAM_SIGNATURE");
   const authDate = Number(params.get("auth_date"));
