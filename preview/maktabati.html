@@ -20,21 +20,23 @@ footer{margin-top:28px;color:var(--muted);font-size:12px;line-height:1.8}
 </head>
 <body>
 <main>
-<header class="top"><div><div class="brand">📚 مكتبة الأحلام</div><div class="sub">معاينة واجهة «مكتبتي» المرتبطة بتيليجرام</div></div><div class="pill">وضع المعاينة فقط</div></header>
+<header class="top"><div><div class="brand">📚 مكتبة الأحلام</div><div class="sub">معاينة واجهة «مكتبتي» المرتبطة بتيليجرام</div></div><div class="pill"><a href="../index.html" style="color:inherit;text-decoration:none">↩ العودة إلى الموقع</a> · وضع المعاينة</div></header>
 <div class="notice"><strong>تنبيه:</strong> هذه نسخة معاينة. عند فتحها من داخل Telegram Mini App تستخدم قاعدة البيانات الشخصية؛ وفي المتصفح العادي تعمل بوضع تجريبي محلي فقط.</div>
 <nav class="tabs" aria-label="عرض الكتب"><button id="allTab" class="active" type="button">كل الكتب</button><button id="mineTab" type="button">⭐ مكتبتي <span id="mineCount">0</span></button></nav>
 <p class="count" id="countText">كتب تجريبية</p><section class="grid" id="books" aria-live="polite"></section>
-<footer>الخطوة التالية قبل النشر: تفعيل التحقق من Telegram WebApp initData في الخادم، وربط المستخدم الموثّق بقاعدة البيانات، ثم اختبار الحفظ والاسترجاع. لا يوضع رمز البوت السري داخل ملفات الموقع.</footer>
+<footer>هذه معاينة مستقلة تقرأ فهرس الكتب من books.json. الحفظ الشخصي يعمل فقط عند فتح الصفحة من داخل Telegram Mini App بجلسة موثقة. لا يوضع رمز البوت السري داخل ملفات الموقع.</footer>
 </main>
 <script>
-const books=[
-{id:2059,title:"سيكولوجية التلاعب النفسي",author:"لايوجد كاتب محدد",category:"التنمية البشرية"},
-{id:2058,title:"زفاف الخادمة",author:"فريدا ماكفادن",category:"غموض وتشويق"},
-{id:2054,title:"هل تتذكرين",author:"فريدا ماكفادن",category:"إثارة نفسية"},
-{id:2051,title:"رواية وجدتك",author:"ليزا جويل",category:"غموض وتشويق"},
-{id:2049,title:"الخط الصلب - الرجل الرمادي #15",author:"مارك غريني",category:"تجسس وإثارة"},
-{id:2048,title:"كتاب تجريبي",author:"بيانات توضيحية",category:"معاينة"}
-];
+let books=[];
+async function loadBooks(){
+  const response=await fetch("../books.json",{cache:"no-store"});
+  if(!response.ok) throw new Error("BOOKS_JSON_LOAD_FAILED");
+  const data=await response.json();
+  if(!Array.isArray(data)) throw new Error("INVALID_BOOKS_JSON");
+  books=data.filter(b=>Number.isSafeInteger(Number(b.id)) && Number(b.id)>0 && b.title)
+    .map(b=>({id:Number(b.id),title:String(b.title),author:String(b.author||"كاتب غير محدد"),
+      category:String(b.category||"غير مصنف"),url:String(b.url||""),cover:String(b.cover||"")}));
+}
 const storageKey="joebooks_maktabati_preview_v1";
 const api=window.JoebooksMaktabatiAPI;
 const live=Boolean(api?.isConfigured());
@@ -49,7 +51,7 @@ function render(){
   document.getElementById("allTab").classList.toggle("active",mode==="all");
   document.getElementById("mineTab").classList.toggle("active",mode==="mine");
   const list=mode==="mine"?books.filter(b=>saved.has(b.id)):books;
-  document.getElementById("countText").textContent=loading?"جارٍ تحميل مكتبتك…":(mode==="mine"?(list.length+" كتاب في مكتبتي"):(live?"اختر الكتب لإضافتها إلى مكتبتك":"عرض "+list.length+" كتب تجريبية"));
+  document.getElementById("countText").textContent=loading?"جارٍ تحميل مكتبتك…":(mode==="mine"?(list.length+" كتاب في مكتبتي"):(live?"اختر الكتب لإضافتها إلى مكتبتك":"عرض "+list.length+" كتابًا من فهرس الموقع"));
   root.innerHTML="";
   if(errorMessage){root.innerHTML="";const e=document.createElement("div");e.className="empty";e.textContent=errorMessage;root.append(e);return}
   if(loading){const e=document.createElement("div");e.className="empty";e.textContent="جارٍ تحميل الكتب المحفوظة…";root.append(e);return}
@@ -72,12 +74,16 @@ function render(){
       }catch(e){errorMessage=e?.message==="OPEN_IN_TELEGRAM_MINI_APP"?"افتح هذه المكتبة من داخل تطبيق تيليجرام.":"تعذر حفظ التغيير: "+(e?.message||"خطأ غير معروف");}
       finally{loading=false;render()}
     };
-    head.append(info,star);const tag=document.createElement("div");tag.className="tag";tag.textContent=b.category+(live?" · مكتبة تيليجرام":" · معاينة محلية");card.append(head,tag);root.append(card);
+    head.append(info,star);const tag=document.createElement("div");tag.className="tag";tag.textContent=b.category+(live?" · مكتبة تيليجرام":" · معاينة محلية");
+    card.append(head,tag);
+    if(b.url){const open=document.createElement("a");open.href=b.url;open.target="_blank";open.rel="noopener noreferrer";open.textContent="فتح الكتاب ↗";open.style.cssText="color:var(--silver);font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:9px;padding:8px 10px;align-self:flex-start";card.append(open)}
+    root.append(card);
   }
 }
 document.getElementById("allTab").onclick=()=>{mode="all";render()};
 document.getElementById("mineTab").onclick=()=>{mode="mine";render()};
 async function init(){
+  try{await loadBooks()}catch(e){errorMessage="تعذر تحميل فهرس الكتب الحقيقي: "+(e?.message||"خطأ غير معروف");loading=false;render();return}
   if(live){
     try{if(window.Telegram?.WebApp?.ready)window.Telegram.WebApp.ready();saved=new Set(await api.getBookIds());}
     catch(e){errorMessage="تعذر تحميل مكتبتك: "+(e?.message||"خطأ غير معروف");}
