@@ -476,6 +476,13 @@
     }
 
     
+/* JOEBOOKS_MAKTABATI_MAIN_V1 */
+.book-title-row{display:flex;align-items:flex-start;gap:8px;justify-content:space-between}
+.book-title-row .book-title{flex:1;min-width:0}
+.maktabati-star{display:inline-flex;align-items:center;justify-content:center;flex:0 0 38px;width:38px;height:38px;padding:0;border:1px solid var(--line);border-radius:10px;background:#0b1426;color:#dce4ef;font-size:25px;line-height:1;cursor:pointer}
+.maktabati-star.saved{color:#f0dba8;border-color:rgba(214,184,117,.7);background:rgba(214,184,117,.1)}
+.maktabati-star:disabled{opacity:.6;cursor:wait}
+
 .book-title {
   font-size: 14px;
   line-height: 1.7;
@@ -1841,6 +1848,7 @@ html[data-theme="light"] #clearSearch {
   </div>
 </footer>
 
+  <script src="./preview/maktabati-integration.js"></script>
   <script>
     "use strict";
 
@@ -2295,6 +2303,51 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
     console.warn("تعذر مسح سجل القراءة.", error);
   }
 });
+    // Personal library is server-backed and authenticated with Telegram Mini App initData.
+    const maktabatiBookIds = new Set();
+
+    async function loadMaktabatiBooks() {
+      const api = window.JoebooksMaktabatiAPI;
+      if (!api?.isConfigured?.()) return;
+      try {
+        const ids = await api.getBookIds();
+        maktabatiBookIds.clear();
+        ids.forEach(id => maktabatiBookIds.add(Number(id)));
+      } catch (error) {
+        console.warn("تعذر تحميل مكتبتي من الخادم.", error);
+      } finally {
+        renderBooks();
+        renderContinueReading();
+      }
+    }
+
+    async function toggleMaktabatiBook(book, button) {
+      const api = window.JoebooksMaktabatiAPI;
+      if (!api?.isConfigured?.()) {
+        alert("لحفظ الكتب في «مكتبتي»، افتح الموقع من داخل تطبيق تيليجرام المصغّر.");
+        return;
+      }
+      const id = Number(book?.id);
+      if (!Number.isSafeInteger(id) || id <= 0 || button.disabled) return;
+      const wasSaved = maktabatiBookIds.has(id);
+      button.disabled = true;
+      try {
+        if (wasSaved) {
+          await api.removeBook(id);
+          maktabatiBookIds.delete(id);
+        } else {
+          await api.addBook(id);
+          maktabatiBookIds.add(id);
+        }
+        renderBooks();
+        renderContinueReading();
+      } catch (error) {
+        console.error("تعذر تحديث مكتبتي.", error);
+        alert("تعذر حفظ التغيير الآن. تأكد من اتصال تيليجرام ثم حاول مجددًا.");
+        button.disabled = false;
+      }
+    }
+
     function makeBookCard(book) {
       const card = createElement("article", "book-card");
       const title = getTitle(book);
@@ -2306,7 +2359,19 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
       card.appendChild(makeCover(book));
 
       const info = createElement("div", "book-info");
-      info.appendChild(createElement("h3", "book-title", title));
+      const titleRow = createElement("div", "book-title-row");
+      titleRow.appendChild(createElement("h3", "book-title", title));
+      if (book.id != null && Number.isSafeInteger(Number(book.id)) && Number(book.id) > 0) {
+        const isSaved = maktabatiBookIds.has(Number(book.id));
+        const star = createElement("button", "maktabati-star" + (isSaved ? " saved" : ""), isSaved ? "★" : "☆");
+        star.type = "button";
+        star.setAttribute("aria-label", (isSaved ? "إزالة من مكتبتي: " : "إضافة إلى مكتبتي: ") + title);
+        star.setAttribute("aria-pressed", String(isSaved));
+        star.title = window.JoebooksMaktabatiAPI?.isConfigured?.() ? "حفظ في مكتبتي" : "افتح داخل تطبيق تيليجرام لحفظ الكتب";
+        star.addEventListener("click", () => toggleMaktabatiBook(book, star));
+        titleRow.appendChild(star);
+      }
+      info.appendChild(titleRow);
 
       if (author) {
         const authorLine = createElement("div", "book-author");
@@ -2484,6 +2549,7 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         applyFilters();
         renderBookShelf();
         renderContinueReading();
+        loadMaktabatiBooks();
 
       } catch (error) {
         console.error("تعذر تحميل books.json:", error);
