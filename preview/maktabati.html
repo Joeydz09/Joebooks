@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1426">
+<title>معاينة مكتبتي | مكتبة الأحلام</title>
+<style>
+:root{--navy:#0b1426;--light:#111f36;--card:#14223a;--silver:#dce4ef;--muted:#a8b6c9;--line:rgba(205,220,241,.15);--gold:#f6c453}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,rgba(95,125,173,.2),transparent 55%),var(--navy);color:var(--silver);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif}
+main{max-width:980px;margin:auto;padding:24px 16px 48px}.top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.brand{font-size:24px;font-weight:800}.sub{color:var(--muted);font-size:14px;margin-top:6px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:9px 13px;color:var(--muted);font-size:13px}
+.notice{margin:22px 0;padding:14px 16px;border:1px solid rgba(246,196,83,.35);background:rgba(246,196,83,.07);border-radius:14px;line-height:1.8;font-size:14px}
+.tabs{display:flex;gap:8px;margin:22px 0}.tabs button,.star{font:inherit;cursor:pointer;border:1px solid var(--line);color:var(--silver);background:var(--light);border-radius:12px;padding:10px 16px}.tabs button.active{background:var(--silver);color:var(--navy);font-weight:700}
+.count{color:var(--muted);font-size:13px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.book{background:linear-gradient(145deg,rgba(20,34,58,.98),rgba(17,31,54,.98));border:1px solid var(--line);border-radius:16px;padding:17px;min-height:180px;display:flex;flex-direction:column;gap:12px}.book-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.cover{width:42px;height:54px;border-radius:7px;background:linear-gradient(145deg,#5b6e8e,#202f49);display:grid;place-items:center;font-size:21px;flex-shrink:0}.title{font-weight:750;line-height:1.6}.author{color:var(--muted);font-size:13px;margin-top:4px}.star{font-size:23px;line-height:1;padding:5px 8px;background:transparent;border:0;color:#8291a8}.star.saved{color:var(--gold)}.tag{color:var(--muted);font-size:12px;margin-top:auto}.empty{border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted);line-height:1.9}
+footer{margin-top:28px;color:var(--muted);font-size:12px;line-height:1.8}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><div><div class="brand">📚 مكتبة الأحلام</div><div class="sub">معاينة واجهة «مكتبتي» المرتبطة بتيليجرام</div></div><div class="pill">وضع المعاينة فقط</div></header>
+<div class="notice"><strong>تنبيه:</strong> هذه واجهة تجريبية ببيانات أمثلة. النجوم هنا تحفظ الاختيار داخل هذا المتصفح فقط لأغراض المعاينة؛ لم يتم تفعيل ربط تيليجرام أو قاعدة البيانات بعد، ولا يُحفظ أي شيء على الخادم.</div>
+<nav class="tabs" aria-label="عرض الكتب"><button id="allTab" class="active" type="button">كل الكتب</button><button id="mineTab" type="button">⭐ مكتبتي <span id="mineCount">0</span></button></nav>
+<p class="count" id="countText">كتب تجريبية</p><section class="grid" id="books" aria-live="polite"></section>
+<footer>الخطوة التالية قبل النشر: تفعيل التحقق من Telegram WebApp initData في الخادم، وربط المستخدم الموثّق بقاعدة البيانات، ثم اختبار الحفظ والاسترجاع. لا يوضع رمز البوت السري داخل ملفات الموقع.</footer>
+</main>
+<script>
+const books=[
+{id:2059,title:"سيكولوجية التلاعب النفسي",author:"لايوجد كاتب محدد",category:"التنمية البشرية"},
+{id:2058,title:"زفاف الخادمة",author:"فريدا ماكفادن",category:"غموض وتشويق"},
+{id:2054,title:"هل تتذكرين",author:"فريدا ماكفادن",category:"إثارة نفسية"},
+{id:2051,title:"رواية وجدتك",author:"ليزا جويل",category:"غموض وتشويق"},
+{id:2049,title:"الخط الصلب - الرجل الرمادي #15",author:"مارك غريني",category:"تجسس وإثارة"},
+{id:2048,title:"كتاب تجريبي",author:"بيانات توضيحية",category:"معاينة"}
+];
+const storageKey="joebooks_maktabati_preview_v1";
+let saved=new Set();try{saved=new Set(JSON.parse(localStorage.getItem(storageKey)||"[]"))}catch{}
+let mode="all";const root=document.getElementById("books");
+function render(){document.getElementById("mineCount").textContent=saved.size;document.getElementById("allTab").classList.toggle("active",mode==="all");document.getElementById("mineTab").classList.toggle("active",mode==="mine");const list=mode==="mine"?books.filter(b=>saved.has(b.id)):books;document.getElementById("countText").textContent=mode==="mine"?(list.length+" كتاب في مكتبتي (تجريبي)"):("عرض "+list.length+" كتب تجريبية");root.innerHTML="";
+if(!list.length){root.innerHTML='<div class="empty">لم تضف كتبًا بعد.<br>اضغط ⭐ بجانب أي كتاب لإضافته إلى «مكتبتي».</div>';return}
+for(const b of list){const card=document.createElement("article");card.className="book";const head=document.createElement("div");head.className="book-head";const info=document.createElement("div");info.innerHTML='<div class="title"></div><div class="author"></div>';info.querySelector(".title").textContent=b.title;info.querySelector(".author").textContent=b.author||"كاتب غير محدد";const star=document.createElement("button");star.className="star"+(saved.has(b.id)?" saved":"");star.type="button";star.setAttribute("aria-label",saved.has(b.id)?"إزالة من مكتبتي":"إضافة إلى مكتبتي");star.textContent=saved.has(b.id)?"★":"☆";star.onclick=()=>{if(saved.has(b.id))saved.delete(b.id);else saved.add(b.id);try{localStorage.setItem(storageKey,JSON.stringify([...saved]))}catch{}render()};head.append(info,star);const tag=document.createElement("div");tag.className="tag";tag.textContent=b.category+" · كتاب تجريبي";card.append(head,tag);root.append(card)}
+}
+document.getElementById("allTab").onclick=()=>{mode="all";render()};document.getElementById("mineTab").onclick=()=>{mode="mine";render()};render();
+</script>
+</body></html>
