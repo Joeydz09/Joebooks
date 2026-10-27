@@ -15,11 +15,13 @@ main{max-width:980px;margin:auto;padding:24px 16px 48px}.top{display:flex;justif
 .count{color:var(--muted);font-size:13px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.book{background:linear-gradient(145deg,rgba(20,34,58,.98),rgba(17,31,54,.98));border:1px solid var(--line);border-radius:16px;padding:17px;min-height:180px;display:flex;flex-direction:column;gap:12px}.book-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.cover{width:42px;height:54px;border-radius:7px;background:linear-gradient(145deg,#5b6e8e,#202f49);display:grid;place-items:center;font-size:21px;flex-shrink:0}.title{font-weight:750;line-height:1.6}.author{color:var(--muted);font-size:13px;margin-top:4px}.star{font-size:23px;line-height:1;padding:5px 8px;background:transparent;border:0;color:#8291a8}.star.saved{color:var(--gold)}.tag{color:var(--muted);font-size:12px;margin-top:auto}.empty{border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted);line-height:1.9}
 footer{margin-top:28px;color:var(--muted);font-size:12px;line-height:1.8}
 </style>
+ <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="./maktabati-integration.js"></script>
 </head>
 <body>
 <main>
 <header class="top"><div><div class="brand">📚 مكتبة الأحلام</div><div class="sub">معاينة واجهة «مكتبتي» المرتبطة بتيليجرام</div></div><div class="pill">وضع المعاينة فقط</div></header>
-<div class="notice"><strong>تنبيه:</strong> هذه واجهة تجريبية ببيانات أمثلة. النجوم هنا تحفظ الاختيار داخل هذا المتصفح فقط لأغراض المعاينة؛ لم يتم تفعيل ربط تيليجرام أو قاعدة البيانات بعد، ولا يُحفظ أي شيء على الخادم.</div>
+<div class="notice"><strong>تنبيه:</strong> هذه نسخة معاينة. عند فتحها من داخل Telegram Mini App تستخدم قاعدة البيانات الشخصية؛ وفي المتصفح العادي تعمل بوضع تجريبي محلي فقط.</div>
 <nav class="tabs" aria-label="عرض الكتب"><button id="allTab" class="active" type="button">كل الكتب</button><button id="mineTab" type="button">⭐ مكتبتي <span id="mineCount">0</span></button></nav>
 <p class="count" id="countText">كتب تجريبية</p><section class="grid" id="books" aria-live="polite"></section>
 <footer>الخطوة التالية قبل النشر: تفعيل التحقق من Telegram WebApp initData في الخادم، وربط المستخدم الموثّق بقاعدة البيانات، ثم اختبار الحفظ والاسترجاع. لا يوضع رمز البوت السري داخل ملفات الموقع.</footer>
@@ -34,12 +36,56 @@ const books=[
 {id:2048,title:"كتاب تجريبي",author:"بيانات توضيحية",category:"معاينة"}
 ];
 const storageKey="joebooks_maktabati_preview_v1";
-let saved=new Set();try{saved=new Set(JSON.parse(localStorage.getItem(storageKey)||"[]"))}catch{}
-let mode="all";const root=document.getElementById("books");
-function render(){document.getElementById("mineCount").textContent=saved.size;document.getElementById("allTab").classList.toggle("active",mode==="all");document.getElementById("mineTab").classList.toggle("active",mode==="mine");const list=mode==="mine"?books.filter(b=>saved.has(b.id)):books;document.getElementById("countText").textContent=mode==="mine"?(list.length+" كتاب في مكتبتي (تجريبي)"):("عرض "+list.length+" كتب تجريبية");root.innerHTML="";
-if(!list.length){root.innerHTML='<div class="empty">لم تضف كتبًا بعد.<br>اضغط ⭐ بجانب أي كتاب لإضافته إلى «مكتبتي».</div>';return}
-for(const b of list){const card=document.createElement("article");card.className="book";const head=document.createElement("div");head.className="book-head";const info=document.createElement("div");info.innerHTML='<div class="title"></div><div class="author"></div>';info.querySelector(".title").textContent=b.title;info.querySelector(".author").textContent=b.author||"كاتب غير محدد";const star=document.createElement("button");star.className="star"+(saved.has(b.id)?" saved":"");star.type="button";star.setAttribute("aria-label",saved.has(b.id)?"إزالة من مكتبتي":"إضافة إلى مكتبتي");star.textContent=saved.has(b.id)?"★":"☆";star.onclick=()=>{if(saved.has(b.id))saved.delete(b.id);else saved.add(b.id);try{localStorage.setItem(storageKey,JSON.stringify([...saved]))}catch{}render()};head.append(info,star);const tag=document.createElement("div");tag.className="tag";tag.textContent=b.category+" · كتاب تجريبي";card.append(head,tag);root.append(card)}
+const api=window.JoebooksMaktabatiAPI;
+const live=Boolean(api?.isConfigured());
+let saved=new Set();
+let mode="all";
+let loading=true;
+let errorMessage="";
+const root=document.getElementById("books");
+function showError(message){errorMessage=message||"تعذر الاتصال بمكتبتك. حاول فتح التطبيق من تيليجرام مجددًا.";render()}
+function render(){
+  document.getElementById("mineCount").textContent=saved.size;
+  document.getElementById("allTab").classList.toggle("active",mode==="all");
+  document.getElementById("mineTab").classList.toggle("active",mode==="mine");
+  const list=mode==="mine"?books.filter(b=>saved.has(b.id)):books;
+  document.getElementById("countText").textContent=loading?"جارٍ تحميل مكتبتك…":(mode==="mine"?(list.length+" كتاب في مكتبتي"):(live?"اختر الكتب لإضافتها إلى مكتبتك":"عرض "+list.length+" كتب تجريبية"));
+  root.innerHTML="";
+  if(errorMessage){root.innerHTML="";const e=document.createElement("div");e.className="empty";e.textContent=errorMessage;root.append(e);return}
+  if(loading){const e=document.createElement("div");e.className="empty";e.textContent="جارٍ تحميل الكتب المحفوظة…";root.append(e);return}
+  if(!list.length){root.innerHTML='<div class="empty">لا توجد كتب محفوظة بعد.<br>اضغط ☆ بجانب أي كتاب لإضافته إلى «مكتبتي».</div>';return}
+  for(const b of list){
+    const card=document.createElement("article");card.className="book";
+    const head=document.createElement("div");head.className="book-head";
+    const info=document.createElement("div");info.innerHTML='<div class="title"></div><div class="author"></div>';
+    info.querySelector(".title").textContent=b.title;info.querySelector(".author").textContent=b.author||"كاتب غير محدد";
+    const star=document.createElement("button");star.className="star"+(saved.has(b.id)?" saved":"");star.type="button";
+    star.setAttribute("aria-label",saved.has(b.id)?"إزالة من مكتبتي":"إضافة إلى مكتبتي");star.textContent=saved.has(b.id)?"★":"☆";
+    star.disabled=loading;
+    star.onclick=async()=>{
+      if(loading)return;
+      const wasSaved=saved.has(b.id);loading=true;errorMessage="";render();
+      try{
+        if(live){if(wasSaved)await api.removeBook(b.id);else await api.addBook(b.id);}
+        else {try{saved=new Set(JSON.parse(localStorage.getItem(storageKey)||"[]"))}catch{} if(wasSaved)saved.delete(b.id);else saved.add(b.id);localStorage.setItem(storageKey,JSON.stringify([...saved]));}
+        if(live)saved=new Set(await api.getBookIds());
+      }catch(e){errorMessage=e?.message==="OPEN_IN_TELEGRAM_MINI_APP"?"افتح هذه المكتبة من داخل تطبيق تيليجرام.":"تعذر حفظ التغيير: "+(e?.message||"خطأ غير معروف");}
+      finally{loading=false;render()}
+    };
+    head.append(info,star);const tag=document.createElement("div");tag.className="tag";tag.textContent=b.category+(live?" · مكتبة تيليجرام":" · معاينة محلية");card.append(head,tag);root.append(card);
+  }
 }
-document.getElementById("allTab").onclick=()=>{mode="all";render()};document.getElementById("mineTab").onclick=()=>{mode="mine";render()};render();
+document.getElementById("allTab").onclick=()=>{mode="all";render()};
+document.getElementById("mineTab").onclick=()=>{mode="mine";render()};
+async function init(){
+  if(live){
+    try{if(window.Telegram?.WebApp?.ready)window.Telegram.WebApp.ready();saved=new Set(await api.getBookIds());}
+    catch(e){errorMessage="تعذر تحميل مكتبتك: "+(e?.message||"خطأ غير معروف");}
+  }else{
+    try{saved=new Set(JSON.parse(localStorage.getItem(storageKey)||"[]"))}catch{saved=new Set()}
+  }
+  loading=false;render();
+}
+init();
 </script>
 </body></html>
