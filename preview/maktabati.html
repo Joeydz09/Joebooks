@@ -44,7 +44,7 @@ const storageKey="joebooks_maktabati_preview_v1";
 const api=window.JoebooksMaktabatiAPI;
 const live=Boolean(api?.isConfigured());
 let saved=new Set();
-let mode="all";
+let mode=sessionStorage.getItem("joebooks_maktabati_mode")==="mine"?"mine":"all";
 let loading=true;
 let errorMessage="";
 const root=document.getElementById("books");
@@ -83,8 +83,8 @@ function render(){
     root.append(card);
   }
 }
-document.getElementById("allTab").addEventListener("click",()=>{mode="all";render()});
-document.getElementById("mineTab").addEventListener("click",()=>{mode="mine";render()});
+document.getElementById("allTab").addEventListener("click",()=>{mode="all";sessionStorage.setItem("joebooks_maktabati_mode",mode);render()});
+document.getElementById("mineTab").addEventListener("click",()=>{mode="mine";sessionStorage.setItem("joebooks_maktabati_mode",mode);render()});
 async function init(){
   try{await loadBooks()}catch(e){errorMessage="تعذر تحميل فهرس الكتب الحقيقي: "+(e?.message||"خطأ غير معروف");loading=false;render();return}
   if(live){
