@@ -51,8 +51,7 @@ const root=document.getElementById("books");
 function showError(message){errorMessage=message||"تعذر الاتصال بمكتبتك. حاول فتح التطبيق من تيليجرام مجددًا.";render()}
 function render(){
   document.getElementById("mineCount").textContent=saved.size;
-  document.getElementById("allTab").classList.toggle("active",mode==="all");
-  document.getElementById("mineTab").classList.toggle("active",mode==="mine");
+  document.getElementById("mineTab").classList.add("active");
   const list=mode==="mine"?books.filter(b=>saved.has(Number(b.id))):books;
   document.getElementById("countText").textContent=loading?"جارٍ تحميل مكتبتك…":(mode==="mine"?(list.length+" كتاب في مكتبتي"):(live?"اختر الكتب لإضافتها إلى مكتبتك":"عرض "+list.length+" كتابًا من فهرس الموقع"));
   root.innerHTML="";
