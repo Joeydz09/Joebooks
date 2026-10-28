@@ -44,7 +44,7 @@ const storageKey="joebooks_maktabati_preview_v1";
 const api=window.JoebooksMaktabatiAPI;
 const live=Boolean(api?.isConfigured());
 let saved=new Set();
-let mode=localStorage.getItem("joebooks_maktabati_mode")==="mine"?"mine":"all";
+let mode="mine";
 let loading=true;
 let errorMessage="";
 const root=document.getElementById("books");
