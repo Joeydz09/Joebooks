@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b1426">
-<title>معاينة مكتبتي | مكتبة الأحلام</title>
+<title>مكتبتي | مكتبة الأحلام</title>
 <style>
 :root{--navy:#0b1426;--light:#111f36;--card:#14223a;--silver:#dce4ef;--muted:#a8b6c9;--line:rgba(205,220,241,.15);--gold:#f6c453}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,rgba(95,125,173,.2),transparent 55%),var(--navy);color:var(--silver);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif}
@@ -23,11 +23,11 @@ footer{margin-top:28px;color:var(--muted);font-size:12px;line-height:1.8}
 </head>
 <body>
 <main>
-<header class="top"><div><div class="brand">📚 مكتبة الأحلام</div><div class="sub">معاينة واجهة «مكتبتي» المرتبطة بتيليجرام</div></div><div class="pill"><a href="../index.html" style="color:inherit;text-decoration:none">↩ العودة إلى الموقع</a> · وضع المعاينة</div></header>
-<div class="notice"><strong>تنبيه:</strong> هذه نسخة معاينة. عند فتحها من داخل Telegram Mini App تستخدم قاعدة البيانات الشخصية؛ وفي المتصفح العادي تعمل بوضع تجريبي محلي فقط.</div>
+<header class="top"><div><div class="brand">📚 مكتبة الأحلام</div><div class="sub">كتبك المحفوظة في مكتبة الأحلام</div></div><div class="pill"><a href="../index.html" style="color:inherit;text-decoration:none">↩ العودة إلى الموقع</a></div></header>
+<div class="notice">افتح «مكتبتي» من داخل تطبيق تيليجرام للوصول إلى كتبك المحفوظة على حسابك.</div>
 <nav class="tabs" aria-label="عرض الكتب"><button id="allTab" class="active" type="button">كل الكتب</button><button id="mineTab" type="button">⭐ مكتبتي <span id="mineCount">0</span></button></nav>
 <p class="count" id="countText">كتب تجريبية</p><section class="grid" id="books" aria-live="polite"></section>
-<footer>هذه معاينة مستقلة تقرأ فهرس الكتب من books.json. الحفظ الشخصي يعمل فقط عند فتح الصفحة من داخل Telegram Mini App بجلسة موثقة. لا يوضع رمز البوت السري داخل ملفات الموقع.</footer>
+<footer>تُحفظ الكتب في مكتبتك الشخصية عند فتح الصفحة من داخل تطبيق تيليجرام بجلسة موثّقة. لا تشارك بيانات جلسة تيليجرام مع الآخرين.</footer>
 </main>
 <script>
 let books=[];
@@ -77,7 +77,7 @@ function render(){
       }catch(e){errorMessage=e?.message==="OPEN_IN_TELEGRAM_MINI_APP"?"افتح هذه المكتبة من داخل تطبيق تيليجرام.":"تعذر حفظ التغيير: "+(e?.message||"خطأ غير معروف");}
       finally{loading=false;render()}
     };
-    head.append(info,star);const tag=document.createElement("div");tag.className="tag";tag.textContent=b.category+(live?" · مكتبة تيليجرام":" · معاينة محلية");
+    head.append(info,star);const tag=document.createElement("div");tag.className="tag";tag.textContent=b.category+(live?" · مكتبة تيليجرام":" · تخزين هذا المتصفح");
     card.append(head,tag);
     if(b.url){const open=document.createElement("a");open.href=b.url;open.target="_blank";open.rel="noopener noreferrer";open.textContent="فتح الكتاب ↗";open.style.cssText="color:var(--silver);font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:9px;padding:8px 10px;align-self:flex-start";card.append(open)}
     root.append(card);
