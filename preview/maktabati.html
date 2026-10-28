@@ -53,7 +53,7 @@ function render(){
   document.getElementById("mineCount").textContent=saved.size;
   document.getElementById("allTab").classList.toggle("active",mode==="all");
   document.getElementById("mineTab").classList.toggle("active",mode==="mine");
-  const list=mode==="mine"?books.filter(b=>saved.has(b.id)):books;
+  const list=mode==="mine"?books.filter(b=>saved.has(Number(b.id))):books;
   document.getElementById("countText").textContent=loading?"جارٍ تحميل مكتبتك…":(mode==="mine"?(list.length+" كتاب في مكتبتي"):(live?"اختر الكتب لإضافتها إلى مكتبتك":"عرض "+list.length+" كتابًا من فهرس الموقع"));
   root.innerHTML="";
   if(errorMessage){root.innerHTML="";const e=document.createElement("div");e.className="empty";e.textContent=errorMessage;root.append(e);return}
@@ -83,8 +83,8 @@ function render(){
     root.append(card);
   }
 }
-document.getElementById("allTab").onclick=()=>{mode="all";render()};
-document.getElementById("mineTab").onclick=()=>{mode="mine";render()};
+document.getElementById("allTab").addEventListener("click",()=>{mode="all";render()});
+document.getElementById("mineTab").addEventListener("click",()=>{mode="mine";render()});
 async function init(){
   try{await loadBooks()}catch(e){errorMessage="تعذر تحميل فهرس الكتب الحقيقي: "+(e?.message||"خطأ غير معروف");loading=false;render();return}
   if(live){
