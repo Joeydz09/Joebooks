@@ -2640,25 +2640,28 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
 })();
 </script>
 
-
 <script>
 (function () {
   const tg = window.Telegram?.WebApp;
   const startParam = tg?.initDataUnsafe?.start_param;
   const match = /^book_(\d+)$/.exec(startParam || "");
 
-  if (match) {
-    window.location.replace(
-      "./book.html?id=" + encodeURIComponent(match[1])
-    );
+  if (
+    match &&
+    window.location.search.indexOf("from=book") === -1
+  ) {
+    const key = "maktabat_handled_start_param";
+
+    if (sessionStorage.getItem(key) !== startParam) {
+      sessionStorage.setItem(key, startParam);
+      window.location.replace(
+        "./book.html?id=" + encodeURIComponent(match[1])
+      );
+    }
   }
 })();
 </script>
-
 </body>
 </html>
-
-
-
 
 
