@@ -82,7 +82,6 @@ function render(){
     root.append(card);
   }
 }
-document.getElementById("allTab").addEventListener("click",()=>{mode="all";localStorage.setItem("joebooks_maktabati_mode",mode);render()});
 document.getElementById("mineTab").addEventListener("click",()=>{mode="mine";localStorage.setItem("joebooks_maktabati_mode",mode);render()});
 async function init(){
   try{await loadBooks()}catch(e){errorMessage="تعذر تحميل فهرس الكتب الحقيقي: "+(e?.message||"خطأ غير معروف");loading=false;render();return}
