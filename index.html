@@ -2399,21 +2399,14 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         info.appendChild(summary);
 
         if (synopsis.length > 150) {
-          const toggle = createElement("button", "summary-toggle", "قراءة الملخص كاملاً");
-          toggle.type = "button";
-          toggle.setAttribute("aria-expanded", "false");
-
-          toggle.addEventListener("click", () => {
-            const expanded = !summary.classList.contains("clamped");
-            summary.classList.toggle("clamped", expanded);
-            toggle.textContent = expanded ? "قراءة الملخص كاملاً" : "إخفاء الملخص";
-            toggle.setAttribute("aria-expanded", expanded ? "false" : "true");
+          const detailsLink = createElement("button", "summary-toggle", "قراءة الملخص كاملاً");
+          detailsLink.type = "button";
+          detailsLink.addEventListener("click", () => {
+            window.location.href = "./book.html?id=" + encodeURIComponent(String(book.id));
           });
-
-          info.appendChild(toggle);
+          info.appendChild(detailsLink);
         }
       }
-
       const actions = createElement("div", "book-actions");
 
       if (Number(book.id) === 2019 && url) {
