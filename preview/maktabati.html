@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1426">
+<title>مكتبتي | مكتبة الأحلام</title>
+<style>
+:root{--navy:#0b1426;--light:#111f36;--card:#14223a;--silver:#dce4ef;--muted:#a8b6c9;--line:rgba(205,220,241,.15);--gold:#f6c453}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,rgba(95,125,173,.2),transparent 55%),var(--navy);color:var(--silver);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif}
+main{max-width:980px;margin:auto;padding:24px 16px 48px}.top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.brand{font-size:24px;font-weight:800}.sub{color:var(--muted);font-size:14px;margin-top:6px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:9px 13px;color:var(--muted);font-size:13px}
+.notice{margin:22px 0;padding:14px 16px;border:1px solid rgba(246,196,83,.35);background:rgba(246,196,83,.07);border-radius:14px;line-height:1.8;font-size:14px}
+.tabs{display:flex;gap:8px;margin:22px 0}.tabs button,.star{font:inherit;cursor:pointer;border:1px solid var(--line);color:var(--silver);background:var(--light);border-radius:12px;padding:10px 16px}.tabs button.active{background:var(--silver);color:var(--navy);font-weight:700}
+.count{color:var(--muted);font-size:13px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.book{background:linear-gradient(145deg,rgba(20,34,58,.98),rgba(17,31,54,.98));border:1px solid var(--line);border-radius:16px;padding:17px;min-height:180px;display:flex;flex-direction:column;gap:12px}.book-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.cover{width:42px;height:54px;border-radius:7px;background:linear-gradient(145deg,#5b6e8e,#202f49);display:grid;place-items:center;font-size:21px;flex-shrink:0}.title{font-weight:750;line-height:1.6}.author{color:var(--muted);font-size:13px;margin-top:4px}.star{font-size:23px;line-height:1;padding:5px 8px;background:transparent;border:0;color:#8291a8}.star.saved{color:var(--gold)}
+.book-head .star{display:inline-flex!important;visibility:visible!important;opacity:1!important;align-items:center;justify-content:center;flex:0 0 40px;width:40px;min-width:40px;height:40px;min-height:40px;padding:0!important;font-size:28px!important;line-height:1;border:1px solid var(--line)!important;border-radius:10px!important;color:#dce4ef!important;background:#0b1426!important;position:relative;z-index:2}
+.book-head .star.saved{color:var(--gold)!important;border-color:rgba(246,196,83,.5)!important}
+.book-head .star:disabled{opacity:.75!important;cursor:wait}.tag{color:var(--muted);font-size:12px;margin-top:auto}.empty{border:1px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted);line-height:1.9}
+footer{margin-top:28px;color:var(--muted);font-size:12px;line-height:1.8}
+</style>
+ <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="./maktabati-integration.js"></script>
+</head>
+<body>
+<main>
+<header class="top"><div><div class="brand">📚 مكتبة الأحلام</div><div class="sub">كتبك المحفوظة في مكتبة الأحلام</div></div><div class="pill"><a href="../index.html" style="color:inherit;text-decoration:none">↩ العودة إلى الموقع</a></div></header>
+
+<nav class="tabs" aria-label="مكتبتي"><button id="mineTab" class="active" type="button">⭐ مكتبتي <span id="mineCount">0</span></button></nav>
+<p class="count" id="countText">كتب تجريبية</p><section class="grid" id="books" aria-live="polite"></section>
+<footer>تُحفظ الكتب في مكتبتك الشخصية عند فتح الصفحة من داخل تطبيق تيليجرام بجلسة موثّقة. لا تشارك بيانات جلسة تيليجرام مع الآخرين.</footer>
+</main>
+<script>
+let books=[];
+async function loadBooks(){
+  const response=await fetch("../books.json",{cache:"no-store"});
+  if(!response.ok) throw new Error("BOOKS_JSON_LOAD_FAILED");
+  const data=await response.json();
+  if(!Array.isArray(data)) throw new Error("INVALID_BOOKS_JSON");
+  books=data.filter(b=>Number.isSafeInteger(Number(b.id)) && Number(b.id)>0 && b.title)
+    .map(b=>({id:Number(b.id),title:String(b.title),author:String(b.author||"كاتب غير محدد"),
+      category:String(b.category||"غير مصنف"),url:String(b.url||""),cover:String(b.cover||"")}));
+}
+const storageKey="joebooks_maktabati_preview_v1";
+const api=window.JoebooksMaktabatiAPI;
+const live=Boolean(api?.isConfigured());
+let saved=new Set();
+let mode="mine";
+let loading=true;
+let errorMessage="";
+const root=document.getElementById("books");
+function showError(message){errorMessage=message||"تعذر الاتصال بمكتبتك. حاول فتح التطبيق من تيليجرام مجددًا.";render()}
+function render(){
+  document.getElementById("mineCount").textContent=saved.size;
+  document.getElementById("mineTab").classList.add("active");
+  const list=mode==="mine"?books.filter(b=>saved.has(Number(b.id))):books;
+  document.getElementById("countText").textContent=loading?"جارٍ تحميل مكتبتك…":(mode==="mine"?(list.length+" كتاب في مكتبتي"):(live?"اختر الكتب لإضافتها إلى مكتبتك":"عرض "+list.length+" كتابًا من فهرس الموقع"));
+  root.innerHTML="";
+  if(errorMessage){root.innerHTML="";const e=document.createElement("div");e.className="empty";e.textContent=errorMessage;root.append(e);return}
+  if(loading){const e=document.createElement("div");e.className="empty";e.textContent="جارٍ تحميل الكتب المحفوظة…";root.append(e);return}
+  if(!list.length){root.innerHTML='<div class="empty">لا توجد كتب محفوظة بعد.<br>اضغط ☆ بجانب أي كتاب لإضافته إلى «مكتبتي».</div>';return}
+  for(const b of list){
+    const card=document.createElement("article");card.className="book";
+    const head=document.createElement("div");head.className="book-head";
+    const info=document.createElement("div");info.innerHTML='<div class="title"></div><div class="author"></div>';
+    info.querySelector(".title").textContent=b.title;info.querySelector(".author").textContent=b.author||"كاتب غير محدد";
+    const star=document.createElement("button");star.className="star"+(saved.has(b.id)?" saved":"");star.type="button";
+    star.setAttribute("aria-label",saved.has(b.id)?"إزالة من مكتبتي":"إضافة إلى مكتبتي");star.textContent=saved.has(b.id)?"★":"☆";
+    star.disabled=loading;
+    star.onclick=async()=>{
+      if(loading)return;
+      const wasSaved=saved.has(b.id);loading=true;errorMessage="";render();
+      try{
+        if(live){if(wasSaved)await api.removeBook(b.id);else await api.addBook(b.id);}
+        else {try{saved=new Set(JSON.parse(localStorage.getItem(storageKey)||"[]"))}catch{} if(wasSaved)saved.delete(b.id);else saved.add(b.id);localStorage.setItem(storageKey,JSON.stringify([...saved]));}
+        if(live)saved=new Set(await api.getBookIds());
+      }catch(e){errorMessage=e?.message==="OPEN_IN_TELEGRAM_MINI_APP"?"افتح هذه المكتبة من داخل تطبيق تيليجرام.":"تعذر حفظ التغيير: "+(e?.message||"خطأ غير معروف");}
+      finally{loading=false;render()}
+    };
+    head.append(info,star);const tag=document.createElement("div");tag.className="tag";tag.textContent=b.category+(live?" · مكتبة تيليجرام":" · تخزين هذا المتصفح");
+    card.append(head,tag);
+    if(b.url){const open=document.createElement("a");open.href=b.url;open.target="_blank";open.rel="noopener noreferrer";open.textContent="فتح الكتاب ↗";open.style.cssText="color:var(--silver);font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:9px;padding:8px 10px;align-self:flex-start";card.append(open)}
+    root.append(card);
+  }
+}
+document.getElementById("mineTab").addEventListener("click",()=>{mode="mine";localStorage.setItem("joebooks_maktabati_mode",mode);render()});
+async function init(){
+  try{await loadBooks()}catch(e){errorMessage="تعذر تحميل فهرس الكتب الحقيقي: "+(e?.message||"خطأ غير معروف");loading=false;render();return}
+  if(live){
+    try{if(window.Telegram?.WebApp?.ready)window.Telegram.WebApp.ready();saved=new Set(await api.getBookIds());}
+    catch(e){errorMessage="تعذر تحميل مكتبتك: "+(e?.message||"خطأ غير معروف");}
+  }else{
+    try{saved=new Set(JSON.parse(localStorage.getItem(storageKey)||"[]"))}catch{saved=new Set()}
+  }
+  loading=false;render();
+}
+init();
+</script>
+</body></html>
