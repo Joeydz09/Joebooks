@@ -546,17 +546,6 @@
       overflow: hidden;
     }
 
-    .summary-toggle {
-      padding: 0;
-      border: 0;
-      background: none;
-      color: var(--silver);
-      font-size: 11px;
-      cursor: pointer;
-      text-align: right;
-      align-self: flex-start;
-    }
-
     .book-actions {
       margin-top: auto;
       padding-top: 8px;
@@ -2401,21 +2390,8 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         const summary = createElement("p", "book-summary clamped", synopsis);
         info.appendChild(summary);
 
-        if (synopsis.length > 150) {
-          const detailsLink = createElement("button", "summary-toggle", "قراءة الملخص كاملاً");
-          detailsLink.type = "button";
-          detailsLink.addEventListener("click", () => {
-            window.location.href = "./book.html?id=" + encodeURIComponent(String(book.id));
-          });
-          info.appendChild(detailsLink);
-        }
-      }
+              }
       const actions = createElement("div", "book-actions");
-
-      const detailsLink = createElement("a", "open-book", "📖 اقرأ نبذة عن الرواية");
-      detailsLink.href = "./book.html?id=" + encodeURIComponent(String(book.id));
-      detailsLink.setAttribute("aria-label", "اقرأ نبذة عن " + title);
-      actions.appendChild(detailsLink);
 
       if (url) {
         const downloadLink = createElement("a", "open-book download-book", "⬇️ تحميل الكتاب");
