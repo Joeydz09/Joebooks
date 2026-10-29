@@ -2409,17 +2409,10 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
       }
       const actions = createElement("div", "book-actions");
 
-      if (Number(book.id) === 2019 && url) {
-        const readLink = createElement("a", "open-book", "📖 اقرأ الكتاب");
-        readLink.href = "./reader.html?id=2019";
-        readLink.addEventListener("click", () => recordRecentlyOpened(book));
-        readLink.setAttribute("aria-label", "قراءة " + title + " داخل المكتبة");
-        actions.appendChild(readLink);
-      } else {
-        const readSoon = createElement("span", "open-book read-soon", "📖 اقرأ الكتاب · قريبًا");
-        readSoon.setAttribute("aria-disabled", "true");
-        actions.appendChild(readSoon);
-      }
+      const detailsLink = createElement("a", "open-book", "📖 اقرأ نبذة عن الرواية");
+      detailsLink.href = "./book.html?id=" + encodeURIComponent(String(book.id));
+      detailsLink.setAttribute("aria-label", "اقرأ نبذة عن " + title);
+      actions.appendChild(detailsLink);
 
       if (url) {
         const downloadLink = createElement("a", "open-book download-book", "⬇️ تحميل الكتاب");
