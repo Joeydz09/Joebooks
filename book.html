@@ -146,7 +146,7 @@
 
         const back = document.createElement("a");
         back.className = "btn back";
-        back.href = "./index.html";
+        back.href = "./index.html?joebooksReturn=1";
         back.textContent = "العودة إلى المكتبة";
         back.style.marginTop = "20px";
         back.style.display = "inline-block";
@@ -259,19 +259,8 @@
 
         const back = document.createElement("a");
         back.className = "btn back";
-        back.href = "./index.html";
+        back.href = "./index.html?joebooksReturn=1";
         back.textContent = "العودة إلى المكتبة";
-        back.addEventListener("click", event => {
-          try {
-            const previousPage = document.referrer ? new URL(document.referrer) : null;
-            if (history.length > 1 && previousPage && previousPage.origin === location.origin) {
-              event.preventDefault();
-              history.back();
-            }
-          } catch (_) {
-            // اترك الرابط الاحتياطي إلى المكتبة يعمل بصورة طبيعية
-          }
-        });
         actions.appendChild(back);
 
         details.appendChild(actions);
