@@ -2622,28 +2622,16 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
     params.get("startapp") ||
     "";
 
+  // عند العودة من صفحة الكتاب، ابقَ في المكتبة ولا تعاود فتح startapp.
+  if (params.get("joebooksReturn") === "1") {
+    return;
+  }
+
   const match = /^book_(\d+)$/.exec(startParam);
   if (!match) return;
 
-  // احتفظ بصفحة المكتبة في سجل التصفح، ولا تُعد فتح الكتاب عند الرجوع إليها.
-  const redirectKey = "joebooks_startapp_redirected_book";
-  try {
-    if (sessionStorage.getItem(redirectKey) === match[1]) {
-      sessionStorage.removeItem(redirectKey);
-      return;
-    }
-
-    sessionStorage.setItem(redirectKey, match[1]);
-    window.addEventListener("pageshow", event => {
-      if (event.persisted) {
-        sessionStorage.removeItem(redirectKey);
-      }
-    });
-  } catch (error) {
-    console.warn("تعذر حفظ حالة فتح الكتاب:", error);
-  }
-
-  location.assign("./book.html?id=" + match[1]);
+  // انتقال داخلي داخل نافذة التطبيق المصغّر نفسها.
+  location.href = "./book.html?id=" + match[1];
 })();
 </script>
 </body>
