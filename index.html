@@ -2516,6 +2516,10 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         renderContinueReading();
         loadMaktabatiBooks();
 
+        if (window.__joebooksStartBookId) {
+          showBookDetails(window.__joebooksStartBookId);
+        }
+
       } catch (error) {
         console.error("تعذر تحميل books.json:", error);
         loadError = true;
@@ -2533,6 +2537,94 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
     }
 
     
+    function showBookDetails(bookId) {
+      const book = allBooks.find(item => String(item.id) === String(bookId));
+      if (!book) return;
+
+      let panel = document.getElementById("joebooksBookPanel");
+      if (!panel) {
+        panel = document.createElement("section");
+        panel.id = "joebooksBookPanel";
+        panel.dir = "rtl";
+        panel.style.cssText = "position:fixed;inset:0;z-index:9999;overflow:auto;background:#0b1426;color:#f8faff;padding:18px 16px 40px;font-family:Tahoma,Arial,sans-serif;";
+        document.body.appendChild(panel);
+      }
+
+      panel.replaceChildren();
+      const wrap = document.createElement("div");
+      wrap.style.cssText = "width:min(900px,100%);margin:0 auto;";
+      const back = document.createElement("button");
+      back.type = "button";
+      back.textContent = "← العودة إلى المكتبة";
+      back.style.cssText = "padding:10px 18px;border:1px solid rgba(220,228,239,.25);border-radius:10px;background:#14223a;color:#dce4ef;font:inherit;cursor:pointer;margin-bottom:20px;";
+      back.addEventListener("click", () => {
+        panel.remove();
+        window.__joebooksStartBookId = "";
+        document.title = "مكتبة الأحلام | عالم من الحكايات";
+      });
+      wrap.appendChild(back);
+
+      const card = document.createElement("article");
+      card.style.cssText = "display:grid;grid-template-columns:minmax(0,230px) minmax(0,1fr);gap:24px;padding:22px;background:#14223a;border:1px solid rgba(220,228,239,.15);border-radius:18px;";
+      const cover = getCover(book);
+      if (cover) {
+        const image = document.createElement("img");
+        image.src = safeHttpsUrl(cover);
+        image.alt = "غلاف " + getTitle(book);
+        image.style.cssText = "width:100%;max-height:340px;object-fit:contain;border-radius:12px;";
+        card.appendChild(image);
+      }
+
+      const details = document.createElement("div");
+      const title = createElement("h1", "", getTitle(book));
+      title.style.cssText = "font-size:26px;line-height:1.6;margin:0 0 12px;color:#f3f6fc;";
+      details.appendChild(title);
+
+      const author = getAuthor(book);
+      const category = getCategory(book);
+      if (author) details.appendChild(createElement("p", "", "✍️ المؤلف: " + author));
+      if (category) details.appendChild(createElement("p", "", "📚 التصنيف: " + category));
+
+      details.appendChild(createElement("h2", "", "نبذة عن الكتاب"));
+      const synopsis = getSynopsis(book) || "لا تتوفر نبذة عن هذا الكتاب حاليًا.";
+      const paragraph = createElement("p", "", synopsis);
+      paragraph.style.cssText = "white-space:pre-line;line-height:2;color:#e2e8f0;overflow-wrap:anywhere;";
+      details.appendChild(paragraph);
+
+      const bookUrl = getBookUrl(book);
+      if (bookUrl) {
+        try {
+          const parsed = new URL(bookUrl);
+          if (parsed.protocol === "https:" && (parsed.hostname === "t.me" || parsed.hostname === "www.t.me")) {
+            const link = document.createElement("a");
+            link.href = parsed.href;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = "📥 فتح المنشور وتحميل الكتاب";
+            link.style.cssText = "display:inline-block;margin-top:12px;padding:10px 16px;border-radius:10px;background:#dce4ef;color:#0b1426;text-decoration:none;font-weight:bold;";
+            details.appendChild(link);
+          }
+        } catch (_) {}
+      }
+
+      card.appendChild(details);
+      wrap.appendChild(card);
+      panel.appendChild(wrap);
+      document.title = getTitle(book) + " | مكتبة الأحلام";
+      panel.scrollTop = 0;
+    }
+
+    window.openJoebooksBook = function (bookId) {
+      window.__joebooksStartBookId = String(bookId);
+      if (allBooks.length) showBookDetails(bookId);
+    };
+
+    window.addEventListener("resize", () => {
+      const panel = document.getElementById("joebooksBookPanel");
+      const card = panel?.querySelector("article");
+      if (card) card.style.gridTemplateColumns = window.innerWidth <= 650 ? "1fr" : "minmax(0,230px) minmax(0,1fr)";
+    });
+
     loadBooks();
   </script>
 <script>
@@ -2622,16 +2714,14 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
     params.get("startapp") ||
     "";
 
-  // عند العودة من صفحة الكتاب، ابقَ في المكتبة ولا تعاود فتح startapp.
-  if (params.get("joebooksReturn") === "1") {
-    return;
-  }
-
   const match = /^book_(\d+)$/.exec(startParam);
   if (!match) return;
 
-  // انتقال داخلي داخل نافذة التطبيق المصغّر نفسها.
-  location.href = "./book.html?id=" + match[1];
+  // اعرض النبذة داخل مستند المكتبة نفسه دون التنقل إلى صفحة أخرى.
+  window.__joebooksStartBookId = match[1];
+  if (typeof window.openJoebooksBook === "function") {
+    window.openJoebooksBook(match[1]);
+  }
 })();
 </script>
 </body>
