@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -2612,7 +2612,24 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
 })();
 </script>
 
+<script>
+(function () {
+  const tg = window.Telegram?.WebApp;
+  const params = new URLSearchParams(location.search);
+  const startParam =
+    tg?.initDataUnsafe?.start_param ||
+    params.get("tgWebAppStartParam") ||
+    params.get("startapp") ||
+    "";
+
+  const match = /^book_(\d+)$/.exec(startParam);
+  if (!match) return;
+
+  location.replace("./book.html?id=" + match[1]);
+})();
+</script>
 </body>
 </html>
+
 
 

@@ -1,0 +1,277 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1426">
+  <title>تفاصيل الكتاب | مكتبة الأحلام</title>
+  <style>
+    :root {
+      --navy: #0b1426;
+      --silver: #dce4ef;
+      --muted: #aab7ca;
+      --panel: #142139;
+      --border: rgba(220,228,239,.15);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--navy);
+      color: var(--silver);
+      font-family: Tahoma, Arial, sans-serif;
+      line-height: 1.9;
+    }
+
+    .container {
+      width: min(900px, calc(100% - 32px));
+      margin: 35px auto;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 28px;
+      color: var(--silver);
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .book {
+      display: grid;
+      grid-template-columns: 230px minmax(0, 1fr);
+      gap: 28px;
+      padding: 25px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 12px 35px rgba(0,0,0,.2);
+    }
+
+    .cover {
+      width: 100%;
+      max-height: 340px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: rgba(255,255,255,.04);
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 27px;
+      line-height: 1.5;
+    }
+
+    .author, .category, .pages {
+      color: var(--muted);
+      margin: 5px 0;
+    }
+
+    .synopsis-title {
+      margin-top: 24px;
+      font-size: 19px;
+      color: var(--silver);
+    }
+
+    .synopsis {
+      white-space: pre-line;
+      overflow-wrap: anywhere;
+      color: #e2e8f0;
+      font-size: 16px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      background: var(--silver);
+      color: var(--navy);
+    }
+
+    .back {
+      background: transparent;
+      color: var(--silver);
+      border: 1px solid var(--border);
+    }
+
+    .state {
+      text-align: center;
+      padding: 55px 20px;
+      background: var(--panel);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+    }
+
+    @media (max-width: 650px) {
+      .book {
+        grid-template-columns: 1fr;
+        padding: 18px;
+      }
+
+      .cover {
+        width: min(230px, 100%);
+        max-height: 300px;
+        margin: auto;
+        display: block;
+      }
+
+      h1 { font-size: 23px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <div class="brand">مكتبة الأحلام | عالم من الحكايات</div>
+    <div id="content" class="state">⏳ جارٍ تحميل بيانات الكتاب...</div>
+  </main>
+
+  <script>
+    (async function () {
+      const content = document.getElementById("content");
+
+      function showError(message) {
+        content.className = "state";
+        content.textContent = message;
+
+        const back = document.createElement("a");
+        back.className = "btn back";
+        back.href = "./index.html";
+        back.textContent = "العودة إلى المكتبة";
+        back.style.marginTop = "20px";
+        back.style.display = "inline-block";
+        content.appendChild(document.createElement("br"));
+        content.appendChild(back);
+      }
+
+      function addText(parent, tag, className, value) {
+        if (!value) return;
+        const node = document.createElement(tag);
+        node.className = className;
+        node.textContent = value;
+        parent.appendChild(node);
+      }
+
+      try {
+        const params = new URLSearchParams(location.search);
+        const id = params.get("id");
+
+        if (!id || !/^\d+$/.test(id)) {
+          showError("رابط الكتاب غير صالح.");
+          return;
+        }
+
+        const response = await fetch("./books.json", { cache: "no-store" });
+        if (!response.ok) throw new Error("HTTP " + response.status);
+
+        const data = await response.json();
+        const books = Array.isArray(data)
+          ? data
+          : data && Array.isArray(data.books)
+            ? data.books
+            : null;
+
+        if (!books) throw new Error("Invalid books data");
+
+        const book = books.find(item =>
+          item && String(item.id) === id
+        );
+
+        if (!book) {
+          showError("عذرًا، لم نعثر على هذا الكتاب في المكتبة.");
+          return;
+        }
+
+        const title = String(book.title || "كتاب بدون عنوان");
+        const author = String(book.author || "");
+        const synopsis = String(book.synopsis || book.summary || book.description || "");
+        const cover = String(book.cover || "");
+        const category = String(book.category || "");
+        const pages = book.pages ? String(book.pages) : "";
+        const url = String(book.url || book.link || "");
+
+        document.title = title + " | مكتبة الأحلام";
+        content.className = "book";
+        content.replaceChildren();
+
+        const image = document.createElement("img");
+        image.className = "cover";
+        image.alt = "غلاف " + title;
+
+        if (cover && !/^(javascript|data):/i.test(cover)) {
+          image.src = new URL(cover, location.href).href;
+          image.onerror = () => {
+            image.style.display = "none";
+          };
+        }
+        if (cover) {
+          content.appendChild(image);
+        }
+
+        const details = document.createElement("section");
+
+        addText(details, "h1", "", title);
+        addText(details, "p", "author", author ? "✍️ المؤلف: " + author : "");
+        addText(details, "p", "category", category ? "📚 التصنيف: " + category : "");
+        addText(details, "p", "pages", pages ? "📄 عدد الصفحات: " + pages : "");
+
+        if (synopsis) {
+          addText(details, "h2", "synopsis-title", "نبذة عن الكتاب");
+          addText(details, "p", "synopsis", synopsis);
+        } else {
+          addText(details, "p", "synopsis", "لا تتوفر نبذة عن هذا الكتاب حاليًا.");
+        }
+
+        const actions = document.createElement("div");
+        actions.className = "actions";
+
+        if (url) {
+          try {
+            const bookUrl = new URL(url);
+
+            if (
+              bookUrl.protocol === "https:" &&
+              (bookUrl.hostname === "t.me" || bookUrl.hostname === "www.t.me") &&
+              /^\/quotes_90\/\d+\/?$/.test(bookUrl.pathname)
+            ) {
+              const download = document.createElement("a");
+              download.className = "btn";
+              download.href = bookUrl.href;
+              download.target = "_blank";
+              download.rel = "noopener noreferrer";
+              download.textContent = "📥 فتح المنشور وتحميل الكتاب";
+              actions.appendChild(download);
+            }
+          } catch (_) {
+            // تجاهل الرابط غير الصالح
+          }
+        }
+
+        const back = document.createElement("a");
+        back.className = "btn back";
+        back.href = "./index.html";
+        back.textContent = "العودة إلى المكتبة";
+        actions.appendChild(back);
+
+        details.appendChild(actions);
+        content.appendChild(details);
+
+      } catch (error) {
+        console.error("Book page error:", error);
+        showError("حدث خطأ أثناء تحميل بيانات الكتاب. حاول مجددًا.");
+      }
+    })();
+  </script>
+</body>
+</html>
