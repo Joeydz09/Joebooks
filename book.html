@@ -261,6 +261,17 @@
         back.className = "btn back";
         back.href = "./index.html";
         back.textContent = "العودة إلى المكتبة";
+        back.addEventListener("click", event => {
+          try {
+            const previousPage = document.referrer ? new URL(document.referrer) : null;
+            if (history.length > 1 && previousPage && previousPage.origin === location.origin) {
+              event.preventDefault();
+              history.back();
+            }
+          } catch (_) {
+            // اترك الرابط الاحتياطي إلى المكتبة يعمل بصورة طبيعية
+          }
+        });
         actions.appendChild(back);
 
         details.appendChild(actions);
