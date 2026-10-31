@@ -1640,6 +1640,10 @@ html[data-theme="light"] #clearSearch {
           <span>كتاب ورواية</span>
         </div>
         <div class="stat">
+          <strong id="totalCategories">—</strong>
+          <span>تصنيف</span>
+        </div>
+        <div class="stat">
           <strong id="shownBooks">—</strong>
           <span>كتاب معروض</span>
         </div>
@@ -1674,6 +1678,13 @@ html[data-theme="light"] #clearSearch {
           <button class="clear-btn" id="clearSearch" type="button">مسح</button>
         </div>
 
+        <div class="filter-heading" id="categoryToggle" role="button" tabindex="0" aria-expanded="false" aria-controls="categories" style="cursor:pointer;">
+          <strong>تصفّح حسب التصنيف</strong>
+          <span id="categoryCount">جارٍ التحميل...</span>
+        </div>
+        <div class="categories" id="categories" hidden>
+          <button class="category-btn active" type="button" data-category="all">كل الكتب</button>
+        </div>
       </div>
     </section>
 
@@ -1895,6 +1906,9 @@ html[data-theme="light"] #clearSearch {
     const elements = {
       search: document.getElementById("searchInput"),
       clear: document.getElementById("clearSearch"),
+      categories: document.getElementById("categories"),
+      categoryCount: document.getElementById("categoryCount"),
+      totalCategories: document.getElementById("totalCategories"),
       grid: document.getElementById("booksGrid"),
       resultCount: document.getElementById("resultCount"),
       loadMoreWrap: document.getElementById("loadMoreWrap"),
@@ -1905,6 +1919,7 @@ html[data-theme="light"] #clearSearch {
 
     let allBooks = [];
     let filteredBooks = [];
+    let activeCategory = "all";
     let visibleCount = PAGE_SIZE;
     let loadError = false;
 
@@ -2026,10 +2041,51 @@ html[data-theme="light"] #clearSearch {
       elements.shownBooks.textContent = "0";
     }
 
+    function renderCategories() {
+      const counts = new Map();
+      for (const book of allBooks) {
+        const category = getCategory(book);
+        counts.set(category, (counts.get(category) || 0) + 1);
+      }
+      const sorted = [...counts.keys()].sort((a, b) => a.localeCompare(b, "ar"));
+      elements.categories.replaceChildren();
+      elements.categories.appendChild(makeCategoryButton("كل الكتب", "all", allBooks.length));
+      for (const category of sorted) {
+        elements.categories.appendChild(makeCategoryButton(category, category, counts.get(category)));
+      }
+      elements.totalCategories.textContent = sorted.length.toLocaleString("ar");
+      elements.categoryCount.textContent = sorted.length.toLocaleString("ar") + " تصنيف";
+      updateCategoryButtons();
+    }
+
+    function makeCategoryButton(label, value, count) {
+      const button = createElement("button", "category-btn" + (activeCategory === value ? " active" : ""), label + " · " + count.toLocaleString("ar"));
+      button.type = "button";
+      button.dataset.category = value;
+      button.setAttribute("aria-pressed", activeCategory === value ? "true" : "false");
+      button.addEventListener("click", () => {
+        activeCategory = value;
+        visibleCount = PAGE_SIZE;
+        updateCategoryButtons();
+        applyFilters();
+      });
+      return button;
+    }
+
+    function updateCategoryButtons() {
+      for (const button of elements.categories.querySelectorAll(".category-btn")) {
+        const isActive = button.dataset.category === activeCategory;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      }
+    }
+
     function applyFilters() {
       const query = normalize(elements.search.value);
 
       filteredBooks = allBooks.filter(book => {
+        const matchesCategory = activeCategory === "all" || getCategory(book) === activeCategory;
+        if (!matchesCategory) return false;
         if (!query) return true;
 
         const searchable = normalize([
@@ -2080,6 +2136,8 @@ html[data-theme="light"] #clearSearch {
         wrap.appendChild(image);
       }
 
+      const category = createElement("span", "category-tag", getCategory(book));
+      wrap.appendChild(category);
       return wrap;
     }
 
@@ -2476,6 +2534,17 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
       applyFilters();
     }
 
+    const categoryToggle = document.getElementById("categoryToggle");
+    function switchCategories() {
+      const opening = elements.categories.hidden;
+      elements.categories.hidden = !opening;
+      categoryToggle.setAttribute("aria-expanded", String(opening));
+    }
+    categoryToggle.addEventListener("click", switchCategories);
+    categoryToggle.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); switchCategories(); }
+    });
+
     elements.search.addEventListener("input", () => {
       visibleCount = PAGE_SIZE;
       applyFilters();
@@ -2527,7 +2596,7 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         filteredBooks = allBooks;
 
         elements.totalBooks.textContent = allBooks.length.toLocaleString("ar");
-
+        renderCategories();
         applyFilters();
         renderBookShelf();
         renderContinueReading();
@@ -2537,6 +2606,8 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         console.error("تعذر تحميل books.json:", error);
         loadError = true;
         elements.totalBooks.textContent = "—";
+        elements.totalCategories.textContent = "—";
+        elements.categoryCount.textContent = "غير متاح";
         elements.resultCount.textContent = "تعذّر تحميل البيانات";
 
         showState(
