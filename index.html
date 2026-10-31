@@ -549,6 +549,28 @@
       overflow: hidden;
     }
 
+    .summary-toggle {
+      align-self: flex-start;
+      border: 0;
+      padding: 2px 0;
+      background: transparent;
+      color: var(--silver);
+      font-size: 11px;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .summary-toggle:hover {
+      color: var(--white);
+    }
+
+    .summary-toggle:focus-visible {
+      outline: 2px solid var(--silver);
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+
     .book-actions {
       margin-top: auto;
       padding-top: 8px;
@@ -2342,7 +2364,19 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         const summary = createElement("p", "book-summary clamped", synopsis);
         info.appendChild(summary);
 
-              }
+        if (Array.from(synopsis).length > 100) {
+          const summaryToggle = createElement("button", "summary-toggle", "اقرأ المزيد");
+          summaryToggle.type = "button";
+          summaryToggle.setAttribute("aria-expanded", "false");
+          summaryToggle.addEventListener("click", () => {
+            const expanded = summary.classList.toggle("clamped") === false;
+            summaryToggle.textContent = expanded ? "اقرأ أقل" : "اقرأ المزيد";
+            summaryToggle.setAttribute("aria-expanded", String(expanded));
+          });
+          info.appendChild(summaryToggle);
+        }
+      }
+
       const actions = createElement("div", "book-actions");
 
       if (url) {
