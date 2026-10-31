@@ -549,6 +549,10 @@
       overflow: hidden;
     }
 
+    .summary-toggle[hidden] {
+      display: none;
+    }
+
     .summary-toggle {
       align-self: flex-start;
       border: 0;
@@ -2258,6 +2262,7 @@ function renderContinueReading() {
 
   grid.replaceChildren();
   for (const book of books) grid.appendChild(makeBookCard(book));
+  updateSummaryToggleVisibility(grid);
   section.hidden = books.length === 0;
 }
 
@@ -2314,6 +2319,24 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
       }
     }
 
+    function updateSummaryToggleVisibility(root) {
+      if (!root) return;
+      root.querySelectorAll(".book-summary").forEach(summary => {
+        const toggle = summary.nextElementSibling;
+        if (!toggle?.classList.contains("summary-toggle")) return;
+
+        const wasClamped = summary.classList.contains("clamped");
+        summary.classList.remove("clamped");
+        const styles = window.getComputedStyle(summary);
+        const lineHeight = Number.parseFloat(styles.lineHeight);
+        const fullHeight = summary.scrollHeight;
+        if (wasClamped) summary.classList.add("clamped");
+
+        toggle.hidden = !Number.isFinite(lineHeight) ||
+          fullHeight < (lineHeight * 4 - 1);
+      });
+    }
+
     function makeBookCard(book) {
       const card = createElement("article", "book-card");
       const title = getTitle(book);
@@ -2364,17 +2387,16 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         const summary = createElement("p", "book-summary clamped", synopsis);
         info.appendChild(summary);
 
-        if (Array.from(synopsis).length > 100) {
-          const summaryToggle = createElement("button", "summary-toggle", "اقرأ المزيد");
-          summaryToggle.type = "button";
-          summaryToggle.setAttribute("aria-expanded", "false");
-          summaryToggle.addEventListener("click", () => {
-            const expanded = summary.classList.toggle("clamped") === false;
-            summaryToggle.textContent = expanded ? "اقرأ أقل" : "اقرأ المزيد";
-            summaryToggle.setAttribute("aria-expanded", String(expanded));
-          });
-          info.appendChild(summaryToggle);
-        }
+        const summaryToggle = createElement("button", "summary-toggle", "اقرأ المزيد");
+        summaryToggle.type = "button";
+        summaryToggle.hidden = true;
+        summaryToggle.setAttribute("aria-expanded", "false");
+        summaryToggle.addEventListener("click", () => {
+          const expanded = summary.classList.toggle("clamped") === false;
+          summaryToggle.textContent = expanded ? "اقرأ أقل" : "اقرأ المزيد";
+          summaryToggle.setAttribute("aria-expanded", String(expanded));
+        });
+        info.appendChild(summaryToggle);
       }
 
       const actions = createElement("div", "book-actions");
@@ -2436,6 +2458,7 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
       }
 
       elements.grid.appendChild(fragment);
+      updateSummaryToggleVisibility(elements.grid);
 
       const hasMore = visibleCount < total;
       elements.loadMoreWrap.hidden = !hasMore;
