@@ -61,7 +61,7 @@ function render(){
   for(const b of list){
     const card=document.createElement("article");card.className="book";
     const cover=document.createElement("div");cover.className="cover";
-    if(b.cover){const img=document.createElement("img");img.src="../"+b.cover.replace(/^\\//,"");img.alt="غلاف "+b.title;img.loading="lazy";img.onerror=()=>{cover.textContent="📖"};cover.append(img)}else{cover.textContent="📖"}
+    if(b.cover){const img=document.createElement("img");img.src="../"+b.cover.replace(/^\/+/,"");img.alt="غلاف "+b.title;img.loading="lazy";img.onerror=()=>{cover.textContent="📖"};cover.append(img)}else{cover.textContent="📖"}
     const content=document.createElement("div");content.className="book-content";
     const head=document.createElement("div");head.className="book-head";
     const info=document.createElement("div");info.innerHTML='<div class="title"></div><div class="author"></div>';
