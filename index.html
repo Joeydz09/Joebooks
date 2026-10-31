@@ -1594,10 +1594,6 @@ html[data-theme="light"] #clearSearch {
           <span>كتاب ورواية</span>
         </div>
         <div class="stat">
-          <strong id="totalCategories">—</strong>
-          <span>تصنيف</span>
-        </div>
-        <div class="stat">
           <strong id="shownBooks">—</strong>
           <span>كتاب معروض</span>
         </div>
@@ -1621,13 +1617,6 @@ html[data-theme="light"] #clearSearch {
           <button class="clear-btn" id="clearSearch" type="button">مسح</button>
         </div>
 
-        <div class="filter-heading" id="categoryToggle" role="button" tabindex="0" aria-expanded="false" aria-controls="categories" style="cursor:pointer;">
-          <strong>تصفّح حسب التصنيف</strong>
-          <span id="categoryCount">جارٍ التحميل...</span>
-        </div>
-        <div class="categories" id="categories" hidden>
-          <button class="category-btn active" type="button" data-category="all">كل الكتب</button>
-        </div>
       </div>
     </section>
 
@@ -1849,20 +1838,16 @@ html[data-theme="light"] #clearSearch {
     const elements = {
       search: document.getElementById("searchInput"),
       clear: document.getElementById("clearSearch"),
-      categories: document.getElementById("categories"),
-      categoryCount: document.getElementById("categoryCount"),
       grid: document.getElementById("booksGrid"),
       resultCount: document.getElementById("resultCount"),
       loadMoreWrap: document.getElementById("loadMoreWrap"),
       loadMore: document.getElementById("loadMore"),
       totalBooks: document.getElementById("totalBooks"),
-      totalCategories: document.getElementById("totalCategories"),
       shownBooks: document.getElementById("shownBooks")
     };
 
     let allBooks = [];
     let filteredBooks = [];
-    let activeCategory = "all";
     let visibleCount = PAGE_SIZE;
     let loadError = false;
 
@@ -1984,71 +1969,10 @@ html[data-theme="light"] #clearSearch {
       elements.shownBooks.textContent = "0";
     }
 
-    function renderCategories() {
-      const counts = new Map();
-
-      for (const book of allBooks) {
-        const category = getCategory(book);
-        counts.set(category, (counts.get(category) || 0) + 1);
-      }
-
-      const sorted = [...counts.keys()].sort((a, b) => a.localeCompare(b, "ar"));
-
-      elements.categories.replaceChildren();
-      elements.categories.appendChild(
-        makeCategoryButton("كل الكتب", "all", allBooks.length)
-      );
-
-      for (const category of sorted) {
-        elements.categories.appendChild(
-          makeCategoryButton(category, category, counts.get(category))
-        );
-      }
-
-      elements.totalCategories.textContent = sorted.length.toLocaleString("ar");
-      elements.categoryCount.textContent =
-        sorted.length.toLocaleString("ar") + " تصنيف";
-
-      updateCategoryButtons();
-    }
-
-    function makeCategoryButton(label, value, count) {
-      const button = createElement(
-        "button",
-        "category-btn" + (activeCategory === value ? " active" : ""),
-        label + " · " + count.toLocaleString("ar")
-      );
-
-      button.type = "button";
-      button.dataset.category = value;
-      button.setAttribute("aria-pressed", activeCategory === value ? "true" : "false");
-
-      button.addEventListener("click", () => {
-        activeCategory = value;
-        visibleCount = PAGE_SIZE;
-        updateCategoryButtons();
-        applyFilters();
-      });
-
-      return button;
-    }
-
-    function updateCategoryButtons() {
-      for (const button of elements.categories.querySelectorAll(".category-btn")) {
-        const isActive = button.dataset.category === activeCategory;
-        button.classList.toggle("active", isActive);
-        button.setAttribute("aria-pressed", isActive ? "true" : "false");
-      }
-    }
-
     function applyFilters() {
       const query = normalize(elements.search.value);
 
       filteredBooks = allBooks.filter(book => {
-        const matchesCategory =
-          activeCategory === "all" || getCategory(book) === activeCategory;
-
-        if (!matchesCategory) return false;
         if (!query) return true;
 
         const searchable = normalize([
@@ -2098,9 +2022,6 @@ html[data-theme="light"] #clearSearch {
 
         wrap.appendChild(image);
       }
-
-      const category = createElement("span", "category-tag", getCategory(book));
-      wrap.appendChild(category);
 
       return wrap;
     }
@@ -2437,7 +2358,7 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         showState(
           "🔎",
           "لم نعثر على كتب مطابقة",
-          "جرّب عنوانًا آخر أو غيّر التصنيف.",
+          "جرّب البحث بعنوان آخر أو باسم المؤلف أو بكلمة من النبذة.",
           true
         );
         return;
@@ -2505,12 +2426,20 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
           throw new Error("تنسيق books.json غير متوقع");
         }
 
-        allBooks = books.filter(book => book && typeof book === "object");
+        allBooks = books
+          .filter(book => book && typeof book === "object")
+          .sort((a, b) => {
+            const idA = Number(a.id);
+            const idB = Number(b.id);
+            if (Number.isFinite(idA) && Number.isFinite(idB)) return idB - idA;
+            if (Number.isFinite(idB)) return 1;
+            if (Number.isFinite(idA)) return -1;
+            return 0;
+          });
         filteredBooks = allBooks;
 
         elements.totalBooks.textContent = allBooks.length.toLocaleString("ar");
 
-        renderCategories();
         applyFilters();
         renderBookShelf();
         renderContinueReading();
@@ -2520,8 +2449,6 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         console.error("تعذر تحميل books.json:", error);
         loadError = true;
         elements.totalBooks.textContent = "—";
-        elements.totalCategories.textContent = "—";
-        elements.categoryCount.textContent = "غير متاح";
         elements.resultCount.textContent = "تعذّر تحميل البيانات";
 
         showState(
@@ -2584,33 +2511,6 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
 })();
 </script>
 
-<style>
-#categories[hidden] { display: none !important; }
-#categoryToggle:focus-visible { outline: 2px solid #d6b77a; }
-#categoryToggle::after { content: '\2193'; margin-inline-start: 10px; }
-#categoryToggle[aria-expanded="true"]::after { content: '\2191'; }
-</style>
-<script>
-(function () {
-  const toggle = document.getElementById("categoryToggle");
-  const categories = document.getElementById("categories");
-  if (!toggle || !categories) return;
-
-  function switchCategories() {
-    const opening = categories.hidden;
-    categories.hidden = !opening;
-    toggle.setAttribute("aria-expanded", String(opening));
-  }
-
-  toggle.addEventListener("click", switchCategories);
-  toggle.addEventListener("keydown", function (event) {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      switchCategories();
-    }
-  });
-})();
-</script>
 
 <script>
 (function () {
