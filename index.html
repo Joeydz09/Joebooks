@@ -313,16 +313,22 @@
       outline-offset: 4px;
       border-radius: 6px;
     }
-    #categoryToggle::after {
-      content: '⌄';
+    #categoryToggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .category-arrow {
       display: inline-block;
-      margin-inline-start: 10px;
-      color: var(--gold, #d6b77a);
-      font-size: 18px;
+      flex: 0 0 auto;
+      margin-inline-start: 8px;
+      color: #d6b77a;
+      font-size: 22px;
       line-height: 1;
       transition: transform .2s ease;
     }
-    #categoryToggle[aria-expanded="true"]::after {
+    #categoryToggle[aria-expanded="true"] .category-arrow {
       transform: rotate(180deg);
     }
 
@@ -1703,6 +1709,7 @@ html[data-theme="light"] #clearSearch {
         <div class="filter-heading" id="categoryToggle" role="button" tabindex="0" aria-expanded="false" aria-controls="categories" style="cursor:pointer;">
           <strong>تصفّح حسب التصنيف</strong>
           <span id="categoryCount">جارٍ التحميل...</span>
+          <span class="category-arrow" aria-hidden="true">⌄</span>
         </div>
         <div class="categories" id="categories" hidden>
           <button class="category-btn active" type="button" data-category="all">كل الكتب</button>
