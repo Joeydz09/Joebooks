@@ -1364,7 +1364,7 @@
     .daily-features{width:min(1180px,calc(100% - 32px));margin:0 auto 24px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
     .daily-card{min-width:0;border:1px solid rgba(205,220,241,.18);border-radius:16px;background:linear-gradient(145deg,#172944,#0d192b);padding:16px;box-shadow:0 8px 22px rgba(0,0,0,.14)}
     .daily-kicker{color:#a8b6c9;font-size:10px;letter-spacing:.2px;margin:0 0 3px}
-    .daily-card h2{color:#dce4ef;font-size:16px;margin:0 0 9px}
+    .daily-card h2{color:#dce4ef;font-size:16px;margin:0 0 9px;text-align:center}
     .daily-quote-space{min-height:64px;border:1px dashed rgba(214,184,117,.32);border-radius:11px;background:rgba(214,184,117,.035);padding:10px;color:#f0dba8;display:flex;align-items:center;justify-content:center;text-align:center;font-family:"Amiri",Tahoma,serif;font-size:17px;font-weight:700;line-height:1.7;letter-spacing:.1px;text-shadow:0 0 7px rgba(240,219,168,.28),0 0 16px rgba(214,184,117,.16);animation:dailyQuoteGlow 3.2s ease-in-out infinite alternate}
     @keyframes dailyQuoteGlow{from{text-shadow:0 0 5px rgba(240,219,168,.2),0 0 12px rgba(214,184,117,.1)}to{text-shadow:0 0 9px rgba(240,219,168,.55),0 0 20px rgba(214,184,117,.28)}}
     .daily-book-row{display:flex;gap:11px;align-items:stretch;min-height:112px}
@@ -1622,12 +1622,10 @@ html[data-theme="light"] #clearSearch {
 
     <section class="daily-features" aria-label="محتوى اليوم">
       <article class="daily-card" aria-labelledby="dailyQuoteHeading">
-        <p class="daily-kicker">كلمات تستحق التأمل</p>
         <h2 id="dailyQuoteHeading">اقتباس اليوم</h2>
         <div class="daily-quote-space" id="dailyQuoteText" aria-live="polite"></div>
       </article>
       <article class="daily-card" aria-labelledby="dailyBookHeading">
-        <p class="daily-kicker">اختيار يومي من رفوف المكتبة</p>
         <h2 id="dailyBookHeading">كتاب اليوم</h2>
         <div class="daily-book-row" id="dailyBookContent"><span class="daily-book-author">جارٍ اختيار كتاب اليوم...</span></div>
       </article>
