@@ -2617,6 +2617,20 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
       const link = bookId ? "./book.html?id=" + encodeURIComponent(bookId) : (String(book.url || book.link || ""));
 
       bookBox.replaceChildren();
+      bookBox.style.cursor = link ? "pointer" : "default";
+      bookBox.onclick = link ? event => {
+        if (event.target.closest("a")) return;
+        window.location.href = link;
+      } : null;
+      bookBox.onkeydown = link ? event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          window.location.href = link;
+        }
+      } : null;
+      bookBox.setAttribute("role", link ? "link" : "group");
+      if (link) bookBox.setAttribute("tabindex", "0");
+      else bookBox.removeAttribute("tabindex");
       if (cover) {
         const image = document.createElement("img");
         image.className = "daily-book-cover";
@@ -2656,13 +2670,15 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         summary.textContent = synopsis.length > 150 ? synopsis.slice(0, 147) + "..." : synopsis;
         info.appendChild(summary);
       }
-      if (link && /^https:\/\//i.test(link)) {
+      if (link) {
         const anchor = document.createElement("a");
         anchor.className = "daily-book-link";
         anchor.href = link;
-        anchor.target = "_blank";
-        anchor.rel = "noopener noreferrer";
-        anchor.textContent = "اكتشف الكتاب";
+        if (/^https:\/\//i.test(link)) {
+          anchor.target = "_blank";
+          anchor.rel = "noopener noreferrer";
+        }
+        anchor.textContent = "اقرأ النبذة كاملة";
         info.appendChild(anchor);
       }
       bookBox.appendChild(info);
