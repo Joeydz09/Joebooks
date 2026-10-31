@@ -8,7 +8,7 @@
 <style>
 :root{--navy:#0b1426;--light:#111f36;--card:#14223a;--silver:#dce4ef;--muted:#a8b6c9;--line:rgba(205,220,241,.15);--gold:#f6c453}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,rgba(95,125,173,.2),transparent 55%),var(--navy);color:var(--silver);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif}
-main{max-width:980px;margin:auto;padding:24px 16px 48px}.top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.brand{font-size:24px;font-weight:800}.sub{color:var(--muted);font-size:14px;margin-top:6px}
+main{max-width:980px;margin:auto;padding:24px 16px 48px}.top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.brand{font-size:24px;font-weight:800}.sub{color:var(--muted);font-size:14px;margin-top:6px}.tagline{flex:0 0 100%;text-align:center;color:#d4af37;font-size:17px;font-weight:700;margin-top:2px}
 .pill{border:1px solid var(--line);border-radius:999px;padding:9px 13px;color:var(--muted);font-size:13px}
 .notice{margin:22px 0;padding:14px 16px;border:1px solid rgba(246,196,83,.35);background:rgba(246,196,83,.07);border-radius:14px;line-height:1.8;font-size:14px}
 .tabs{display:flex;gap:8px;margin:22px 0}.tabs button,.star{font:inherit;cursor:pointer;border:1px solid var(--line);color:var(--silver);background:var(--light);border-radius:12px;padding:10px 16px}.tabs button.active{background:var(--silver);color:var(--navy);font-weight:700}
@@ -23,7 +23,7 @@ footer{margin-top:28px;color:var(--muted);font-size:12px;line-height:1.8}
 </head>
 <body>
 <main>
-<header class="top"><div><div class="brand">📚 مكتبة الأحلام</div><div class="sub">كتبك المحفوظة في مكتبة الأحلام</div><div class="sub" style="margin-top:8px">مساحتك الخاصة بين الكتب</div></div><div class="pill"><a href="../index.html" style="color:inherit;text-decoration:none">↩ العودة إلى الموقع</a></div></header>
+<header class="top"><div><div class="brand">📚 مكتبة الأحلام</div><div class="sub">كتبك المحفوظة في مكتبة الأحلام</div></div><div class="pill"><a href="../index.html" style="color:inherit;text-decoration:none">↩ العودة إلى الموقع</a></div><div class="tagline">مساحتك الخاصة بين الكتب</div></header>
 
 <nav class="tabs" aria-label="مكتبتي"><button id="mineTab" class="active" type="button">⭐ مكتبتي <span id="mineCount">0</span></button></nav>
 <p class="count" id="countText">كتب تجريبية</p><section class="grid" id="books" aria-live="polite"></section>
