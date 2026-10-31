@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b1426">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
   <meta name="description" content="مكتبة الأحلام — اكتشف رواياتك وكتبك المفضلة في مكتبة إلكترونية أنيقة.">
   <title>مكتبة الأحلام | عالم من الحكايات</title>
 
@@ -1600,6 +1603,19 @@ html[data-theme="light"] #clearSearch {
       </div>
     </section>
 
+    <section class="daily-features" aria-label="محتوى اليوم">
+      <article class="daily-card" aria-labelledby="dailyQuoteHeading">
+        <p class="daily-kicker">كلمات تستحق التأمل</p>
+        <h2 id="dailyQuoteHeading">اقتباس اليوم</h2>
+        <div class="daily-quote-space" id="dailyQuoteText" aria-live="polite"></div>
+      </article>
+      <article class="daily-card" aria-labelledby="dailyBookHeading">
+        <p class="daily-kicker">اختيار يومي من رفوف المكتبة</p>
+        <h2 id="dailyBookHeading">كتاب اليوم</h2>
+        <div class="daily-book-row" id="dailyBookContent"><span class="daily-book-author">جارٍ اختيار كتاب اليوم...</span></div>
+      </article>
+    </section>
+
     <section class="container" aria-label="البحث عن الكتب">
       <div class="search-panel">
         <label class="search-label" for="searchInput">ابحث عن كتابك القادم</label>
@@ -2527,6 +2543,119 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
 
   location.replace("./book.html?id=" + match[1]);
 })();
+</script>
+<script>
+(() => {
+  const quoteBox = document.getElementById("dailyQuoteText");
+  const bookBox = document.getElementById("dailyBookContent");
+  const getAlgiersDay = () => Number(new Intl.DateTimeFormat("en", {
+    timeZone: "Africa/Algiers", day: "numeric"
+  }).format(new Date()));
+
+  // اقتباس اليوم: 30 اقتباسًا، ويعود اليوم 31 إلى الاقتباس الأول.
+  fetch("./daily-content.json?v=2", { cache: "no-store" })
+    .then(response => {
+      if (!response.ok) throw new Error("daily-content.json: " + response.status);
+      return response.json();
+    })
+    .then(data => {
+      const quotes = Array.isArray(data.quotes) ? data.quotes : [];
+      const day = getAlgiersDay();
+      const quote = quotes.find(item => Number(item.day) === ((day - 1) % 30) + 1);
+      quoteBox.textContent = quote && quote.text ? "«" + quote.text + "»" : "سيُضاف اقتباس هذا اليوم قريبًا.";
+    })
+    .catch(error => {
+      console.error("Daily quote load failed:", error);
+      quoteBox.textContent = "تعذّر تحميل اقتباس اليوم.";
+    });
+
+  // كتاب مختلف لكل يوم من أول 30 كتابًا صالحًا في قاعدة المكتبة.
+  fetch("./books.json?v=2", { cache: "no-store" })
+    .then(response => {
+      if (!response.ok) throw new Error("books.json: " + response.status);
+      return response.json();
+    })
+    .then(data => {
+      const allBooks = Array.isArray(data) ? data : (Array.isArray(data.books) ? data.books : []);
+      const valid = allBooks.filter(book => book && typeof book === "object" && (book.title || book.name));
+      if (!valid.length) throw new Error("No valid books in books.json");
+      const dateKey = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Africa/Algiers",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(new Date());
+      let seed = 2166136261;
+      for (let i = 0; i < dateKey.length; i++) {
+        seed ^= dateKey.charCodeAt(i);
+        seed = Math.imul(seed, 16777619);
+      }
+      const book = valid[(seed >>> 0) % valid.length];
+      const title = String(book.title || book.name || "كتاب بدون عنوان");
+      const author = String(book.author || book.writer || "");
+      const synopsis = String(book.synopsis || book.summary || book.description || "");
+      const rawCover = String(book.cover || book.cover_url || book.image || book.image_url || book.thumbnail || book.thumbnail_url || "");
+      const cover = rawCover ? ( /^(https?:)?\/\//i.test(rawCover) ? rawCover : "./" + rawCover.replace(/^\.\//, "").replace(/^\//, "") ) : "";
+      const bookId = book.id != null ? String(book.id) : "";
+      const link = bookId ? "./book.html?id=" + encodeURIComponent(bookId) : (String(book.url || book.link || ""));
+
+      bookBox.replaceChildren();
+      if (cover) {
+        const image = document.createElement("img");
+        image.className = "daily-book-cover";
+        image.alt = "غلاف " + title;
+        image.loading = "lazy";
+        image.src = cover;
+        image.onerror = () => {
+          image.remove();
+          const placeholder = document.createElement("div");
+          placeholder.className = "daily-book-cover daily-book-placeholder";
+          placeholder.textContent = "▤";
+          bookBox.prepend(placeholder);
+        };
+        bookBox.appendChild(image);
+      } else {
+        const placeholder = document.createElement("div");
+        placeholder.className = "daily-book-cover daily-book-placeholder";
+        placeholder.textContent = "▤";
+        bookBox.appendChild(placeholder);
+      }
+
+      const info = document.createElement("div");
+      info.className = "daily-book-info";
+      const heading = document.createElement("p");
+      heading.className = "daily-book-title";
+      heading.textContent = title;
+      info.appendChild(heading);
+      if (author) {
+        const by = document.createElement("p");
+        by.className = "daily-book-author";
+        by.textContent = "المؤلف: " + author;
+        info.appendChild(by);
+      }
+      if (synopsis) {
+        const summary = document.createElement("p");
+        summary.className = "daily-book-summary";
+        summary.textContent = synopsis.length > 150 ? synopsis.slice(0, 147) + "..." : synopsis;
+        info.appendChild(summary);
+      }
+      if (link && /^https:\/\//i.test(link)) {
+        const anchor = document.createElement("a");
+        anchor.className = "daily-book-link";
+        anchor.href = link;
+        anchor.target = "_blank";
+        anchor.rel = "noopener noreferrer";
+        anchor.textContent = "اكتشف الكتاب";
+        info.appendChild(anchor);
+      }
+      bookBox.appendChild(info);
+    })
+    .catch(error => {
+      console.error("Daily book load failed:", error);
+      bookBox.textContent = "تعذّر تحميل كتاب اليوم. حاول تحديث الصفحة.";
+    });
+})();
+</script>
 </script>
 </body>
 </html>
