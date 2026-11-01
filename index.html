@@ -2725,20 +2725,30 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
 (() => {
   const quoteBox = document.getElementById("dailyQuoteText");
   const bookBox = document.getElementById("dailyBookContent");
-  const getAlgiersDay = () => Number(new Intl.DateTimeFormat("en", {
-    timeZone: "Africa/Algiers", day: "numeric"
-  }).format(new Date()));
+  // رقم يوم متسلسل حسب التاريخ المحلي في الجزائر، حتى لا يعاد الاقتباس عند بداية شهر جديد.
+  const getAlgiersDayIndex = () => {
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Africa/Algiers",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).formatToParts(new Date());
+    const part = type => Number(parts.find(item => item.type === type).value);
+    const localDate = Date.UTC(part("year"), part("month") - 1, part("day"));
+    return Math.floor(localDate / 86400000);
+  };
 
-  // اقتباس اليوم: 30 اقتباسًا، ويعود اليوم 31 إلى الاقتباس الأول.
-  fetch("./daily-content.json?v=2", { cache: "no-store" })
+  // اقتباس اليوم: يتغير يوميًا وفق التاريخ الكامل بتوقيت الجزائر.
+  fetch("./daily-content.json?v=3", { cache: "no-store" })
     .then(response => {
       if (!response.ok) throw new Error("daily-content.json: " + response.status);
       return response.json();
     })
     .then(data => {
       const quotes = Array.isArray(data.quotes) ? data.quotes : [];
-      const day = getAlgiersDay();
-      const quote = quotes.find(item => Number(item.day) === ((day - 1) % 30) + 1);
+      const dayIndex = getAlgiersDayIndex();
+      const quoteNumber = (dayIndex % 30) + 1;
+      const quote = quotes.find(item => Number(item.day) === quoteNumber);
       quoteBox.textContent = quote && quote.text ? "«" + quote.text + "»" : "سيُضاف اقتباس هذا اليوم قريبًا.";
     })
     .catch(error => {
