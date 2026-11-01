@@ -1,0 +1,2867 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1426">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="description" content="مكتبة الأحلام — اكتشف رواياتك وكتبك المفضلة في مكتبة إلكترونية أنيقة.">
+  <title>معاينة إصلاح اقتباس اليوم | مكتبة الأحلام</title>
+
+  <style>
+    :root {
+      --navy: #0b1426;
+      --navy-light: #111f36;
+      --navy-card: #14223a;
+      --silver: #dce4ef;
+      --silver-muted: #a8b6c9;
+      --silver-dark: #71839c;
+      --white: #f8faff;
+      --line: rgba(205, 220, 241, .15);
+      --shadow: 0 16px 40px rgba(0, 0, 0, .24);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      color-scheme: dark;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 50% -15%, rgba(95, 125, 173, .19), transparent 55%),
+        var(--navy);
+      color: var(--white);
+      font-family: Tahoma, Arial, sans-serif;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    button, input, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    a { color: inherit; }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin-inline: auto;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      background: rgba(8, 16, 30, .88);
+      backdrop-filter: blur(14px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      min-width: 0;
+    }
+
+    .brand-icon {
+      width: 46px;
+      height: 46px;
+      flex: 0 0 46px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(220, 228, 239, .55);
+      border-radius: 14px;
+      background: linear-gradient(145deg, #243754, #101b2e);
+      font-size: 25px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .18);
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--silver);
+      line-height: 1.4;
+    }
+
+    .brand-subtitle {
+      color: var(--silver-muted);
+      font-size: 11px;
+      letter-spacing: .5px;
+    }
+
+    .nav-link {
+      color: var(--silver-muted);
+      text-decoration: none;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .nav-link:hover { color: var(--white); }
+
+    .hero {
+      padding: 66px 0 42px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "❦";
+      position: absolute;
+      inset-block-start: -35px;
+      inset-inline-start: -25px;
+      font-size: 180px;
+      line-height: 1;
+      color: rgba(210, 224, 243, .025);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--silver);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 15px;
+      background: rgba(255, 255, 255, .035);
+      font-size: 12px;
+      margin-bottom: 14px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #c5d4e8;
+      box-shadow: 0 0 10px rgba(197, 212, 232, .7);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 57px);
+      letter-spacing: -1.5px;
+      line-height: 1.35;
+      color: #f3f6fc;
+    }
+
+    h1 span {
+      background: linear-gradient(100deg, #8499b5, #f3f6fc 48%, #9daec4);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-description {
+      color: var(--silver-muted);
+      font-size: 15px;
+      max-width: 550px;
+      margin: 12px auto 25px;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .stat {
+      min-width: 115px;
+      padding: 10px 17px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .025);
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--silver);
+      font-size: 20px;
+      line-height: 1.5;
+    }
+
+    .stat span {
+      color: var(--silver-muted);
+      font-size: 11px;
+    }
+
+    .search-panel {
+      padding: 23px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(26, 43, 68, .9), rgba(13, 25, 43, .96));
+      box-shadow: var(--shadow);
+      margin-bottom: 35px;
+    }
+
+    .search-label {
+      display: block;
+      color: var(--silver);
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 0;
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      right: 16px;
+      transform: translateY(-50%);
+      font-size: 19px;
+      pointer-events: none;
+      opacity: .8;
+    }
+
+    
+#searchInput {
+  width: 100%;
+  min-height: 54px;
+  border: 1px solid rgba(205, 220, 241, .2);
+  border-radius: 13px;
+  outline: none;
+  background: rgba(4, 12, 25, .55);
+  color: var(--white);
+  padding: 12px 48px 12px 14px;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+#searchInput:focus {
+  border-color: rgba(214, 184, 117, .85);
+  box-shadow: 0 0 0 3px rgba(214, 184, 117, .12);
+}
+
+#searchInput::placeholder {
+  color: #8190a5;
+}
+
+
+    #searchInput::placeholder { color: #8190a5; }
+
+    #searchInput:focus {
+      border-color: #b8c8df;
+      box-shadow: 0 0 0 3px rgba(184, 200, 223, .1);
+    }
+
+    .clear-btn, .reset-btn, .more-btn {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .045);
+      color: var(--silver);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .clear-btn { padding: 0 18px; }
+
+    .clear-btn:hover, .reset-btn:hover, .more-btn:hover {
+      background: rgba(205, 220, 241, .12);
+      border-color: rgba(205, 220, 241, .38);
+    }
+
+    .filter-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 23px 0 10px;
+    }
+
+    .filter-heading strong {
+      font-size: 13px;
+      color: var(--silver);
+    }
+
+    #categoryCount {
+      color: var(--silver-muted);
+      font-size: 11px;
+    }
+
+    #categoryToggle {
+      cursor: pointer;
+      user-select: none;
+    }
+    #categoryToggle:focus-visible {
+      outline: 2px solid #d6b77a;
+      outline-offset: 4px;
+      border-radius: 6px;
+    }
+    #categoryToggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .category-arrow {
+      display: inline-block;
+      flex: 0 0 auto;
+      margin-inline-start: 8px;
+      color: #d6b77a;
+      font-size: 22px;
+      line-height: 1;
+      transition: transform .2s ease;
+    }
+    #categoryToggle[aria-expanded="true"] .category-arrow {
+      transform: rotate(180deg);
+    }
+
+    .categories {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* احترم حالة الإخفاء رغم display:flex */
+    .categories[hidden] {
+      display: none !important;
+    }
+
+    
+
+.category-btn {
+  padding: 7px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--silver-muted);
+  background: rgba(255, 255, 255, .025);
+  cursor: pointer;
+  font-size: 12px;
+  transition: color .2s ease, background .2s ease,
+              border-color .2s ease, box-shadow .2s ease;
+}
+
+.category-btn:hover {
+  color: var(--gold-light);
+  border-color: rgba(214, 184, 117, .65);
+  background: rgba(214, 184, 117, .07);
+  box-shadow: 0 3px 10px rgba(214, 184, 117, .08);
+}
+
+.category-btn.active {
+  color: #171b24;
+  border-color: var(--gold);
+  background: linear-gradient(135deg, #f0dba8, #c6a45f);
+  font-weight: bold;
+  box-shadow: 0 3px 10px rgba(214, 184, 117, .12);
+}
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 25px;
+      color: var(--silver);
+    }
+
+    .section-subtitle {
+      color: var(--silver-muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    #resultCount {
+      color: var(--silver-muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 22px 16px;
+    }
+
+    .book-card {
+      min-width: 0;
+      border: 1px solid var(--line);
+      background: linear-gradient(160deg, rgba(24, 39, 62, .95), rgba(13, 25, 43, .98));
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+
+    
+.book-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(214, 184, 117, .75);
+  box-shadow:
+    0 18px 35px rgba(0, 0, 0, .25),
+    0 0 14px rgba(214, 184, 117, .10);
+}
+
+    .cover-wrap {
+      position: relative;
+      aspect-ratio: 3 / 4.25;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 35%, #2b405f, transparent 70%),
+        linear-gradient(145deg, #192b46, #0a1323);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .cover-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(255, 255, 255, .045);
+      pointer-events: none;
+    }
+
+    .book-cover {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .45s;
+    }
+
+    .book-card:hover .book-cover { transform: scale(1.045); }
+
+    .cover-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px;
+      text-align: center;
+      color: var(--silver);
+    }
+
+    .placeholder-icon {
+      font-size: 42px;
+      opacity: .8;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, .3));
+    }
+
+    .placeholder-title {
+      font-size: 13px;
+      font-weight: bold;
+      overflow-wrap: anywhere;
+      line-height: 1.7;
+    }
+
+    .placeholder-rule {
+      width: 35px;
+      height: 1px;
+      background: var(--silver-dark);
+      margin-top: 3px;
+    }
+
+    .category-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 2;
+      max-width: calc(100% - 20px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 10px;
+      padding: 4px 9px;
+      color: #f0f4fb;
+      background: rgba(8, 18, 33, .86);
+      border: 1px solid rgba(220, 228, 239, .22);
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+    }
+
+    .book-info {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 13px;
+      gap: 8px;
+    }
+
+    
+/* JOEBOOKS_MAKTABATI_MAIN_V1 */
+.book-title-row{display:flex;align-items:flex-start;gap:8px;justify-content:space-between}
+.book-title-row .book-title{flex:1;min-width:0}
+.maktabati-star{display:inline-flex;align-items:center;justify-content:center;flex:0 0 38px;width:38px;height:38px;padding:0;border:1px solid var(--line);border-radius:10px;background:#0b1426;color:#dce4ef;font-size:25px;line-height:1;cursor:pointer}
+.maktabati-star.saved{color:#f0dba8;border-color:rgba(214,184,117,.7);background:rgba(214,184,117,.1)}
+.maktabati-star:disabled{opacity:.6;cursor:wait}
+
+.book-title {
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0;
+  overflow-wrap: anywhere;
+  transition: color .25s ease;
+}
+
+.book-card:hover .book-title {
+  color: var(--gold-light);
+}
+
+@media (max-width: 720px) {
+  .book-title {
+    font-size: 13px;
+    line-height: 1.65;
+  }
+}
+
+
+    .book-author {
+      font-size: 11px;
+      color: var(--silver-muted);
+      overflow-wrap: anywhere;
+    }
+
+    .book-author strong {
+      color: var(--silver);
+      font-weight: normal;
+    }
+
+    .book-meta {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      color: var(--silver-muted);
+      font-size: 10px;
+    }
+
+    .meta-chip {
+      padding: 3px 7px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+    }
+
+    .book-summary {
+      color: #b5c1d2;
+      font-size: 11px;
+      line-height: 1.9;
+      margin: 0;
+      overflow-wrap: anywhere;
+      white-space: pre-line;
+    }
+
+    .book-summary.clamped {
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .summary-toggle[hidden] {
+      display: none;
+    }
+
+    .summary-toggle {
+      align-self: flex-start;
+      border: 0;
+      padding: 2px 0;
+      background: transparent;
+      color: var(--silver);
+      font-size: 11px;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .summary-toggle:hover {
+      color: var(--white);
+    }
+
+    .summary-toggle:focus-visible {
+      outline: 2px solid var(--silver);
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+
+    .book-actions {
+      margin-top: auto;
+      padding-top: 8px;
+    }
+
+   
+.open-book {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid rgba(214, 184, 117, .75);
+  border-radius: 11px;
+  background: linear-gradient(135deg, #f0dba8, #c6a45f);
+  color: #171b24;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  transition: filter .2s, transform .2s, box-shadow .2s;
+  box-shadow: 0 3px 10px rgba(214, 184, 117, .10);
+}
+
+.open-book:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(214, 184, 117, .22);
+}
+
+    .no-link {
+      display: block;
+      text-align: center;
+      color: var(--silver-muted);
+      font-size: 11px;
+      padding: 10px 4px;
+    }
+
+    .state-box {
+      grid-column: 1 / -1;
+      text-align: center;
+      border: 1px dashed var(--line);
+      border-radius: 18px;
+      padding: 45px 20px;
+      background: rgba(255, 255, 255, .02);
+    }
+
+    .state-icon { font-size: 37px; }
+
+    .state-box h3 {
+      margin: 8px 0;
+      color: var(--silver);
+    }
+
+    .state-box p {
+      color: var(--silver-muted);
+      font-size: 13px;
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .reset-btn { margin-top: 15px; padding: 9px 17px; }
+
+    .load-more-wrap {
+      text-align: center;
+      padding: 35px 0 15px;
+    }
+
+    .more-btn {
+      min-width: 190px;
+      padding: 12px 22px;
+      font-size: 13px;
+    }
+
+    .more-btn:disabled { opacity: .55; cursor: default; }
+
+    .site-footer {
+      margin-top: 70px;
+      border-top: 1px solid var(--line);
+      background: rgba(4, 10, 20, .35);
+      padding: 32px 0;
+      text-align: center;
+    }
+
+    .footer-brand {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--silver);
+    }
+
+    .footer-text {
+      color: var(--silver-muted);
+      font-size: 12px;
+      margin: 5px 0 0;
+    }
+
+    .footer-note {
+      color: #718096;
+      font-size: 10px;
+      margin-top: 13px;
+    }
+
+    .back-top {
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--silver);
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    @media (max-width: 1000px) {
+      .books-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .container { width: min(100% - 24px, 560px); }
+      .nav { min-height: 66px; }
+      .brand-icon { width: 41px; height: 41px; flex-basis: 41px; }
+      .brand-name { font-size: 17px; }
+      .nav-link { font-size: 11px; }
+      .hero { padding: 45px 0 30px; }
+      .hero-description { font-size: 13px; }
+      .search-panel { padding: 16px; border-radius: 17px; }
+      .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 11px; }
+      .book-info { padding: 11px; gap: 7px; }
+      .book-title { font-size: 13px; }
+      .section-title { font-size: 21px; }
+    }
+
+    @media (max-width: 360px) {
+      .brand-subtitle { display: none; }
+      .nav-link { font-size: 10px; }
+      .books-grid { gap: 10px; }
+      .book-info { padding: 9px; }
+      .open-book { font-size: 11px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+    
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.site-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid rgba(205, 220, 241, .18);
+  border-radius: 18px;
+  background: linear-gradient(135deg, #14223a, #0d192b);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .16);
+  transition: border-color .2s, transform .2s;
+}
+
+.site-card:hover {
+  border-color: rgba(205, 220, 241, .48);
+  transform: translateY(-3px);
+}
+
+.site-icon {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(205, 220, 241, .25);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, .05);
+  color: #dce4ef;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.site-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.site-details h3 {
+  margin: 0 0 4px;
+  color: #f8faff;
+  font-size: 16px;
+}
+
+.site-details p {
+  margin: 0;
+  color: #a8b6c9;
+  font-size: 12px;
+}
+
+.site-visit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border: 1px solid #dce4ef;
+  border-radius: 11px;
+  background: #dce4ef;
+  color: #101a2b;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.site-visit:hover {
+  background: #fff;
+}
+
+.sites-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 800px) {
+  .sites-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-card {
+    gap: 12px;
+    padding: 14px;
+    flex-wrap: wrap;
+  }
+
+  .site-icon {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+  }
+
+  .site-details h3 {
+    font-size: 14px;
+  }
+
+  .site-visit {
+    width: 100%;
+  }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.site-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid rgba(205, 220, 241, .18);
+  border-radius: 18px;
+  background: linear-gradient(135deg, #14223a, #0d192b);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .16);
+  transition: border-color .2s, transform .2s;
+}
+
+.site-card:hover {
+  border-color: rgba(205, 220, 241, .48);
+  transform: translateY(-3px);
+}
+
+.site-icon {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(205, 220, 241, .25);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, .05);
+  color: #dce4ef;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.site-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.site-details h3 {
+  margin: 0 0 4px;
+  color: #f8faff;
+  font-size: 16px;
+}
+
+.site-details p {
+  margin: 0;
+  color: #a8b6c9;
+  font-size: 12px;
+}
+
+.site-visit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border: 1px solid #dce4ef;
+  border-radius: 11px;
+  background: #dce4ef;
+  color: #101a2b;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.site-visit:hover {
+  background: #fff;
+}
+
+.sites-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 800px) {
+  .sites-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-card {
+    gap: 12px;
+    padding: 14px;
+    flex-wrap: wrap;
+  }
+
+  .site-icon {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+  }
+
+  .site-details h3 {
+    font-size: 14px;
+  }
+
+  .site-visit {
+    width: 100%;
+  }
+}
+
+/* DREAMS_LIBRARY_DESIGN_PREVIEW_V1 */
+
+/* هوية مكتبة الأحلام: الكحلي والذهبي */
+:root {
+  --gold: #d6b875;
+  --gold-light: #f0dba8;
+  --line: rgba(214, 184, 117, .2);
+}
+
+.brand-icon {
+  border-color: rgba(214, 184, 117, .6);
+  background: linear-gradient(145deg, #263a57, #101b2e);
+  box-shadow: 0 4px 22px rgba(214, 184, 117, .1);
+}
+
+.brand-name {
+  color: #f0dba8;
+}
+
+.eyebrow {
+  border-color: rgba(214, 184, 117, .3);
+  color: var(--gold-light);
+}
+
+.eyebrow::before {
+  background: var(--gold);
+  box-shadow: 0 0 10px rgba(214, 184, 117, .5);
+}
+
+#searchInput:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(214, 184, 117, .12);
+}
+
+.category-btn.active {
+  color: #171b24;
+  background: linear-gradient(135deg, #f0dba8, #c6a45f);
+  border-color: var(--gold);
+}
+
+.books-grid {
+  gap: 24px 17px;
+}
+
+.book-card {
+  border-color: rgba(214, 184, 117, .16);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+}
+
+.book-card:hover {
+  border-color: rgba(214, 184, 117, .55);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, .28);
+}
+
+.book-card:hover .book-title {
+  color: var(--gold-light);
+}
+
+.open-book {
+  border-color: rgba(214, 184, 117, .7);
+  background: linear-gradient(135deg, #f0dba8, #c6a45f);
+  color: #171b24;
+}
+
+.more-btn {
+  border-color: rgba(214, 184, 117, .35);
+}
+
+.more-btn:hover {
+  border-color: var(--gold);
+}
+
+.site-card:hover {
+  border-color: rgba(214, 184, 117, .5);
+}
+
+.site-icon {
+  border-color: rgba(214, 184, 117, .3);
+  color: var(--gold-light);
+}
+
+.site-visit {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, #f0dba8, #c6a45f);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-card,
+  .book-cover,
+  .site-card {
+    transition: none !important;
+  }
+}
+
+/* DREAMS_LIBRARY_DESIGN_PREVIEW_V1 */
+
+/* هوية مكتبة الأحلام: الكحلي والذهبي */
+:root {
+  --gold: #d6b875;
+  --gold-light: #f0dba8;
+  --line: rgba(214, 184, 117, .2);
+}
+
+.brand-icon {
+  border-color: rgba(214, 184, 117, .6);
+  background: linear-gradient(145deg, #263a57, #101b2e);
+  box-shadow: 0 4px 22px rgba(214, 184, 117, .1);
+}
+
+.brand-name {
+  color: #f0dba8;
+}
+
+.eyebrow {
+  border-color: rgba(214, 184, 117, .3);
+  color: var(--gold-light);
+}
+
+.eyebrow::before {
+  background: var(--gold);
+  box-shadow: 0 0 10px rgba(214, 184, 117, .5);
+}
+
+#searchInput:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(214, 184, 117, .12);
+}
+
+.category-btn.active {
+  color: #171b24;
+  background: linear-gradient(135deg, #f0dba8, #c6a45f);
+  border-color: var(--gold);
+}
+
+.books-grid {
+  gap: 24px 17px;
+}
+
+.book-card {
+  border-color: rgba(214, 184, 117, .16);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+}
+
+.book-card:hover {
+  border-color: rgba(214, 184, 117, .55);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, .28);
+}
+
+.book-card:hover .book-title {
+  color: var(--gold-light);
+}
+
+.open-book {
+  border-color: rgba(214, 184, 117, .7);
+  background: linear-gradient(135deg, #f0dba8, #c6a45f);
+  color: #171b24;
+}
+
+.more-btn {
+  border-color: rgba(214, 184, 117, .35);
+}
+
+.more-btn:hover {
+  border-color: var(--gold);
+}
+
+.site-card:hover {
+  border-color: rgba(214, 184, 117, .5);
+}
+
+.site-icon {
+  border-color: rgba(214, 184, 117, .3);
+  color: var(--gold-light);
+}
+
+.site-visit {
+  border-color: var(--gold);
+  background: linear-gradient(135deg, #f0dba8, #c6a45f);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-card,
+  .book-cover,
+  .site-card {
+    transition: none !important;
+  }
+}
+
+/* تحسينات إضافية لبطاقات وأغلفة مكتبة الأحلام */
+.cover-wrap {
+  isolation: isolate;
+}
+
+.book-cover {
+  backface-visibility: hidden;
+}
+
+.book-card {
+  overflow: hidden;
+  border-radius: 14px;
+  transition:
+    border-color .3s ease,
+    box-shadow .3s ease,
+    transform .3s ease;
+}
+
+@media (hover: hover) {
+  .book-card:hover {
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-card {
+    transition: none !important;
+  }
+}
+
+
+.site-logo {
+  width: 46px !important;
+  height: 46px !important;
+  max-width: 46px !important;
+  max-height: 46px !important;
+  min-width: 46px;
+  min-height: 46px;
+  flex: 0 0 46px;
+  object-fit: contain;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid rgba(214, 184, 117, .55);
+  box-shadow: 0 3px 14px rgba(214, 184, 117, .12);
+}
+
+.book-shelf-section {
+  margin: 24px 0 32px;
+  padding: 20px;
+  border: 1px solid rgba(201, 179, 138, 0.3);
+  border-radius: 18px;
+  background: linear-gradient(145deg, #111f35, #0b1426);
+  color: #dce4ef;
+}
+
+.book-shelf-section h2 {
+  margin: 0 0 10px;
+  color: #eee5d3;
+  font-size: 1.35rem;
+}
+
+.book-shelf-section > p {
+  line-height: 1.8;
+  color: #b9c5d6;
+}
+
+.shelf-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.shelf-tab,
+.shelf-btn {
+  padding: 9px 13px;
+  border: 1px solid rgba(201, 179, 138, 0.4);
+  border-radius: 10px;
+  background: #15243a;
+  color: #dce4ef;
+  cursor: pointer;
+  font: inherit;
+}
+
+.shelf-tab.active {
+  background: #dce4ef;
+  color: #0b1426;
+  border-color: #dce4ef;
+}
+
+.shelf-tab span {
+  margin-inline-start: 5px;
+  font-weight: bold;
+}
+
+.shelf-list {
+  display: grid;
+  gap: 10px;
+}
+
+.shelf-book-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid rgba(220, 228, 239, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.shelf-book-title {
+  flex: 1 1 180px;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+}
+
+.shelf-btn:hover,
+.shelf-tab:hover {
+  border-color: #dce4ef;
+}
+
+@media (max-width: 480px) {
+  .book-shelf-section {
+    padding: 14px;
+  }
+
+  .shelf-book-row .shelf-btn {
+    flex: 1;
+  }
+}
+
+/* أزرار رفّي الخاص داخل بطاقات الكتب */
+.shelf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  width: 100%;
+}
+
+.shelf-actions .shelf-btn {
+  flex: 1 1 120px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(201, 179, 138, 0.45);
+  border-radius: 10px;
+  background: rgba(201, 179, 138, 0.08);
+  color: var(--gold, #c9b38a);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.shelf-actions .shelf-btn:hover {
+  background: rgba(201, 179, 138, 0.18);
+  transform: translateY(-2px);
+}
+
+.shelf-actions .shelf-btn:focus-visible {
+  outline: 2px solid var(--gold, #c9b38a);
+  outline-offset: 3px;
+}
+
+/* القائمة الجانبية */
+.nav { position: relative; }
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid rgba(201,179,138,.5);
+  border-radius: 10px;
+  background: linear-gradient(145deg,#293b55,#111c2e);
+  color: #eee5d3;
+  font-size: 25px;
+  cursor: pointer;
+}
+#writersMenu.nav-links {
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 220px;
+  padding: 12px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  background: #111c2e;
+  border: 1px solid rgba(201,179,138,.4);
+  border-radius: 14px;
+  box-shadow: 0 14px 32px rgba(0,0,0,.3);
+}
+#writersMenu.nav-links.menu-open { display: flex; }
+#writersMenu .nav-link {
+  display: block;
+  padding: 12px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+#writersMenu .nav-link:hover { background: #293b55; }
+
+/* Continue reading - royal navy and gold */
+#continueReadingSection {
+  margin-top: 22px;
+  margin-bottom: 28px;
+  padding: 24px;
+  border: 1px solid rgba(201, 179, 138, 0.38);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(22, 39, 63, 0.96), rgba(9, 19, 35, 0.98));
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+}
+#continueReadingSection .section-title {
+  color: #eee5d3;
+}
+#continueReadingSection .section-subtitle {
+  color: #c5cfdd;
+}
+#continueReadingSection .books-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px;
+}
+#continueReadingSection #clearContinueReading {
+  border: 1px solid #c9b38a;
+  border-radius: 10px;
+  color: #eee5d3;
+  background: rgba(201, 179, 138, 0.10);
+  padding: 9px 14px;
+  cursor: pointer;
+}
+#continueReadingSection #clearContinueReading:hover {
+  background: rgba(201, 179, 138, 0.22);
+}
+@media (max-width: 1000px) {
+  #continueReadingSection .books-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  #continueReadingSection { padding: 16px; border-radius: 15px; }
+  #continueReadingSection .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+}
+
+/* أزرار القراءة والتحميل الجديدة */
+.book-actions { display: grid; gap: 8px; }
+.book-actions .read-soon {
+  opacity: .42;
+  background: rgba(220, 228, 239, .06);
+  border-color: rgba(220, 228, 239, .20);
+  color: #c5cfdd;
+  box-shadow: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.book-actions .read-soon:hover { filter: none; transform: none; box-shadow: none; }
+.book-actions .download-book {
+  background: linear-gradient(135deg, #365b92, #213b64);
+  border-color: rgba(169, 194, 231, .55);
+  color: #f8faff;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, .15);
+}
+
+    .daily-features{width:min(1180px,calc(100% - 32px));margin:0 auto 24px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .daily-card{min-width:0;border:1px solid rgba(205,220,241,.18);border-radius:16px;background:linear-gradient(145deg,#172944,#0d192b);padding:16px;box-shadow:0 8px 22px rgba(0,0,0,.14)}
+    .daily-kicker{color:#a8b6c9;font-size:10px;letter-spacing:.2px;margin:0 0 3px}
+    .daily-card h2{color:#dce4ef;font-size:16px;margin:0 0 9px;text-align:center}
+    .daily-quote-space{min-height:64px;border:1px dashed rgba(214,184,117,.32);border-radius:11px;background:rgba(214,184,117,.035);padding:10px;color:#f0dba8;display:flex;align-items:center;justify-content:center;text-align:center;font-family:"Amiri",Tahoma,serif;font-size:17px;font-weight:700;line-height:1.7;letter-spacing:.1px;text-shadow:0 0 7px rgba(240,219,168,.28),0 0 16px rgba(214,184,117,.16);animation:dailyQuoteGlow 3.2s ease-in-out infinite alternate}
+    @keyframes dailyQuoteGlow{from{text-shadow:0 0 5px rgba(240,219,168,.2),0 0 12px rgba(214,184,117,.1)}to{text-shadow:0 0 9px rgba(240,219,168,.55),0 0 20px rgba(214,184,117,.28)}}
+    .daily-book-row{display:flex;gap:11px;align-items:stretch;min-height:112px}
+    .daily-book-cover{width:92px;height:auto;min-height:112px;align-self:stretch;object-fit:cover;border-radius:8px;border:1px solid rgba(220,228,239,.18);background:#0b1426;flex:0 0 92px}
+    .daily-book-placeholder{display:grid;place-items:center;color:#a8b6c9;font-size:23px}
+    .daily-book-info{min-width:0;flex:1}
+    .daily-book-title{color:#f8faff;font-weight:bold;font-size:12px;margin:0 0 3px}
+    .daily-book-author{color:#a8b6c9;font-size:10px;margin:0 0 6px}
+    .daily-book-summary{color:#b5c1d2;font-size:10px;line-height:1.65;margin:0 0 7px}
+    .daily-book-link{display:inline-flex;padding:5px 10px;border-radius:8px;background:#dce4ef;color:#101a2b;text-decoration:none;font-size:10px;font-weight:bold}
+    @media(max-width:680px){.daily-features{width:calc(100% - 24px);grid-template-columns:1fr;gap:10px;margin-bottom:20px}.daily-card{padding:13px}.daily-card h2{font-size:15px}.daily-quote-space{font-size:16px;min-height:56px}}
+    @media(prefers-reduced-motion:reduce){.daily-quote-space{animation:none}}
+</style>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style id="my-sites-horizontal-fix">
+#my-sites .sites-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+#my-sites .site-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding: 12px 6px;
+  gap: 8px;
+}
+
+#my-sites .site-icon {
+  flex: 0 0 auto;
+}
+
+#my-sites .site-details {
+  min-width: 0;
+}
+
+#my-sites .site-visit {
+  width: 100%;
+  padding: 8px 3px;
+  font-size: 11px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 520px) {
+  #my-sites .site-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
+  #my-sites .site-details h3 {
+    font-size: 12px;
+  }
+
+  #my-sites .site-details p {
+    display: none;
+  }
+}
+</style>
+
+<style id="compact-social-footer-final">
+.site-footer {
+  border-top: 1px solid rgba(214,184,117,.4);
+}
+.compact-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 12px;
+}
+.compact-social {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 420px;
+}
+.compact-social a {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 9px 4px;
+  border: 1px solid rgba(214,184,117,.35);
+  border-radius: 10px;
+  color: #f0dba8;
+  text-decoration: none;
+}
+.compact-social a span { font-size: 17px; }
+.compact-social a small { font-size: 12px; }
+.compact-footer .back-top { margin-top: 0; }
+@media (max-width: 380px) {
+  .compact-social { gap: 5px; }
+  .compact-social a { padding: 8px 2px; }
+  .compact-social a small { font-size: 11px; }
+}
+</style>
+
+
+
+
+
+<style id="dreams-light-text-fix">
+html[data-theme="light"] .hero,
+html[data-theme="light"] .hero h1,
+html[data-theme="light"] .hero-description,
+html[data-theme="light"] .brand-name,
+html[data-theme="light"] .brand-subtitle,
+html[data-theme="light"] .nav-link,
+html[data-theme="light"] .book-info,
+html[data-theme="light"] .book-info h3,
+html[data-theme="light"] .book-info p,
+html[data-theme="light"] .stat,
+html[data-theme="light"] .stat strong,
+html[data-theme="light"] .stat span,
+html[data-theme="light"] .filter-heading,
+html[data-theme="light"] .section-heading {
+  color: #17253a;
+}
+
+html[data-theme="light"] .book-card {
+  background: #ffffff;
+}
+
+html[data-theme="light"] .book-card .book-info {
+  background: #ffffff;
+}
+
+html[data-theme="light"] .hero h1 span {
+  color: #926b2e;
+}
+
+html[data-theme="light"] #searchInput::placeholder {
+  color: #68788b;
+}
+</style>
+
+
+<style id="dreams-writers-light-fix">
+html[data-theme="light"] #writers-corner,
+html[data-theme="light"] #writers-corner p,
+html[data-theme="light"] #writers-corner h2,
+html[data-theme="light"] #writers-corner h3,
+html[data-theme="light"] #writers-corner li,
+html[data-theme="light"] #writers-corner span {
+  color: #26364b !important;
+}
+
+html[data-theme="light"] #writers-corner a {
+  color: #78551e;
+}
+</style>
+
+
+<style id="dreams-hero-gold-fix">
+html[data-theme="light"] .hero h1 span {
+  color: #80551b !important;
+  background: none !important;
+  -webkit-text-fill-color: #80551b !important;
+}
+</style>
+
+
+<style id="dreams-search-contrast-final">
+html[data-theme="light"] .search-label,
+html[data-theme="light"] .filter-heading,
+html[data-theme="light"] .filter-heading strong,
+html[data-theme="light"] #categoryCount,
+html[data-theme="light"] #clearSearch {
+  color: #17253a !important;
+  -webkit-text-fill-color: #17253a !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="light"] .search-panel {
+  background: #f0e9dc !important;
+}
+
+html[data-theme="light"] #clearSearch {
+  background: #e2d4bd !important;
+  border: 1px solid #aa9169 !important;
+}
+</style>
+
+  <!-- GoatCounter analytics for Joebooks -->
+  <script data-goatcounter="https://joedz.goatcounter.com/count"
+          async src="https://gc.zgo.at/count.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      
+<a class="brand" href="#" aria-label="مكتبة الأحلام - الصفحة الرئيسية">
+  <img class="site-logo" src="./logo.jpg" alt="Library logo">
+
+
+  <span>
+    <span class="brand-name">مكتبة الأحلام</span>
+    <span class="brand-subtitle" style="display:block">عالم من الحكايات بين يديك</span>
+  </span>
+</a>
+
+
+      
+
+
+
+<button class="menu-toggle" id="writersMenuToggle"
+        type="button" aria-expanded="false"
+        aria-controls="writersMenu" aria-label="فتح القائمة">
+  <span aria-hidden="true">☰</span>
+</button>
+<nav class="nav-links" id="writersMenu" aria-label="القائمة الرئيسية">
+  <a class="nav-link" href="#library">اكتشف المكتبة ←</a>
+  <a class="nav-link" href="./preview/maktabati.html">⭐ مكتبتي</a>
+  <a class="nav-link" href="#writers-corner">✍️ ركن المبدعين</a>
+  <a class="nav-link" href="./authors/index.html">✒️ أعلام الأدب</a>
+  <a class="nav-link" href="./audio-library/index.html">🎧 الروايات المسموعة</a>
+  <a class="nav-link" href="#my-sites">مواقعي الإلكترونية</a>
+</nav>
+
+
+
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      
+      <h1>كل حكاية تبدأ من <span>هنا</span></h1>
+      <p class="hero-description">
+        افتح أبواب الخيال، واكتشف رواياتك المفضلة في مكتبة تجمع الحكايات
+        والكلمات التي لا تُنسى.
+      </p>
+
+      <div class="stats" aria-label="إحصائيات المكتبة">
+        <div class="stat">
+          <strong id="totalBooks">—</strong>
+          <span>كتاب ورواية</span>
+        </div>
+        <div class="stat">
+          <strong id="totalCategories">—</strong>
+          <span>تصنيف</span>
+        </div>
+        <div class="stat">
+          <strong id="shownBooks">—</strong>
+          <span>كتاب معروض</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="daily-features" aria-label="محتوى اليوم">
+      <article class="daily-card" aria-labelledby="dailyQuoteHeading">
+        <h2 id="dailyQuoteHeading">اقتباس اليوم</h2>
+        <div class="daily-quote-space" id="dailyQuoteText" aria-live="polite"></div>
+      </article>
+      <article class="daily-card" aria-labelledby="dailyBookHeading">
+        <h2 id="dailyBookHeading">كتاب اليوم</h2>
+        <div class="daily-book-row" id="dailyBookContent"><span class="daily-book-author">جارٍ اختيار كتاب اليوم...</span></div>
+      </article>
+    </section>
+
+    <section class="container" aria-label="البحث عن الكتب">
+      <div class="search-panel">
+        <label class="search-label" for="searchInput">ابحث عن كتابك القادم</label>
+        <div class="search-row">
+          <div class="search-box">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="عنوان الرواية، اسم المؤلف، أو كلمة من الملخص..."
+              autocomplete="off"
+              aria-label="ابحث في عناوين الكتب والمؤلفين والتصنيفات والملخصات"
+            >
+          </div>
+          <button class="clear-btn" id="clearSearch" type="button">مسح</button>
+        </div>
+
+        <div class="filter-heading" id="categoryToggle" role="button" tabindex="0" aria-expanded="false" aria-controls="categories" style="cursor:pointer;">
+          <strong>تصفّح حسب التصنيف</strong>
+          <span id="categoryCount">جارٍ التحميل...</span>
+          <span class="category-arrow" aria-hidden="true">⌄</span>
+        </div>
+        <div class="categories" id="categories" hidden>
+          <button class="category-btn active" type="button" data-category="all">كل الكتب</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" id="library">
+      <div class="section-heading">
+        <div>
+          <h2 class="section-title">رفوف المكتبة</h2>
+          <div class="section-subtitle">اختر حكاية تناسب مزاجك اليوم</div>
+        </div>
+        <div id="resultCount" aria-live="polite">جارٍ تحميل الكتب...</div>
+      </div>
+
+
+
+<section class="container" id="continueReadingSection" style="padding-top:32px;padding-bottom:24px;" hidden>
+  <div class="section-heading">
+    <div>
+      <h2 class="section-title">&#128214; أكمل قراءتك</h2>
+      <div class="section-subtitle">عُد إلى الكتب التي فتحتها مؤخرًا</div>
+    </div>
+    <button type="button" class="shelf-btn" id="clearContinueReading">مسح السجل</button>
+  </div>
+  <div class="books-grid" id="continueReadingGrid"></div>
+</section>
+      <div class="books-grid" id="booksGrid" aria-live="polite">
+        <div class="state-box">
+          <div class="state-icon" aria-hidden="true"></div>
+          <h3>نفتح أبواب المكتبة...</h3>
+          <p>لحظات ونجهّز الكتب لتتصفحها.</p>
+        </div>
+      </div>
+
+      <div class="load-more-wrap" id="loadMoreWrap" hidden>
+        <button class="more-btn" id="loadMore" type="button">عرض المزيد من الكتب</button>
+      </div>
+    </section>
+  </main>
+
+
+
+<section class="container" id="audio-books" style="display:none;padding:48px 0;">
+  <h2 class="section-title">🎧 آخر روايات مسموعة</h2>
+  <div id="audio-books-list" style="display:grid;gap:16px;">
+    <p>جارٍ تحميل الروايات الصوتية...</p>
+  </div>
+</section>
+
+<script>
+(async function () {
+  const list = document.getElementById("audio-books-list");
+  try {
+    const response = await fetch("./audio-library/audiobooks.json");
+    if (!response.ok) throw new Error("HTTP " + response.status);
+
+    const data = await response.json();
+    if (!Array.isArray(data)) throw new Error("Invalid audio data");
+
+    const books = data.slice(-5).reverse();
+    list.replaceChildren();
+
+    if (!books.length) {
+      list.textContent = "لا توجد روايات صوتية حاليا.";
+      return;
+    }
+
+    for (const book of books) {
+      const card = document.createElement("article");
+      card.style.cssText = "padding:20px;background:#14223a;border:1px solid #34445b;border-radius:16px;";
+
+      const title = document.createElement("h3");
+      title.textContent = book.title || "رواية صوتية";
+
+      const link = document.createElement("a");
+      link.href = book.youtube_url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "استمع الآن";
+      link.style.cssText = "display:inline-block;margin-top:12px;color:#dce4ef;";
+
+      card.append(title, link);
+      list.appendChild(card);
+    }
+  } catch (error) {
+    list.textContent = "تعذر تحميل الروايات الصوتية.";
+    console.error(error);
+  }
+})();
+</script>
+
+
+<section class="container" id="writers-corner" style="padding: 48px 0;">
+  <div class="section-heading">
+    <div>
+      <h2 class="section-title">✍️ ركن المبدعين</h2>
+      <p class="section-subtitle">
+        مساحة تجمع الكلمة الجميلة والخيال والإبداع الأدبي.
+      </p>
+    </div>
+  </div>
+
+  <div style="padding: 24px; margin-bottom: 24px; border: 1px solid rgba(220,228,239,.18); border-radius: 18px; background: rgba(220,228,239,.035);">
+    <h3 style="margin: 0 0 12px;">🌟 هل تكتب؟ شاركنا إبداعك</h3>
+    <p style="color: var(--muted, #aebbd0); line-height: 1.9; margin: 0;">
+      نستقبل الخواطر والقصص القصيرة والقصائد عبر تلغرام.
+      تُراجع المشاركات قبل اختيار ما يُنشر في هذا الركن.
+    </p>
+    <p style="color: var(--muted, #aebbd0); line-height: 1.9; margin: 12px 0 0;">
+      أرفق اسم الكاتب أو الاسم المستعار، وعنوان النص، ونوع المشاركة،
+      وأكد أن النص من كتابتك أو أن لديك إذنًا بنشره.
+    </p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px;">
+    <a href="./writers-corner/thoughts/index.html" style="display:block;color:inherit;text-decoration:none;"><article style="padding: 22px; border: 1px solid rgba(220,228,239,.18); border-radius: 16px;">
+      <div style="font-size: 2rem; margin-bottom: 12px;">🖋️</div>
+      <h3 style="margin: 0 0 10px;">خواطر</h3>
+      <p style="color: var(--muted, #aebbd0); line-height: 1.8;">
+        كلمات تعبّر عن المشاعر والتجارب ولحظات الحياة.
+      </p>
+      <p style="margin-bottom: 0; font-size: .9rem;">سيُعرض هنا ما يُختار للنشر.</p>
+    </article></a>
+
+    <a href="./writers-corner/stories/index.html" style="display:block;color:inherit;text-decoration:none;"><article style="padding: 22px; border: 1px solid rgba(220,228,239,.18); border-radius: 16px;">
+      <div style="font-size: 2rem; margin-bottom: 12px;">📖</div>
+      <h3 style="margin: 0 0 10px;">قصص قصيرة</h3>
+      <p style="color: var(--muted, #aebbd0); line-height: 1.8;">
+        حكايات موجزة تحمل فكرة أو تجربة أو نهاية غير متوقعة.
+      </p>
+      <p style="margin-bottom: 0; font-size: .9rem;">سيُعرض هنا ما يُختار للنشر.</p>
+    </article></a>
+
+    <a href="./writers-corner/poems/index.html" style="display:block;color:inherit;text-decoration:none;"><article style="padding: 22px; border: 1px solid rgba(220,228,239,.18); border-radius: 16px;">
+      <div style="font-size: 2rem; margin-bottom: 12px;">🌙</div>
+      <h3 style="margin: 0 0 10px;">قصائد</h3>
+      <p style="color: var(--muted, #aebbd0); line-height: 1.8;">
+        نصوص شعرية تعبّر عن الخيال والجمال وتجارب الإنسان.
+      </p>
+      <p style="margin-bottom: 0; font-size: .9rem;">سيُعرض هنا ما يُختار للنشر.</p>
+    </article></a>
+  </div>
+
+<div style="text-align:center;margin:24px 0;">
+  <a href="./writers-corner/submit/index.html"
+     rel="noopener noreferrer"
+     style="display:inline-block;background:#dce4ef;
+     color:#0b1426;padding:14px 28px;
+     border-radius:12px;text-decoration:none;
+     font-weight:bold;">
+    &#9997;&#65039; &#1588;&#1575;&#1585;&#1603; &#1573;&#1576;&#1583;&#1575;&#1593;&#1603;
+  </a>
+</div>
+</section>
+
+<section class="container" id="approved-writings" style="padding:25px 0 45px;">
+  <h2 id="approved-heading" style="text-align:center;color:#dce4ef;"></h2>
+  <div id="approved-writings-list" style="display:grid;gap:16px;"></div>
+</section>
+<script>
+(async function () {
+  const list = document.getElementById("approved-writings-list");
+  document.getElementById("approved-heading").textContent = "\u0625\u0628\u062f\u0627\u0639\u0627\u062a \u0645\u0646\u0634\u0648\u0631\u0629";
+  list.textContent = "\u062c\u0627\u0631\u064d \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0645\u0634\u0627\u0631\u0643\u0627\u062a...";
+  const base = "https://sotwboiyyilelmesvoyo.supabase.co/functions/v1/";
+  const categories = ["thoughts", "stories", "poems"];
+  const names = {thoughts:"\u062e\u0627\u0637\u0631\u0629", stories:"\u0642\u0635\u0629 \u0642\u0635\u064a\u0631\u0629", poems:"\u0642\u0635\u064a\u062f\u0629"};
+  try {
+    const results = await Promise.all(categories.map(async category => {
+      const response = await fetch(base + "get-approved-writings?category=" + category);
+      if (!response.ok) throw new Error("Fetch failed");
+      const data = await response.json();
+      return (data.writings || []).map(w => ({...w, category}));
+    }));
+    const writings = results.flat().sort((a,b) => Number(b.id)-Number(a.id));
+    list.replaceChildren();
+    if (!writings.length) {
+      list.textContent = "\u0644\u0627 \u062a\u0648\u062c\u062f \u0645\u0634\u0627\u0631\u0643\u0627\u062a \u0645\u0646\u0634\u0648\u0631\u0629 \u062d\u0627\u0644\u064a\u064b\u0627.";
+      return;
+    }
+    for (const writing of writings) {
+      const article = document.createElement("article");
+      article.style.cssText = "background:#14223a;border:1px solid #34445b;border-radius:16px;padding:22px;white-space:pre-wrap;";
+      const title = document.createElement("h3");
+      title.textContent = writing.title || "\u0628\u062f\u0648\u0646 \u0639\u0646\u0648\u0627\u0646";
+      const byline = document.createElement("p");
+      byline.textContent = (writing.author || "\u0643\u0627\u062a\u0628") + " - " + names[writing.category];
+      const content = document.createElement("p");
+      content.textContent = writing.content || "";
+      const link = document.createElement("a");
+      link.href = "./writers-corner/" + writing.category + "/index.html";
+      link.textContent = "\u0627\u0644\u0625\u0639\u062c\u0627\u0628\u0627\u062a \u0648\u0627\u0644\u062a\u0639\u0644\u064a\u0642\u0627\u062a";
+      link.style.cssText = "color:#dce4ef;display:inline-block;margin-top:12px;";
+      article.append(title, byline, content, link);
+      list.appendChild(article);
+    }
+  } catch(error) {
+    list.textContent = "\u062a\u0639\u0630\u0631 \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u0645\u0634\u0627\u0631\u0643\u0627\u062a.";
+    console.error(error);
+  }
+})();
+</script>
+
+
+
+<!-- FOOTER_LAYOUT_V2 -->
+
+<footer class="site-footer">
+  <div class="container compact-footer">
+    <div id="my-sites" class="compact-social"><a href="https://www.facebook.com/share/1FqvrPEpzs/" target="_blank" rel="noopener noreferrer"><span>f</span><small>فيسبوك</small></a><a href="https://t.me/quotes_90" target="_blank" rel="noopener noreferrer"><span>✈</span><small>تلجرام</small></a><a href="https://www.instagram.com/books_online.pdf?dlrf=bWk2MmFkbzh6MHU1" target="_blank" rel="noopener noreferrer"><span>◎</span><small>إنستغرام</small></a></div>
+    <a class="back-top" href="#">↑ العودة إلى الأعلى</a>
+  </div>
+</footer>
+
+  <script src="./preview/maktabati-integration.js"></script>
+  <script>
+    "use strict";
+
+    const PAGE_SIZE = 30;
+
+    const elements = {
+      search: document.getElementById("searchInput"),
+      clear: document.getElementById("clearSearch"),
+      categories: document.getElementById("categories"),
+      categoryCount: document.getElementById("categoryCount"),
+      totalCategories: document.getElementById("totalCategories"),
+      grid: document.getElementById("booksGrid"),
+      resultCount: document.getElementById("resultCount"),
+      loadMoreWrap: document.getElementById("loadMoreWrap"),
+      loadMore: document.getElementById("loadMore"),
+      totalBooks: document.getElementById("totalBooks"),
+      shownBooks: document.getElementById("shownBooks")
+    };
+
+    let allBooks = [];
+    let filteredBooks = [];
+    let activeCategory = "all";
+    let visibleCount = PAGE_SIZE;
+    let loadError = false;
+
+    function getValue(value) {
+      if (value === null || value === undefined) return "";
+      return String(value).trim();
+    }
+
+    function normalize(value) {
+      return getValue(value)
+        .toLowerCase()
+        .normalize("NFKC")
+        .replace(/[\u064B-\u065F\u0670]/g, "")
+        .replace(/[إأآٱ]/g, "ا")
+        .replace(/ى/g, "ي")
+        .replace(/ؤ/g, "و")
+        .replace(/ئ/g, "ي")
+        .replace(/ـ/g, "")
+        .replace(/[^\p{L}\p{N}\s]/gu, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function getTitle(book) {
+      return getValue(book.title || book.name) || "كتاب بدون عنوان";
+    }
+
+    function getAuthor(book) {
+      return getValue(book.author || book.writer);
+    }
+
+    function getCategory(book) {
+      return getValue(book.category || book.genre || book.type) || "غير مصنف";
+    }
+
+    function getSynopsis(book) {
+      return getValue(book.synopsis || book.summary || book.description);
+    }
+
+    function getPages(book) {
+      const pages = book.pages ?? book.page_count ?? book.number_of_pages;
+      return getValue(pages);
+    }
+
+    function getCover(book) {
+      return getValue(
+        book.cover ||
+        book.cover_url ||
+        book.image ||
+        book.image_url ||
+        book.thumbnail ||
+        book.thumbnail_url
+      );
+    }
+
+    function safeHttpsUrl(value) {
+      const raw = getValue(value).trim();
+      if (!raw || raw.startsWith("//")) return "";
+
+      try {
+        const isLocalCover =
+          raw.startsWith("./covers/") || raw.startsWith("covers/") ||
+          raw.startsWith("./covers_batch/") || raw.startsWith("covers_batch/");
+
+        if (isLocalCover) {
+          const parts = raw.replace(/^\.\//, "").split("/");
+          if (parts.some(part => !part || part === "." || part === "..")) return "";
+
+          const encodedPath = parts.map(part => encodeURIComponent(part)).join("/");
+          return new URL(encodedPath, window.location.href).href;
+        }
+
+        const url = new URL(raw, window.location.href);
+        if (url.protocol === "https:") return url.href;
+
+        if (
+          url.origin === window.location.origin &&
+          url.protocol === window.location.protocol
+        ) {
+          return url.href;
+        }
+
+        return "";
+      } catch {
+        return "";
+      }
+    }
+
+    function getBookUrl(book) {
+      return safeHttpsUrl(book.url || book.link);
+    }
+
+    function createElement(tag, className, text) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text !== undefined) node.textContent = text;
+      return node;
+    }
+
+    function showState(icon, title, message, canReset = false) {
+      elements.grid.replaceChildren();
+
+      const box = createElement("div", "state-box");
+      box.append(
+        createElement("div", "state-icon", icon),
+        createElement("h3", "", title),
+        createElement("p", "", message)
+      );
+
+      if (canReset) {
+        const button = createElement("button", "reset-btn", "عرض كل الكتب");
+        button.type = "button";
+        button.addEventListener("click", resetFilters);
+        box.appendChild(button);
+      }
+
+      elements.grid.appendChild(box);
+      elements.loadMoreWrap.hidden = true;
+      elements.shownBooks.textContent = "0";
+    }
+
+    function renderCategories() {
+      const counts = new Map();
+      for (const book of allBooks) {
+        const category = getCategory(book);
+        counts.set(category, (counts.get(category) || 0) + 1);
+      }
+      const sorted = [...counts.keys()].sort((a, b) => a.localeCompare(b, "ar"));
+      elements.categories.replaceChildren();
+      elements.categories.appendChild(makeCategoryButton("كل الكتب", "all", allBooks.length));
+      for (const category of sorted) {
+        elements.categories.appendChild(makeCategoryButton(category, category, counts.get(category)));
+      }
+      elements.totalCategories.textContent = sorted.length.toLocaleString("ar");
+      elements.categoryCount.textContent = sorted.length.toLocaleString("ar") + " تصنيف";
+      updateCategoryButtons();
+    }
+
+    function makeCategoryButton(label, value, count) {
+      const button = createElement("button", "category-btn" + (activeCategory === value ? " active" : ""), label + " · " + count.toLocaleString("ar"));
+      button.type = "button";
+      button.dataset.category = value;
+      button.setAttribute("aria-pressed", activeCategory === value ? "true" : "false");
+      button.addEventListener("click", () => {
+        activeCategory = value;
+        visibleCount = PAGE_SIZE;
+        updateCategoryButtons();
+        applyFilters();
+      });
+      return button;
+    }
+
+    function updateCategoryButtons() {
+      for (const button of elements.categories.querySelectorAll(".category-btn")) {
+        const isActive = button.dataset.category === activeCategory;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      }
+    }
+
+    function applyFilters() {
+      const query = normalize(elements.search.value);
+
+      filteredBooks = allBooks.filter(book => {
+        const matchesCategory = activeCategory === "all" || getCategory(book) === activeCategory;
+        if (!matchesCategory) return false;
+        if (!query) return true;
+
+        const searchable = normalize([
+          getTitle(book),
+          getAuthor(book),
+          getCategory(book),
+          getSynopsis(book)
+        ].join(" "));
+
+        return searchable.includes(query);
+      });
+
+      visibleCount = Math.min(visibleCount, PAGE_SIZE);
+      renderBooks();
+    }
+
+    function makeCover(book) {
+      const wrap = createElement("div", "cover-wrap");
+      const coverUrl = safeHttpsUrl(getCover(book));
+
+      const placeholder = createElement("div", "cover-placeholder");
+      placeholder.append(
+        createElement("span", "placeholder-icon", ""),
+        createElement("span", "placeholder-title", getTitle(book)),
+        createElement("span", "placeholder-rule")
+      );
+
+      wrap.appendChild(placeholder);
+
+      if (coverUrl) {
+        const image = document.createElement("img");
+        image.className = "book-cover";
+        image.alt = "غلاف " + getTitle(book);
+        image.loading = "lazy";
+        image.decoding = "async";
+        image.referrerPolicy = "no-referrer";
+        image.src = coverUrl;
+
+        image.addEventListener("load", () => {
+          placeholder.hidden = true;
+        });
+
+        image.addEventListener("error", () => {
+          image.remove();
+          placeholder.hidden = false;
+        });
+
+        wrap.appendChild(image);
+      }
+
+      const category = createElement("span", "category-tag", getCategory(book));
+      wrap.appendChild(category);
+      return wrap;
+    }
+
+const BOOK_SHELF_KEY = "maktabat_al_ahlam_shelf_v1";
+
+function getBookShelf() {
+  try {
+    const saved = localStorage.getItem(BOOK_SHELF_KEY);
+    return saved ? JSON.parse(saved) : {};
+  } catch (error) {
+    console.warn("تعذر قراءة رف الكتب المحفوظ.", error);
+    return {};
+  }
+}
+
+
+function setBookShelfStatus(book, status) {
+  if (!book || book.id == null) {
+    alert("تعذر حفظ الكتاب لعدم وجود معرّف له.");
+    return;
+  }
+
+  try {
+    const shelf = getBookShelf();
+    shelf[String(book.id)] = {
+      status: status,
+      updatedAt: new Date().toISOString()
+    };
+
+    localStorage.setItem(BOOK_SHELF_KEY, JSON.stringify(shelf));
+
+    renderBookShelf();
+
+    alert(
+      status === "read"
+        ? "أُضيف الكتاب إلى قائمة «قرأتها»."
+        : "أُضيف الكتاب إلى قائمة «أريد قراءتها»."
+    );
+  } catch (error) {
+    alert("تعذر حفظ الكتاب. تحقق من إعدادات التخزين في المتصفح.");
+  }
+}
+
+let activeShelfStatus = "want";
+
+function renderBookShelf() {
+  const list = document.getElementById("bookShelfList");
+  const wantCount = document.getElementById("wantCount");
+  const readCount = document.getElementById("readCount");
+
+  if (!list || !wantCount || !readCount) return;
+
+  const shelf = getBookShelf();
+  const entries = Object.entries(shelf);
+  const wantBooks = entries.filter(([, item]) => item.status === "want");
+  const readBooks = entries.filter(([, item]) => item.status === "read");
+
+  wantCount.textContent = wantBooks.length.toLocaleString("ar");
+  readCount.textContent = readBooks.length.toLocaleString("ar");
+
+  document.querySelectorAll("[data-shelf-status]").forEach((button) => {
+    const active = button.dataset.shelfStatus === activeShelfStatus;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+
+  const selected = activeShelfStatus === "read" ? readBooks : wantBooks;
+  list.replaceChildren();
+
+  if (!selected.length) {
+    const message = document.createElement("p");
+    message.textContent = activeShelfStatus === "read"
+      ? "لم تضف كتبًا إلى قائمة «قرأتها» بعد."
+      : "لم تضف كتبًا إلى قائمة «أريد قراءتها» بعد.";
+    list.appendChild(message);
+    return;
+  }
+
+  for (const [bookId, item] of selected) {
+    const book = allBooks.find((candidate) => String(candidate.id) === bookId);
+
+if (!book) {
+  const row = document.createElement("div");
+  row.className = "shelf-book-row";
+
+  const title = document.createElement("span");
+  title.className = "shelf-book-title";
+  title.textContent = "كتاب محفوظ سابقًا (لم يعد موجودًا في المكتبة)";
+
+  const removeButton = document.createElement("button");
+  removeButton.type = "button";
+  removeButton.className = "shelf-btn";
+  removeButton.textContent = "حذف";
+  removeButton.addEventListener("click", () => {
+    const currentShelf = getBookShelf();
+    delete currentShelf[bookId];
+    localStorage.setItem(BOOK_SHELF_KEY, JSON.stringify(currentShelf));
+    renderBookShelf();
+  });
+
+  row.append(title, removeButton);
+  list.appendChild(row);
+  continue;
+}
+
+    const row = document.createElement("div");
+    row.className = "shelf-book-row";
+
+    const title = document.createElement("span");
+    title.className = "shelf-book-title";
+    title.textContent = getTitle(book);
+    row.appendChild(title);
+
+    const changeButton = document.createElement("button");
+    changeButton.type = "button";
+    changeButton.className = "shelf-btn";
+    changeButton.textContent = item.status === "want" ? "✓ قرأتها" : "＋ أريد قراءتها";
+    changeButton.addEventListener("click", () => {
+      setBookShelfStatus(book, item.status === "want" ? "read" : "want");
+    });
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.className = "shelf-btn";
+    removeButton.textContent = "حذف";
+    removeButton.addEventListener("click", () => {
+      const currentShelf = getBookShelf();
+      delete currentShelf[bookId];
+      localStorage.setItem(BOOK_SHELF_KEY, JSON.stringify(currentShelf));
+      renderBookShelf();
+    });
+
+    row.append(changeButton, removeButton);
+    list.appendChild(row);
+  }
+}
+
+document.querySelectorAll("[data-shelf-status]").forEach((button) => {
+  button.addEventListener("click", () => {
+    activeShelfStatus = button.dataset.shelfStatus;
+    renderBookShelf();
+  });
+});
+
+
+// Continue reading: store recently opened books in this browser.
+const CONTINUE_READING_KEY = "maktabat_al_ahlam_recently_opened_v1";
+
+function getContinueReadingIds() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CONTINUE_READING_KEY) || "[]");
+    return Array.isArray(saved) ? saved.map(String) : [];
+  } catch {
+    return [];
+  }
+}
+
+function recordRecentlyOpened(book) {
+  if (!book || book.id == null) return;
+  try {
+    const id = String(book.id);
+    const ids = getContinueReadingIds().filter(savedId => savedId !== id);
+    ids.unshift(id);
+    localStorage.setItem(CONTINUE_READING_KEY, JSON.stringify(ids.slice(0, 10)));
+    renderContinueReading();
+  } catch (error) {
+    console.warn("تعذر حفظ سجل القراءة.", error);
+  }
+}
+
+function renderContinueReading() {
+  const section = document.getElementById("continueReadingSection");
+  const grid = document.getElementById("continueReadingGrid");
+  if (!section || !grid || !Array.isArray(allBooks)) return;
+
+  const ids = getContinueReadingIds();
+  const books = ids
+    .map(id => allBooks.find(book => book.id != null && String(book.id) === id))
+    .filter(book => book && getBookUrl(book));
+
+  grid.replaceChildren();
+  for (const book of books) grid.appendChild(makeBookCard(book));
+  updateSummaryToggleVisibility(grid);
+  section.hidden = books.length === 0;
+}
+
+document.getElementById("clearContinueReading")?.addEventListener("click", () => {
+  try {
+    localStorage.removeItem(CONTINUE_READING_KEY);
+    renderContinueReading();
+  } catch (error) {
+    console.warn("تعذر مسح سجل القراءة.", error);
+  }
+});
+    // Personal library is server-backed and authenticated with Telegram Mini App initData.
+    const maktabatiBookIds = new Set();
+
+    async function loadMaktabatiBooks() {
+      const api = window.JoebooksMaktabatiAPI;
+      if (!api?.isConfigured?.()) return;
+      try {
+        const ids = await api.getBookIds();
+        maktabatiBookIds.clear();
+        ids.forEach(id => maktabatiBookIds.add(Number(id)));
+      } catch (error) {
+        console.warn("تعذر تحميل مكتبتي من الخادم.", error);
+      } finally {
+        renderBooks();
+        renderContinueReading();
+      }
+    }
+
+    async function toggleMaktabatiBook(book, button) {
+      const api = window.JoebooksMaktabatiAPI;
+      if (!api?.isConfigured?.()) {
+        alert("لحفظ الكتب في «مكتبتي»، افتح الموقع من داخل تطبيق تيليجرام المصغّر.");
+        return;
+      }
+      const id = Number(book?.id);
+      if (!Number.isSafeInteger(id) || id <= 0 || button.disabled) return;
+      const wasSaved = maktabatiBookIds.has(id);
+      button.disabled = true;
+      try {
+        if (wasSaved) {
+          await api.removeBook(id);
+          maktabatiBookIds.delete(id);
+        } else {
+          await api.addBook(id);
+          maktabatiBookIds.add(id);
+        }
+        renderBooks();
+        renderContinueReading();
+      } catch (error) {
+        console.error("تعذر تحديث مكتبتي.", error);
+        alert("تعذر حفظ التغيير الآن. تأكد من اتصال تيليجرام ثم حاول مجددًا.");
+        button.disabled = false;
+      }
+    }
+
+    function updateSummaryToggleVisibility(root) {
+      if (!root) return;
+      root.querySelectorAll(".book-summary").forEach(summary => {
+        const toggle = summary.nextElementSibling;
+        if (!toggle?.classList.contains("summary-toggle")) return;
+
+        const wasClamped = summary.classList.contains("clamped");
+        summary.classList.remove("clamped");
+        const styles = window.getComputedStyle(summary);
+        const lineHeight = Number.parseFloat(styles.lineHeight);
+        const fullHeight = summary.scrollHeight;
+        if (wasClamped) summary.classList.add("clamped");
+
+        toggle.hidden = !Number.isFinite(lineHeight) ||
+          fullHeight < (lineHeight * 4 - 1);
+      });
+    }
+
+    function makeBookCard(book) {
+      const card = createElement("article", "book-card");
+      const title = getTitle(book);
+      const author = getAuthor(book);
+      const synopsis = getSynopsis(book);
+      const pages = getPages(book);
+      const url = getBookUrl(book);
+
+      card.appendChild(makeCover(book));
+
+      const info = createElement("div", "book-info");
+      const titleRow = createElement("div", "book-title-row");
+      titleRow.appendChild(createElement("h3", "book-title", title));
+      if (book.id != null && Number.isSafeInteger(Number(book.id)) && Number(book.id) > 0) {
+        const isSaved = maktabatiBookIds.has(Number(book.id));
+        const star = createElement("button", "maktabati-star" + (isSaved ? " saved" : ""), isSaved ? "★" : "☆");
+        star.type = "button";
+        star.setAttribute("aria-label", (isSaved ? "إزالة من مكتبتي: " : "إضافة إلى مكتبتي: ") + title);
+        star.setAttribute("aria-pressed", String(isSaved));
+        star.title = window.JoebooksMaktabatiAPI?.isConfigured?.() ? "حفظ في مكتبتي" : "افتح داخل تطبيق تيليجرام لحفظ الكتب";
+        star.addEventListener("click", () => toggleMaktabatiBook(book, star));
+        titleRow.appendChild(star);
+      }
+      info.appendChild(titleRow);
+
+      if (author) {
+        const authorLine = createElement("div", "book-author");
+        authorLine.append(
+          createElement("strong", "", "✍ المؤلف: "),
+          document.createTextNode(author)
+        );
+        info.appendChild(authorLine);
+      }
+
+      const meta = createElement("div", "book-meta");
+
+      if (pages) {
+        meta.appendChild(createElement("span", "meta-chip", "📄 " + pages + " صفحة"));
+      }
+
+      if (getValue(book.created_at)) {
+        // لا نعرض التاريخ هنا؛ فقد يكون تاريخ إدخال السجل لا تاريخ نشر الكتاب.
+      }
+
+      if (meta.childNodes.length) info.appendChild(meta);
+
+      if (synopsis) {
+        const summary = createElement("p", "book-summary clamped", synopsis);
+        info.appendChild(summary);
+
+        const summaryToggle = createElement("button", "summary-toggle", "اقرأ المزيد");
+        summaryToggle.type = "button";
+        summaryToggle.hidden = true;
+        summaryToggle.setAttribute("aria-expanded", "false");
+        summaryToggle.addEventListener("click", () => {
+          const expanded = summary.classList.toggle("clamped") === false;
+          summaryToggle.textContent = expanded ? "اقرأ أقل" : "اقرأ المزيد";
+          summaryToggle.setAttribute("aria-expanded", String(expanded));
+        });
+        info.appendChild(summaryToggle);
+      }
+
+      const actions = createElement("div", "book-actions");
+
+      if (url) {
+        const downloadLink = createElement("a", "open-book download-book", "⬇️ تحميل الكتاب");
+        downloadLink.href = url;
+        downloadLink.target = "_blank";
+        downloadLink.rel = "noopener noreferrer";
+        downloadLink.setAttribute("aria-label", "فتح كتاب " + title + " على تيليجرام");
+        actions.appendChild(downloadLink);
+      } else {
+        actions.appendChild(createElement("span", "no-link", "لا يتوفر رابط تحميل لهذا الكتاب"));
+      }
+
+      info.appendChild(actions);
+      card.appendChild(info);
+
+
+      return card;
+    }
+
+    function renderBooks() {
+      elements.grid.replaceChildren();
+
+      const total = filteredBooks.length;
+      const shown = filteredBooks.slice(0, visibleCount);
+
+      elements.resultCount.textContent =
+        "عرض " + shown.length.toLocaleString("ar") +
+        " من " + total.toLocaleString("ar") + " كتاب";
+
+      elements.shownBooks.textContent = shown.length.toLocaleString("ar");
+
+      if (loadError) {
+        showState(
+          "⚠️",
+          "تعذّر تحميل المكتبة",
+          "تحقق من وجود books.json بجانب index.html في المستودع."
+        );
+        elements.resultCount.textContent = "تعذّر تحميل البيانات";
+        return;
+      }
+
+      if (!total) {
+        showState(
+          "🔎",
+          "لم نعثر على كتب مطابقة",
+          "جرّب البحث بعنوان آخر أو باسم المؤلف أو بكلمة من النبذة.",
+          true
+        );
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      for (const book of shown) {
+        fragment.appendChild(makeBookCard(book));
+      }
+
+      elements.grid.appendChild(fragment);
+      updateSummaryToggleVisibility(elements.grid);
+
+      const hasMore = visibleCount < total;
+      elements.loadMoreWrap.hidden = !hasMore;
+      elements.loadMore.disabled = !hasMore;
+      elements.loadMore.textContent = hasMore
+        ? "عرض المزيد من الكتب"
+        : "تم عرض جميع النتائج";
+    }
+
+    function resetFilters() {
+      elements.search.value = "";
+      activeCategory = "all";
+      visibleCount = PAGE_SIZE;
+      updateCategoryButtons();
+      applyFilters();
+    }
+
+    const categoryToggle = document.getElementById("categoryToggle");
+    function switchCategories() {
+      const opening = elements.categories.hidden;
+      elements.categories.hidden = !opening;
+      categoryToggle.setAttribute("aria-expanded", String(opening));
+    }
+    categoryToggle.addEventListener("click", switchCategories);
+    categoryToggle.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); switchCategories(); }
+    });
+
+    elements.search.addEventListener("input", () => {
+      visibleCount = PAGE_SIZE;
+      applyFilters();
+    });
+
+    elements.clear.addEventListener("click", () => {
+      elements.search.value = "";
+      visibleCount = PAGE_SIZE;
+      elements.search.focus();
+      applyFilters();
+    });
+
+    elements.loadMore.addEventListener("click", () => {
+      visibleCount += PAGE_SIZE;
+      renderBooks();
+    });
+
+    async function loadBooks() {
+      try {
+        const response = await fetch("./books.json", { cache: "no-store" });
+
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+
+        const data = await response.json();
+
+        // يدعم ملفًا عبارة عن قائمة مباشرة، أو كائنًا يحتوي على قائمة الكتب.
+        const books = Array.isArray(data)
+          ? data
+          : data && Array.isArray(data.books)
+            ? data.books
+            : null;
+
+        if (!books) {
+          throw new Error("تنسيق books.json غير متوقع");
+        }
+
+        allBooks = books
+          .filter(book => book && typeof book === "object")
+          .sort((a, b) => {
+            const idA = Number(a.id);
+            const idB = Number(b.id);
+            if (Number.isFinite(idA) && Number.isFinite(idB)) return idB - idA;
+            if (Number.isFinite(idB)) return 1;
+            if (Number.isFinite(idA)) return -1;
+            return 0;
+          });
+        filteredBooks = allBooks;
+
+        elements.totalBooks.textContent = allBooks.length.toLocaleString("ar");
+        renderCategories();
+        applyFilters();
+        renderBookShelf();
+        renderContinueReading();
+        loadMaktabatiBooks();
+
+      } catch (error) {
+        console.error("تعذر تحميل books.json:", error);
+        loadError = true;
+        elements.totalBooks.textContent = "—";
+        elements.totalCategories.textContent = "—";
+        elements.categoryCount.textContent = "غير متاح";
+        elements.resultCount.textContent = "تعذّر تحميل البيانات";
+
+        showState(
+          "⚠️",
+          "لم نتمكن من فتح رفوف المكتبة",
+          "تأكد أن books.json موجود في جذر المستودع، وأن الملف منشور للعامة، ثم أعد تحميل الصفحة."
+        );
+      }
+    }
+
+    
+    loadBooks();
+  </script>
+<script>
+(() => {
+  const button = document.getElementById("writersMenuToggle");
+  const menu = document.getElementById("writersMenu");
+  if (!button || !menu) return;
+
+  function closeMenu() {
+    menu.classList.remove("menu-open");
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "فتح القائمة");
+  }
+
+  button.addEventListener("click", () => {
+    const opening = !menu.classList.contains("menu-open");
+    menu.classList.toggle("menu-open", opening);
+    button.setAttribute("aria-expanded", String(opening));
+    button.setAttribute("aria-label", opening ? "إغلاق القائمة" : "فتح القائمة");
+  });
+
+  menu.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  document.addEventListener("click", event => {
+    if (!menu.contains(event.target) && !button.contains(event.target)) closeMenu();
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      closeMenu();
+      button.focus();
+    }
+  });
+})();
+</script>
+
+<script>
+(function () {
+  const tg = window.Telegram?.WebApp;
+  if (!tg?.initData) return;
+
+  try {
+    sessionStorage.setItem("maktabat_telegram_init_data", tg.initData);
+  } catch (error) {
+    console.warn("Telegram session storage unavailable");
+  }
+})();
+</script>
+
+
+<script>
+(function () {
+  const tg = window.Telegram?.WebApp;
+  const params = new URLSearchParams(location.search);
+  const startParam =
+    tg?.initDataUnsafe?.start_param ||
+    params.get("tgWebAppStartParam") ||
+    params.get("startapp") ||
+    "";
+
+  const match = /^book_(\d+)$/.exec(startParam);
+  if (!match) return;
+
+  location.replace("./book.html?id=" + match[1]);
+})();
+</script>
+<script>
+(() => {
+  const quoteBox = document.getElementById("dailyQuoteText");
+  const bookBox = document.getElementById("dailyBookContent");
+  // رقم يوم متسلسل حسب التاريخ المحلي في الجزائر، حتى لا يعاد الاقتباس عند بداية شهر جديد.
+  const getAlgiersDayIndex = () => {
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Africa/Algiers",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).formatToParts(new Date());
+    const part = type => Number(parts.find(item => item.type === type).value);
+    const localDate = Date.UTC(part("year"), part("month") - 1, part("day"));
+    return Math.floor(localDate / 86400000);
+  };
+
+  // اقتباس اليوم: 30 اقتباسًا، ويعود اليوم 31 إلى الاقتباس الأول.
+  fetch("./daily-content.json?v=3", { cache: "no-store" })
+    .then(response => {
+      if (!response.ok) throw new Error("daily-content.json: " + response.status);
+      return response.json();
+    })
+    .then(data => {
+      const quotes = Array.isArray(data.quotes) ? data.quotes : [];
+      const dayIndex = getAlgiersDayIndex();
+      const quoteNumber = (dayIndex % 30) + 1;
+      const quote = quotes.find(item => Number(item.day) === quoteNumber);
+      quoteBox.textContent = quote && quote.text ? "«" + quote.text + "»" : "سيُضاف اقتباس هذا اليوم قريبًا.";
+    })
+    .catch(error => {
+      console.error("Daily quote load failed:", error);
+      quoteBox.textContent = "تعذّر تحميل اقتباس اليوم.";
+    });
+
+  // كتاب مختلف لكل يوم من أول 30 كتابًا صالحًا في قاعدة المكتبة.
+  fetch("./books.json?v=2", { cache: "no-store" })
+    .then(response => {
+      if (!response.ok) throw new Error("books.json: " + response.status);
+      return response.json();
+    })
+    .then(data => {
+      const allBooks = Array.isArray(data) ? data : (Array.isArray(data.books) ? data.books : []);
+      const valid = allBooks.filter(book => book && typeof book === "object" && (book.title || book.name));
+      if (!valid.length) throw new Error("No valid books in books.json");
+      const dateKey = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Africa/Algiers",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(new Date());
+      let seed = 2166136261;
+      for (let i = 0; i < dateKey.length; i++) {
+        seed ^= dateKey.charCodeAt(i);
+        seed = Math.imul(seed, 16777619);
+      }
+      const book = valid[(seed >>> 0) % valid.length];
+      const title = String(book.title || book.name || "كتاب بدون عنوان");
+      const author = String(book.author || book.writer || "");
+      const synopsis = String(book.synopsis || book.summary || book.description || "");
+      const rawCover = String(book.cover || book.cover_url || book.image || book.image_url || book.thumbnail || book.thumbnail_url || "");
+      const cover = rawCover ? ( /^(https?:)?\/\//i.test(rawCover) ? rawCover : "./" + rawCover.replace(/^\.\//, "").replace(/^\//, "") ) : "";
+      const bookId = book.id != null ? String(book.id) : "";
+      const link = bookId ? "./book.html?id=" + encodeURIComponent(bookId) : (String(book.url || book.link || ""));
+
+      bookBox.replaceChildren();
+      bookBox.style.cursor = link ? "pointer" : "default";
+      bookBox.onclick = link ? event => {
+        if (event.target.closest("a")) return;
+        window.location.href = link;
+      } : null;
+      bookBox.onkeydown = link ? event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          window.location.href = link;
+        }
+      } : null;
+      bookBox.setAttribute("role", link ? "link" : "group");
+      if (link) bookBox.setAttribute("tabindex", "0");
+      else bookBox.removeAttribute("tabindex");
+      if (cover) {
+        const image = document.createElement("img");
+        image.className = "daily-book-cover";
+        image.alt = "غلاف " + title;
+        image.loading = "lazy";
+        image.src = cover;
+        image.onerror = () => {
+          image.remove();
+          const placeholder = document.createElement("div");
+          placeholder.className = "daily-book-cover daily-book-placeholder";
+          placeholder.textContent = "▤";
+          bookBox.prepend(placeholder);
+        };
+        bookBox.appendChild(image);
+      } else {
+        const placeholder = document.createElement("div");
+        placeholder.className = "daily-book-cover daily-book-placeholder";
+        placeholder.textContent = "▤";
+        bookBox.appendChild(placeholder);
+      }
+
+      const info = document.createElement("div");
+      info.className = "daily-book-info";
+      const heading = document.createElement("p");
+      heading.className = "daily-book-title";
+      heading.textContent = title;
+      info.appendChild(heading);
+      if (author) {
+        const by = document.createElement("p");
+        by.className = "daily-book-author";
+        by.textContent = "المؤلف: " + author;
+        info.appendChild(by);
+      }
+      if (synopsis) {
+        const summary = document.createElement("p");
+        summary.className = "daily-book-summary";
+        summary.textContent = synopsis.length > 150 ? synopsis.slice(0, 147) + "..." : synopsis;
+        info.appendChild(summary);
+      }
+      if (link) {
+        const anchor = document.createElement("a");
+        anchor.className = "daily-book-link";
+        anchor.href = link;
+        if (/^https:\/\//i.test(link)) {
+          anchor.target = "_blank";
+          anchor.rel = "noopener noreferrer";
+        }
+        anchor.textContent = "اقرأ النبذة كاملة";
+        info.appendChild(anchor);
+      }
+      bookBox.appendChild(info);
+    })
+    .catch(error => {
+      console.error("Daily book load failed:", error);
+      bookBox.textContent = "تعذّر تحميل كتاب اليوم. حاول تحديث الصفحة.";
+    });
+})();
+</script>
+</script>
+</body>
+</html>
+
+
+
