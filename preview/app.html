@@ -80,6 +80,20 @@
     }
     @media(max-height:620px) { .welcome{min-height:auto;padding:25px 20px}.logo-wrap{width:82px;height:82px;margin-bottom:14px}h1{font-size:32px}.subtitle{margin-bottom:12px}.rule{margin-bottom:12px}.message{margin-bottom:18px;font-size:17px} }
   </style>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    // Preserve Telegram Mini App authentication before navigating to index.html.
+    (function () {
+      const tg = window.Telegram?.WebApp;
+      const initData = typeof tg?.initData === "string" ? tg.initData.trim() : "";
+      if (!initData) return;
+      try {
+        sessionStorage.setItem("maktabat_telegram_init_data", initData);
+      } catch (error) {
+        console.warn("Telegram session storage unavailable");
+      }
+    })();
+  </script>
   <script>
     (function () {
       const params = new URLSearchParams(location.search);
