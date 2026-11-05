@@ -192,6 +192,22 @@
           return;
         }
 
+        const pendingUrl = String(book.url || book.link || "");
+        let validBookUrl = false;
+        try {
+          const parsedUrl = new URL(pendingUrl);
+          validBookUrl = parsedUrl.protocol === "https:" &&
+            (parsedUrl.hostname === "t.me" || parsedUrl.hostname === "www.t.me") &&
+            /^\\/quotes_90\\/\\d+\\/?$/.test(parsedUrl.pathname);
+        } catch (_) {
+          validBookUrl = false;
+        }
+
+        if (!validBookUrl) {
+          showError("هذا الكتاب قيد التجهيز، وسيظهر في المكتبة بعد اكتمال نشره.");
+          return;
+        }
+
         const title = String(book.title || "كتاب بدون عنوان");
         const author = String(book.author || "");
         const synopsis = String(book.synopsis || book.summary || book.description || "");
