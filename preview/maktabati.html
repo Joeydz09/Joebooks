@@ -32,9 +32,11 @@ footer{margin-top:28px;color:var(--muted);font-size:12px;line-height:1.8}
 <script>
 let books=[];
 function hasValidBookUrl(value){
+  const raw=String(value||"").trim();
+  if(!raw)return false;
   try{
-    const url=new URL(String(value||""));
-    return url.protocol==="https:" && (url.hostname==="t.me" || url.hostname==="www.t.me") && /^\\/quotes_90\\/\\d+\\/?$/.test(url.pathname);
+    const url=new URL(raw,location.href);
+    return url.protocol==="https:" || (url.origin===location.origin && url.protocol===location.protocol);
   }catch{return false}
 }
 async function loadBooks(){
