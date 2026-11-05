@@ -192,13 +192,14 @@
           return;
         }
 
-        const pendingUrl = String(book.url || book.link || "");
+        const pendingUrl = String(book.url || book.link || "").trim();
         let validBookUrl = false;
         try {
-          const parsedUrl = new URL(pendingUrl);
-          validBookUrl = parsedUrl.protocol === "https:" &&
-            (parsedUrl.hostname === "t.me" || parsedUrl.hostname === "www.t.me") &&
-            /^\\/quotes_90\\/\\d+\\/?$/.test(parsedUrl.pathname);
+          const parsedUrl = new URL(pendingUrl, location.href);
+          validBookUrl = Boolean(pendingUrl) && (
+            parsedUrl.protocol === "https:" ||
+            (parsedUrl.origin === location.origin && parsedUrl.protocol === location.protocol)
+          );
         } catch (_) {
           validBookUrl = false;
         }
