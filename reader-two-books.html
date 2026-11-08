@@ -2,28 +2,35 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
   <meta name="theme-color" content="#0b1426">
   <title>قارئ الروايات | مكتبة الأحلام</title>
   <style>
     :root{color-scheme:dark;--navy:#0b1426;--panel:#111f35;--silver:#dce4ef;--muted:#9eacc0;--gold:#d6b66b}
     *{box-sizing:border-box}
     body{margin:0;background:radial-gradient(ellipse at top,#172945 0,var(--navy) 58%);color:var(--silver);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
-    header{padding:25px 18px 17px;text-align:center;border-bottom:1px solid #ffffff18}
+    header{padding:22px 14px 16px;text-align:center;border-bottom:1px solid #ffffff18}
     .brand{font-size:13px;letter-spacing:1px;color:var(--gold);margin-bottom:9px}
-    h1{font-size:clamp(22px,4vw,30px);margin:0 0 8px}
+    h1{font-size:clamp(21px,4vw,29px);margin:0 0 8px}
     .sub{color:var(--muted);font-size:14px;margin:0}
-    main{width:min(1100px,calc(100% - 24px));margin:22px auto}
-    .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:var(--panel);border:1px solid #ffffff18;border-radius:15px;padding:13px;margin-bottom:14px}
-    .choices{display:flex;gap:9px;flex-wrap:wrap}
+    main{width:min(1100px,calc(100% - 18px));margin:16px auto}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:var(--panel);border:1px solid #ffffff18;border-radius:14px;padding:11px;margin-bottom:10px}
+    .choices{display:flex;gap:8px;flex-wrap:wrap}
     button,a{font:inherit}
-    button{border:1px solid #ffffff26;border-radius:10px;padding:11px 15px;background:#1a2a43;color:var(--silver);cursor:pointer}
+    button{border:1px solid #ffffff26;border-radius:10px;padding:10px 13px;background:#1a2a43;color:var(--silver);cursor:pointer}
     button[aria-pressed=true]{border-color:var(--gold);background:#3a3325;color:#ffe5a4}
-    .open{color:var(--gold);text-decoration:none;font-size:14px;padding:8px}
-    .viewer{overflow:hidden;border:1px solid #ffffff24;border-radius:14px;background:#fff;box-shadow:0 15px 45px #0005}
-    iframe{display:block;width:100%;height:min(78vh,900px);min-height:560px;border:0;background:#fff}
-    .notice{text-align:center;color:var(--muted);font-size:12px;line-height:1.8;margin:13px 4px}
-    @media(max-width:600px){header{padding-top:20px}.toolbar{align-items:stretch}.choices{display:grid;grid-template-columns:1fr 1fr}.choices button{padding:10px 8px;font-size:13px}.open{text-align:center}iframe{height:75vh;min-height:480px}}
+    button:disabled{opacity:.4;cursor:not-allowed}
+    .open{color:var(--gold);text-decoration:none;font-size:13px;padding:8px}
+    .reader{overflow:hidden;border:1px solid #ffffff24;border-radius:14px;background:#18243a;box-shadow:0 15px 45px #0005}
+    .controls{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;padding:10px;background:#111f35;border-bottom:1px solid #ffffff18}
+    #page-info{font-size:13px;color:var(--silver);min-width:90px;text-align:center}
+    #zoom-label{font-size:12px;color:var(--muted);min-width:42px;text-align:center}
+    .canvas-wrap{min-height:55vh;display:flex;justify-content:center;align-items:flex-start;padding:12px;overflow:auto;background:#29364a}
+    canvas{display:block;max-width:100%;height:auto;background:#fff;box-shadow:0 4px 18px #0005}
+    #status{padding:24px 14px;text-align:center;color:var(--muted);font-size:14px;line-height:1.9}
+    #status.error{color:#ffd0c8}
+    .notice{text-align:center;color:var(--muted);font-size:12px;line-height:1.8;margin:12px 4px}
+    @media(max-width:600px){header{padding-top:17px}.toolbar{align-items:stretch}.choices{display:grid;grid-template-columns:1fr 1fr}.choices button{padding:10px 6px;font-size:12px}.open{text-align:center}.controls{gap:6px;padding:8px}.controls button{padding:9px 11px}.canvas-wrap{padding:5px;min-height:60vh}}
   </style>
 </head>
 <body>
@@ -38,37 +45,126 @@
         <button type="button" data-book="narcissi" data-src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" aria-pressed="true">نرجسي في حياتي</button>
         <button type="button" data-book="never-split" data-src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/never-split" aria-pressed="false">لا تقسم الفرق أبداً</button>
       </div>
-      <a class="open" id="open-pdf" href="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" target="_blank" rel="noopener noreferrer">فتح الملف في نافذة مستقلة ↗</a>
+      <a class="open" id="open-pdf" href="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" target="_blank" rel="noopener noreferrer">فتح الملف خارج القارئ ↗</a>
     </section>
-    <div class="viewer">
-      <iframe id="pdf-viewer" title="قارئ PDF" src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi"></iframe>
-    </div>
-    <p class="notice">اختر الرواية من الأعلى للتبديل بين الكتابين، أو افتح الملف في نافذة مستقلة للقراءة.</p>
+    <section class="reader" aria-label="قارئ صفحات الرواية">
+      <div class="controls">
+        <button id="prev" type="button" disabled>السابق</button>
+        <span id="page-info">— / —</span>
+        <button id="next" type="button" disabled>التالي</button>
+        <button id="zoom-out" type="button" disabled>−</button>
+        <span id="zoom-label">100%</span>
+        <button id="zoom-in" type="button" disabled>+</button>
+      </div>
+      <div class="canvas-wrap"><canvas id="pdf-canvas" aria-label="صفحة الرواية"></canvas></div>
+      <div id="status" role="status" aria-live="polite">جارٍ تجهيز قارئ الروايات…</div>
+    </section>
+    <p class="notice">يمكنك التنقل بين الصفحات وتكبيرها وتصغيرها من أدوات القارئ.</p>
   </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
-    const viewer = document.getElementById("pdf-viewer");
-    const openLink = document.getElementById("open-pdf");
-    const buttons = [...document.querySelectorAll("[data-src]")];
-    function selectBook(button) {
-      const src = button.dataset.src;
-      viewer.src = src;
-      openLink.href = src;
-      buttons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
-    }
-    buttons.forEach(button => button.addEventListener("click", () => {
-      selectBook(button);
-    }));
+    (() => {
+      const viewerCanvas = document.getElementById("pdf-canvas");
+      const context = viewerCanvas.getContext("2d");
+      const status = document.getElementById("status");
+      const openLink = document.getElementById("open-pdf");
+      const buttons = [...document.querySelectorAll("[data-src]")];
+      const prev = document.getElementById("prev");
+      const next = document.getElementById("next");
+      const zoomIn = document.getElementById("zoom-in");
+      const zoomOut = document.getElementById("zoom-out");
+      const pageInfo = document.getElementById("page-info");
+      const zoomLabel = document.getElementById("zoom-label");
+      let pdf = null, pageNumber = 1, scale = 1, loadingTask = null, renderTask = null;
 
-    const requestedBook = new URLSearchParams(location.search).get("book");
-    const requestedButton = buttons.find(button => button.dataset.book === requestedBook);
-    if (requestedButton) selectBook(requestedButton);
+      if (!window.pdfjsLib) {
+        status.textContent = "تعذر تحميل مكتبة عرض PDF. تحقق من اتصال الإنترنت ثم أعد فتح الصفحة.";
+        status.classList.add("error");
+        return;
+      }
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-    /* keep the selected book in the URL for direct in-app links */
-    buttons.forEach(button => button.addEventListener("click", () => {
-      const url = new URL(location.href);
-      url.searchParams.set("book", button.dataset.book);
-      history.replaceState(null, "", url);
-    }));
+      function showStatus(message, isError = false) {
+        status.textContent = message;
+        status.classList.toggle("error", isError);
+        status.style.display = "block";
+      }
+
+      function updateControls() {
+        pageInfo.textContent = pdf ? pageNumber + " / " + pdf.numPages : "— / —";
+        zoomLabel.textContent = Math.round(scale * 100) + "%";
+        prev.disabled = !pdf || pageNumber <= 1;
+        next.disabled = !pdf || pageNumber >= pdf.numPages;
+        zoomIn.disabled = !pdf || scale >= 2.2;
+        zoomOut.disabled = !pdf || scale <= 0.65;
+      }
+
+      async function renderPage() {
+        if (!pdf) return;
+        if (renderTask) {
+          try { renderTask.cancel(); } catch (_) {}
+        }
+        const page = await pdf.getPage(pageNumber);
+        const viewport = page.getViewport({ scale });
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        viewerCanvas.width = Math.floor(viewport.width * pixelRatio);
+        viewerCanvas.height = Math.floor(viewport.height * pixelRatio);
+        viewerCanvas.style.width = Math.floor(viewport.width) + "px";
+        viewerCanvas.style.height = Math.floor(viewport.height) + "px";
+        showStatus("جارٍ عرض الصفحة " + pageNumber + "…");
+        context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        renderTask = page.render({ canvasContext: context, viewport });
+        await renderTask.promise;
+        status.style.display = "none";
+        updateControls();
+      }
+
+      async function loadBook(button) {
+        const src = button.dataset.src;
+        if (loadingTask) {
+          try { await loadingTask.destroy(); } catch (_) {}
+        }
+        pdf = null;
+        pageNumber = 1;
+        scale = 1;
+        viewerCanvas.width = 0;
+        viewerCanvas.height = 0;
+        buttons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+        openLink.href = src;
+        const url = new URL(location.href);
+        url.searchParams.set("book", button.dataset.book);
+        history.replaceState(null, "", url);
+        updateControls();
+        showStatus("جارٍ تحميل الرواية…");
+        try {
+          loadingTask = pdfjsLib.getDocument({ url: src, withCredentials: false });
+          pdf = await loadingTask.promise;
+          showStatus("تم تحميل الرواية. جارٍ تجهيز الصفحة الأولى…");
+          updateControls();
+          await renderPage();
+        } catch (error) {
+          console.error("PDF.js reader error:", error);
+          const message = String(error && (error.message || error));
+          if (/CORS|Access-Control|Failed to fetch|NetworkError/i.test(message)) {
+            showStatus("تعذر جلب ملف الرواية من خادم الملفات بسبب قيود الاتصال بين النطاقات. يلزم تفعيل CORS في Worker الخاص بالملفات.", true);
+          } else {
+            showStatus("تعذر عرض الرواية: " + message + " — يمكنك فتح الملف من الرابط أعلاه.", true);
+          }
+        }
+      }
+
+      prev.addEventListener("click", () => { if (pageNumber > 1) { pageNumber--; renderPage().catch(e => showStatus(e.message, true)); } });
+      next.addEventListener("click", () => { if (pdf && pageNumber < pdf.numPages) { pageNumber++; renderPage().catch(e => showStatus(e.message, true)); } });
+      zoomIn.addEventListener("click", () => { scale = Math.min(2.2, scale + 0.15); renderPage().catch(e => showStatus(e.message, true)); });
+      zoomOut.addEventListener("click", () => { scale = Math.max(0.65, scale - 0.15); renderPage().catch(e => showStatus(e.message, true)); });
+      buttons.forEach(button => button.addEventListener("click", () => loadBook(button)));
+
+      const requestedBook = new URLSearchParams(location.search).get("book");
+      const initialButton = buttons.find(button => button.dataset.book === requestedBook) || buttons[0];
+      loadBook(initialButton);
+    })();
   </script>
 </body>
 </html>
