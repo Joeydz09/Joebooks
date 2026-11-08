@@ -70,8 +70,8 @@
       const zoomLabel = document.getElementById("zoom-label");
       let pdf = null, pageNo = 1, scale = 1, task = null, renderTask = null;
 
-      if (!window.pdfjsLib) {
-        status.textContent = "تعذر تحميل مكتبة PDF.js.";
+      if (!pdfjsLib || typeof pdfjsLib.getDocument !== "function") {
+        status.textContent = "تعذر تهيئة مكتبة PDF.js.";
         status.classList.add("error");
         return;
       }
