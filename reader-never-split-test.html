@@ -54,11 +54,11 @@
     </section>
     <p class="note">هذه صفحة تجريبية تستخدم إصدار أحدث من PDF.js مع تعطيل مسارات WASM وOffscreenCanvas. أخبرنا هل أصبحت الحروف العربية متصلة وواضحة.</p>
   </main>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.js"></script>
-  <script>
+  <script type="module">
+    import * as pdfjsLib from "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/legacy/build/pdf.mjs";
     (() => {
       const src = "https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/never-split";
-      const base = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/";
+      const base = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/";
       const canvas = document.getElementById("pdf-canvas");
       const ctx = canvas.getContext("2d");
       const status = document.getElementById("status");
@@ -75,7 +75,7 @@
         status.classList.add("error");
         return;
       }
-      pdfjsLib.GlobalWorkerOptions.workerSrc = base + "pdf.worker.min.js";
+      pdfjsLib.GlobalWorkerOptions.workerSrc = base + "legacy/build/pdf.worker.mjs";
 
       function message(value, error = false) {
         status.textContent = value;
