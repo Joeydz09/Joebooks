@@ -639,6 +639,13 @@
   box-shadow: 0 6px 16px rgba(214, 184, 117, .22);
 }
 
+/* زر القراءة داخل التطبيق المصغر */
+.open-book.read-in-app {
+  background: linear-gradient(135deg, #243f63, #142944);
+  border-color: rgba(169, 194, 231, .65);
+  color: #f8faff;
+}
+
     .no-link {
       display: block;
       text-align: center;
@@ -2492,6 +2499,18 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
       }
 
       const actions = createElement("div", "book-actions");
+
+      const inAppReaderBooks = {
+        "2073": "narcissi",
+        "2074": "never-split"
+      };
+      const readerKey = inAppReaderBooks[String(book.id)];
+      if (readerKey) {
+        const readLink = createElement("a", "open-book read-in-app", "📖 اقرأ الرواية");
+        readLink.href = "./reader-two-books.html?book=" + readerKey;
+        readLink.setAttribute("aria-label", "اقرأ رواية " + title + " داخل التطبيق");
+        actions.appendChild(readLink);
+      }
 
       if (url) {
         const downloadLink = createElement("a", "open-book download-book", "⬇️ تحميل الكتاب");
