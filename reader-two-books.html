@@ -28,6 +28,13 @@
     #pdf-viewer embedpdf-container{display:block;width:100%;height:100%;min-height:0}
     #status{padding:16px 12px;text-align:center;color:var(--muted);font-size:13px;line-height:1.8}
     #status.error{color:#ffd0c8}
+    #fullscreen-toggle{white-space:nowrap;border-color:#d6b66b;color:#ffe5a4}
+    body.is-fullscreen{background:#000}
+    body.is-fullscreen header,body.is-fullscreen .toolbar,body.is-fullscreen .notice{display:none!important}
+    body.is-fullscreen main{width:100%;height:100%;max-height:none;margin:0;flex:1;min-height:0}
+    body.is-fullscreen .reader{width:100%;height:100%;border:0;border-radius:0;box-shadow:none}
+    body.is-fullscreen #pdf-viewer{width:100%;height:100%;min-height:0}
+    body.is-fullscreen #fullscreen-toggle{position:fixed;z-index:99999;top:calc(env(safe-area-inset-top) + 10px);left:10px;display:block;background:#0b1426eF;box-shadow:0 2px 12px #0008}
     .notice{text-align:center;color:var(--muted);font-size:12px;line-height:1.8;margin:6px 4px 0;flex:none}
     @media(max-width:600px){
       header{padding-top:14px}
@@ -54,7 +61,7 @@
         <button type="button" data-book="narcissi" data-src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" aria-pressed="true">نرجسي في حياتي</button>
         <button type="button" data-book="never-split" data-src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/never-split" aria-pressed="false">لا تقسم الفرق أبداً</button>
       </div>
-      <a class="open" id="open-pdf" href="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" target="_blank" rel="noopener noreferrer">فتح الملف خارج القارئ ↗</a>
+      <div style="display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap"><button type="button" id="fullscreen-toggle" aria-pressed="false">⛶ ملء الشاشة</button><a class="open" id="open-pdf" href="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" target="_blank" rel="noopener noreferrer">فتح الملف خارج القارئ ↗</a></div>
     </section>
     <section class="reader" aria-label="قارئ صفحات الرواية">
       <div id="status" role="status" aria-live="polite">جارٍ تجهيز قارئ الروايات…</div>
@@ -68,6 +75,58 @@
     const viewerTarget = document.getElementById("pdf-viewer");
     const openLink = document.getElementById("open-pdf");
     const buttons = [...document.querySelectorAll("[data-src]")];
+    const fullscreenButton = document.getElementById("fullscreen-toggle");
+    const webApp = window.Telegram?.WebApp;
+
+    function syncFullscreenState(active) {
+      document.body.classList.toggle("is-fullscreen", active);
+      fullscreenButton.setAttribute("aria-pressed", String(active));
+      fullscreenButton.textContent = active ? "✕ خروج من ملء الشاشة" : "⛶ ملء الشاشة";
+    }
+
+    async function toggleFullscreen() {
+      try {
+        if (document.body.classList.contains("is-fullscreen")) {
+          if (webApp?.isVersionAtLeast?.("8.0") && webApp.isFullscreen) {
+            webApp.exitFullscreen();
+          } else if (document.fullscreenElement) {
+            await document.exitFullscreen();
+          } else {
+            syncFullscreenState(false);
+          }
+          return;
+        }
+
+        if (webApp) {
+          if (webApp.isVersionAtLeast?.("8.0") && typeof webApp.requestFullscreen === "function") {
+            webApp.requestFullscreen();
+          } else {
+            webApp.expand?.();
+            syncFullscreenState(true);
+          }
+        } else if (document.documentElement.requestFullscreen) {
+          await document.documentElement.requestFullscreen();
+        } else {
+          syncFullscreenState(true);
+        }
+      } catch (error) {
+        console.error("Fullscreen request failed:", error);
+        showStatus("تعذر تفعيل ملء الشاشة على هذا الإصدار. حدّث Telegram ثم حاول مجدداً.", true);
+      }
+    }
+
+    fullscreenButton.addEventListener("click", toggleFullscreen);
+    if (webApp) {
+      webApp.ready?.();
+      webApp.expand?.();
+      webApp.onEvent?.("fullscreenChanged", () => syncFullscreenState(!!webApp.isFullscreen));
+      webApp.onEvent?.("fullscreenFailed", () => {
+        syncFullscreenState(false);
+        showStatus("لم يسمح Telegram بملء الشاشة. جرّب تحديث التطبيق.", true);
+      });
+      if (webApp.isFullscreen) syncFullscreenState(true);
+    }
+    document.addEventListener("fullscreenchange", () => syncFullscreenState(!!document.fullscreenElement));
     let EmbedPDF = null;
     let loadSequence = 0;
 
