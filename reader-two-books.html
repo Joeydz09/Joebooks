@@ -157,13 +157,19 @@
         if (!EmbedPDF) {
           const module = await import("https://cdn.jsdelivr.net/npm/@embedpdf/snippet@2/dist/embedpdf.js");
           EmbedPDF = module.default;
+          var ZoomMode = module.ZoomMode;
         }
         if (sequence !== loadSequence) return;
 
         EmbedPDF.init({
           type: "container",
           target: viewerTarget,
-          src
+          src,
+          zoom: {
+            defaultZoomLevel: ZoomMode.FitWidth,
+            minZoom: 0.5,
+            maxZoom: 4
+          }
         });
 
         showStatus("جارٍ فتح الرواية… ستختفي هذه الرسالة عند ظهور العارض.");
