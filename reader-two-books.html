@@ -14,7 +14,7 @@
     .brand{font-size:13px;letter-spacing:1px;color:var(--gold);margin-bottom:8px}
     h1{font-size:clamp(20px,4vw,27px);margin:0 0 7px}
     .sub{color:var(--muted);font-size:13px;margin:0}
-    main{width:min(1100px,calc(100% - 18px));margin:10px auto;display:flex;flex-direction:column;flex:1;min-height:0;max-height:calc(100% - 130px)}
+    main{width:min(1100px,calc(100% - 18px));margin:10px auto;display:flex;flex-direction:column;flex:1 1 0;min-height:0;max-height:none}
     .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:var(--panel);border:1px solid #ffffff18;border-radius:14px;padding:10px;margin-bottom:10px;flex:none}
     .choices{display:flex;gap:8px;flex-wrap:wrap}
     button,a{font:inherit}
@@ -22,22 +22,23 @@
     button[aria-pressed=true]{border-color:var(--gold);background:#3a3325;color:#ffe5a4}
     button:disabled{opacity:.5;cursor:wait}
     .open{color:var(--gold);text-decoration:none;font-size:13px;padding:8px}
-    .reader{overflow:hidden;border:1px solid #ffffff24;border-radius:14px;background:#18243a;box-shadow:0 15px 45px #0005;flex:1;min-height:0;display:flex;flex-direction:column}
-    #pdf-viewer{display:block;width:100%;height:100%;min-height:0;flex:1;background:#18243a}
+    .reader{overflow:hidden;border:1px solid #ffffff24;border-radius:14px;background:#18243a;box-shadow:0 15px 45px #0005;flex:1 1 0;min-height:0;display:flex;flex-direction:column}
+    #pdf-viewer{display:block;width:100%;height:100%;min-height:0;flex:1 1 0;background:#18243a}
+    #pdf-viewer iframe,#pdf-viewer>div{max-width:100%}
     #pdf-viewer embedpdf-container{display:block;width:100%;height:100%;min-height:0}
     #status{padding:16px 12px;text-align:center;color:var(--muted);font-size:13px;line-height:1.8}
     #status.error{color:#ffd0c8}
-    .notice{text-align:center;color:var(--muted);font-size:12px;line-height:1.8;margin:10px 4px 0;flex:none}
+    .notice{text-align:center;color:var(--muted);font-size:12px;line-height:1.8;margin:6px 4px 0;flex:none}
     @media(max-width:600px){
       header{padding-top:14px}
-      main{width:calc(100% - 12px);margin:9px auto 12px}
+      main{width:calc(100% - 12px);margin:9px auto 8px;max-height:none;flex:1 1 0;min-height:0}
       .toolbar{align-items:stretch;gap:6px;padding:8px}
       .choices{display:grid;grid-template-columns:1fr 1fr;gap:6px}
       .choices button{padding:10px 5px;font-size:12px}
       .open{text-align:center;padding:6px}
       .reader{min-height:0}
       #pdf-viewer,#pdf-viewer embedpdf-container{min-height:0}
-      .notice{font-size:11px}
+      .notice{font-size:11px;margin:4px 4px 0}
     }
   </style>
 </head>
