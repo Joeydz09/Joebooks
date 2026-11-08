@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1426">
+  <title>قارئ الروايات | مكتبة الأحلام</title>
+  <style>
+    :root { color-scheme: dark; --navy:#0b1426; --panel:#14223a; --silver:#dce4ef; --gold:#d6b875; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:var(--navy); color:var(--silver); font-family:Tahoma,Arial,sans-serif; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px clamp(14px,4vw,36px); border-bottom:1px solid rgba(220,228,239,.14); }
+    .brand { font-weight:bold; color:var(--silver); text-decoration:none; }
+    .brand small { display:block; color:#aab7ca; font-weight:normal; font-size:12px; }
+    .actions { display:flex; flex-wrap:wrap; gap:8px; }
+    button,a.action { border:1px solid rgba(214,184,117,.45); background:var(--panel); color:var(--silver); border-radius:9px; padding:9px 13px; font:inherit; text-decoration:none; cursor:pointer; }
+    main { width:min(1100px,calc(100% - 24px)); margin:24px auto; }
+    .intro { text-align:center; margin:0 0 18px; }
+    h1 { margin:0 0 5px; font-size:clamp(21px,4vw,30px); }
+    .intro p { margin:0; color:#aab7ca; font-size:14px; }
+    .reader { overflow:hidden; border:1px solid rgba(220,228,239,.16); border-radius:14px; background:#202b3c; box-shadow:0 16px 45px rgba(0,0,0,.28); }
+    iframe { display:block; width:100%; height:min(78vh,950px); min-height:520px; border:0; background:#fff; }
+    .note { color:#aab7ca; text-align:center; font-size:12px; margin:12px 0 0; }
+    @media(max-width:560px) { header { align-items:flex-start; flex-direction:column; } iframe { height:76vh; min-height:460px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="./index.html">مكتبة الأحلام<small>عالم من الحكايات</small></a>
+    <div class="actions">
+      <a class="action" href="./index.html">العودة للمكتبة</a>
+      <a class="action" href="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/read" target="_blank" rel="noopener noreferrer">فتح الرواية منفصلة</a>
+      <button id="fullscreen" type="button">ملء الشاشة</button>
+    </div>
+  </header>
+  <main>
+    <section class="intro">
+      <h1>كبرياء وتحامل</h1>
+      <p>قارئ PDF تجريبي من مكتبة الأحلام</p>
+    </section>
+    <section class="reader" id="reader">
+      <iframe
+        id="pdf"
+        title="رواية كبرياء وتحامل"
+        src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/read#toolbar=1&navpanes=0&view=FitH"
+        loading="eager"
+        allow="fullscreen"
+      ></iframe>
+    </section>
+    <p class="note">هذه صفحة اختبار مستقلة داخل مستودع الموقع الرسمي؛ لا تغيّر بيانات الكتب أو روابطها أو نظام النشر.</p>
+  </main>
+  <script>
+    document.getElementById("fullscreen").addEventListener("click", async () => {
+      const reader = document.getElementById("reader");
+      try {
+        if (!document.fullscreenElement) await reader.requestFullscreen();
+        else await document.exitFullscreen();
+      } catch (error) {
+        alert("تعذر تفعيل ملء الشاشة في هذا المتصفح.");
+      }
+    });
+  </script>
+</body>
+</html>
