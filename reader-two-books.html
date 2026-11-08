@@ -35,8 +35,8 @@
   <main>
     <section class="toolbar" aria-label="اختيار الرواية">
       <div class="choices">
-        <button type="button" data-src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" aria-pressed="true">نرجسي في حياتي</button>
-        <button type="button" data-src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/never-split" aria-pressed="false">لا تقسم الفرق أبداً</button>
+        <button type="button" data-book="narcissi" data-src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" aria-pressed="true">نرجسي في حياتي</button>
+        <button type="button" data-book="never-split" data-src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/never-split" aria-pressed="false">لا تقسم الفرق أبداً</button>
       </div>
       <a class="open" id="open-pdf" href="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" target="_blank" rel="noopener noreferrer">فتح الملف في نافذة مستقلة ↗</a>
     </section>
@@ -49,12 +49,28 @@
     const viewer = document.getElementById("pdf-viewer");
     const openLink = document.getElementById("open-pdf");
     const buttons = [...document.querySelectorAll("[data-src]")];
-    buttons.forEach(button => button.addEventListener("click", () => {
+    function selectBook(button) {
       const src = button.dataset.src;
       viewer.src = src;
       openLink.href = src;
       buttons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+    }
+    buttons.forEach(button => button.addEventListener("click", () => {
+      selectBook(button);
     }));
+
+    const requestedBook = new URLSearchParams(location.search).get("book");
+    const requestedButton = buttons.find(button => button.dataset.book === requestedBook);
+    if (requestedButton) selectBook(requestedButton);
+
+    /* keep the selected book in the URL for direct in-app links */
+    buttons.forEach(button => button.addEventListener("click", () => {
+      const url = new URL(location.href);
+      url.searchParams.set("book", button.dataset.book);
+      history.replaceState(null, "", url);
+    }));
+    /*
+    */
   </script>
 </body>
 </html>
