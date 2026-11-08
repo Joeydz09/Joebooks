@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b1426">
+  <title>قارئ الروايات | مكتبة الأحلام - اختبار</title>
+  <style>
+    :root{color-scheme:dark;--navy:#0b1426;--panel:#111f35;--silver:#dce4ef;--muted:#9eacc0;--gold:#d6b66b}
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(ellipse at top,#172945 0,var(--navy) 58%);color:var(--silver);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+    header{padding:25px 18px 17px;text-align:center;border-bottom:1px solid #ffffff18}
+    .brand{font-size:13px;letter-spacing:1px;color:var(--gold);margin-bottom:9px}
+    h1{font-size:clamp(22px,4vw,30px);margin:0 0 8px}
+    .sub{color:var(--muted);font-size:14px;margin:0}
+    main{width:min(1100px,calc(100% - 24px));margin:22px auto}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:var(--panel);border:1px solid #ffffff18;border-radius:15px;padding:13px;margin-bottom:14px}
+    .choices{display:flex;gap:9px;flex-wrap:wrap}
+    button,a{font:inherit}
+    button{border:1px solid #ffffff26;border-radius:10px;padding:11px 15px;background:#1a2a43;color:var(--silver);cursor:pointer}
+    button[aria-pressed=true]{border-color:var(--gold);background:#3a3325;color:#ffe5a4}
+    .open{color:var(--gold);text-decoration:none;font-size:14px;padding:8px}
+    .viewer{overflow:hidden;border:1px solid #ffffff24;border-radius:14px;background:#fff;box-shadow:0 15px 45px #0005}
+    iframe{display:block;width:100%;height:min(78vh,900px);min-height:560px;border:0;background:#fff}
+    .notice{text-align:center;color:var(--muted);font-size:12px;line-height:1.8;margin:13px 4px}
+    @media(max-width:600px){header{padding-top:20px}.toolbar{align-items:stretch}.choices{display:grid;grid-template-columns:1fr 1fr}.choices button{padding:10px 8px;font-size:13px}.open{text-align:center}iframe{height:75vh;min-height:480px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">مكتبة الأحلام</div>
+    <h1>مساحتك الخاصة بين الكتب</h1>
+    <p class="sub">قارئ الروايات — نسخة اختبار</p>
+  </header>
+  <main>
+    <section class="toolbar" aria-label="اختيار الرواية">
+      <div class="choices">
+        <button type="button" data-src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" aria-pressed="true">نرجسي في حياتي</button>
+        <button type="button" data-src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/never-split" aria-pressed="false">لا تقسم الفرق أبداً</button>
+      </div>
+      <a class="open" id="open-pdf" href="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" target="_blank" rel="noopener">فتح الملف في نافذة مستقلة ↗</a>
+    </section>
+    <div class="viewer">
+      <iframe id="pdf-viewer" title="قارئ PDF" src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi"></iframe>
+    </div>
+    <p class="notice">هذه صفحة اختبار مستقلة. الكتب محفوظة في مساحة الاختبار على Cloudflare R2، ولم تُضف إلى فهرس الموقع أو قوائم النشر.</p>
+  </main>
+  <script>
+    const viewer = document.getElementById("pdf-viewer");
+    const openLink = document.getElementById("open-pdf");
+    const buttons = [...document.querySelectorAll("[data-src]")];
+    buttons.forEach(button => button.addEventListener("click", () => {
+      const src = button.dataset.src;
+      viewer.src = src;
+      openLink.href = src;
+      buttons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+    }));
+  </script>
+</body>
+</html>
