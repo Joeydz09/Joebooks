@@ -60,12 +60,12 @@
     <p class="sub">قارئ الروايات</p>
   </header>
   <main>
-    <section class="toolbar" aria-label="اختيار الرواية">
-      <div class="choices">
+    <section class="toolbar" aria-label="أدوات القارئ">
+      <div class="choices" aria-label="الرواية المفتوحة">
         <button type="button" data-book="narcissi" data-src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" aria-pressed="true">نرجسي في حياتي</button>
         <button type="button" data-book="never-split" data-src="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/never-split" aria-pressed="false">لا تقسم الفرق أبداً</button>
       </div>
-      <div style="display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap"><button type="button" id="fullscreen-toggle" aria-pressed="false">⛶ ملء الشاشة</button><a class="open" id="open-pdf" href="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" target="_blank" rel="noopener noreferrer">فتح الملف خارج القارئ ↗</a></div>
+      <div class="reader-actions"><button type="button" id="back-button">↩ العودة</button><button type="button" id="close-button">✕ إغلاق</button></div>
     </section>
     <section class="reader" aria-label="قارئ صفحات الرواية">
       <div id="status" role="status" aria-live="polite">جارٍ تجهيز قارئ الروايات…</div>
