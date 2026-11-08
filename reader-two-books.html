@@ -82,25 +82,16 @@
     const buttons = [...document.querySelectorAll("[data-src]")];
     const webApp = window.Telegram?.WebApp;
 
-    if (webApp) {
-          if (webApp.isVersionAtLeast?.("8.0") && typeof webApp.requestFullscreen === "function") {
-            webApp.requestFullscreen();
-          } else {
-            webApp.expand?.();
-            syncFullscreenState(true);
-          }
-        } else if (document.documentElement.requestFullscreen) {
-          await document.documentElement.requestFullscreen();
-        } else {
-          syncFullscreenState(true);
-        }
-      } catch (error) {
-        console.error("Fullscreen request failed:", error);
-        showStatus("تعذر تفعيل ملء الشاشة على هذا الإصدار. حدّث Telegram ثم حاول مجدداً.", true);
-      }
+    function showStatus(message, isError = false) {
+      status.textContent = message;
+      status.classList.toggle("error", isError);
+      status.style.display = "block";
     }
 
-    fullscreenButton.addEventListener("click", toggleFullscreen);
+    if (webApp) {
+      webApp.ready?.();
+      webApp.expand?.();
+    }
 
     backButton.addEventListener("click", () => {
       if (window.history.length > 1) {
@@ -121,18 +112,10 @@
         window.location.href = "./";
       }
     });
-    if (webApp) {
-      webApp.ready?.();
-      webApp.expand?.();
-    }
-    let EmbedPDF = null;
-    let loadSequence = 0;
 
-    function showStatus(message, isError = false) {
-      status.textContent = message;
-      status.classList.toggle("error", isError);
-      status.style.display = "block";
-    }
+    let EmbedPDF = null;
+    let ZoomMode = null;
+    let loadSequence = 0;
 
     async function loadBook(button) {
       const sequence = ++loadSequence;
@@ -143,9 +126,14 @@
         item.setAttribute("aria-pressed", String(item === button));
         item.disabled = true;
       });
-      const url = new URL(location.href);
-      url.searchParams.set("book", activeBook);
-      history.replaceState(null, "", url);
+
+      try {
+        const url = new URL(location.href);
+        url.searchParams.set("book", activeBook);
+        history.replaceState(null, "", url);
+      } catch (error) {
+        console.warn("Could not update reader URL:", error);
+      }
 
       showStatus("جارٍ تحميل الرواية بمحرك PDFium…");
       viewerTarget.innerHTML = "";
@@ -154,50 +142,68 @@
         if (!EmbedPDF) {
           const module = await import("https://cdn.jsdelivr.net/npm/@embedpdf/snippet@2/dist/embedpdf.js");
           EmbedPDF = module.default;
-          var ZoomMode = module.ZoomMode;
+          ZoomMode = module.ZoomMode;
+          if (!EmbedPDF || typeof EmbedPDF.init !== "function") {
+            throw new Error("لم يتم تحميل مكتبة EmbedPDF بصورة صحيحة");
+          }
         }
+
         if (sequence !== loadSequence) return;
 
-        EmbedPDF.init({
+        const options = {
           type: "container",
           target: viewerTarget,
-          src,
-          zoom: {
+          src
+        };
+
+        if (ZoomMode?.FitWidth !== undefined) {
+          options.zoom = {
             defaultZoomLevel: ZoomMode.FitWidth,
             minZoom: 0.5,
             maxZoom: 4
-          }
-        });
+          };
+        }
 
-        showStatus("جارٍ فتح الرواية… ستختفي هذه الرسالة عند ظهور العارض.");
+        EmbedPDF.init(options);
+
+        showStatus("جارٍ فتح الرواية…");
         const startedAt = Date.now();
+
         const checkViewer = () => {
           if (sequence !== loadSequence) return;
-          const mounted = viewerTarget.childElementCount > 0;
-          if (mounted) {
+          if (viewerTarget.childElementCount > 0) {
             status.style.display = "none";
             buttons.forEach(item => item.disabled = false);
           } else if (Date.now() - startedAt > 25000) {
-            showStatus("تأخر تشغيل العارض. تحقق من الاتصال ثم أعد اختيار الرواية.", true);
+            showStatus("تأخر تشغيل العارض. أعد اختيار الرواية أو تحقق من الاتصال.", true);
             buttons.forEach(item => item.disabled = false);
           } else {
             window.setTimeout(checkViewer, 500);
           }
         };
+
         window.setTimeout(checkViewer, 500);
       } catch (error) {
         console.error("PDFium reader error:", error);
         if (sequence === loadSequence) {
-          showStatus("تعذر تشغيل قارئ PDFium: " + (error?.message || "خطأ غير معروف"), true);
+          showStatus("تعذر تشغيل قارئ الروايات: " + (error?.message || "خطأ غير معروف"), true);
           buttons.forEach(item => item.disabled = false);
         }
       }
     }
 
-    buttons.forEach(button => button.addEventListener("click", () => loadBook(button)));
+    buttons.forEach(button => {
+      button.addEventListener("click", () => loadBook(button));
+    });
+
     const requestedBook = new URLSearchParams(location.search).get("book");
     const initialButton = buttons.find(button => button.dataset.book === requestedBook) || buttons[0];
-    loadBook(initialButton);
+
+    if (initialButton) {
+      loadBook(initialButton);
+    } else {
+      showStatus("لم يتم العثور على بيانات الرواية.", true);
+    }
   </script>
 </body>
 </html>
