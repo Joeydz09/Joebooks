@@ -139,7 +139,16 @@
         updateControls();
         showStatus("جارٍ تحميل الرواية…");
         try {
-          loadingTask = pdfjsLib.getDocument({ url: src, withCredentials: false });
+          loadingTask = pdfjsLib.getDocument({
+            url: src,
+            withCredentials: false,
+            cMapUrl: "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/",
+            cMapPacked: true,
+            standardFontDataUrl: "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/standard_fonts/",
+            useSystemFonts: true,
+            disableFontFace: false,
+            isEvalSupported: false
+          });
           pdf = await loadingTask.promise;
           showStatus("تم تحميل الرواية. جارٍ تجهيز الصفحة الأولى…");
           updateControls();
