@@ -2518,9 +2518,7 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
 
       if (r2PdfUrl) {
         const r2ReadLink = createElement("a", "open-book", "📖 اقرأ الرواية");
-        r2ReadLink.href = r2PdfUrl;
-        r2ReadLink.target = "_blank";
-        r2ReadLink.rel = "noopener noreferrer";
+        r2ReadLink.href = "./reader-r2.html?pdf=" + encodeURIComponent(r2PdfUrl);
         r2ReadLink.setAttribute("aria-label", "اقرأ رواية " + title);
         actions.appendChild(r2ReadLink);
       }
