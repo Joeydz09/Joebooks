@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0b1426">
+<title>قارئ الروايات | مكتبة الأحلام</title>
+<style>
+:root{color-scheme:dark;--navy:#0b1426;--silver:#dce4ef;--muted:#9eacc0;--gold:#d6b66b}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--navy);color:var(--silver);font-family:Tahoma,Arial,sans-serif}
+body{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;background:#0b1426;border-bottom:1px solid #ffffff20}
+#book-title{font-size:13px;color:#ffe5a4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+button{border:1px solid #ffffff30;border-radius:9px;padding:8px 11px;background:#1a2a43;color:var(--silver);font:inherit}
+#viewer{flex:1;min-height:0;background:#18243a;overflow:hidden}
+#status{padding:18px;text-align:center;color:var(--muted);font-size:14px;line-height:1.9}
+#status.error{color:#ffd0c8}
+#viewer embedpdf-container{display:block;width:100%;height:100%;min-height:0}
+</style>
+</head>
+<body>
+<div class="toolbar"><span id="book-title">مكتبة الأحلام</span><button id="back" type="button">↩ العودة</button></div>
+<div id="status" role="status" aria-live="polite">جارٍ تجهيز قارئ الرواية…</div>
+<div id="viewer" aria-label="قارئ صفحات الرواية"></div>
+<script type="module">
+const status=document.getElementById("status"),viewer=document.getElementById("viewer");
+document.getElementById("back").addEventListener("click",()=>history.length>1?history.back():location.href="../index.html");
+function fail(msg){status.textContent=msg;status.classList.add("error")}
+(async()=>{
+ try{
+  const id=new URLSearchParams(location.search).get("id");
+  if(!id||!/^\d+$/.test(id))throw new Error("رابط الكتاب غير صالح.");
+  const response=await fetch("../books.json",{cache:"no-store"});
+  if(!response.ok)throw new Error("تعذر تحميل بيانات الكتب.");
+  const data=await response.json();
+  const books=Array.isArray(data)?data:(data&&Array.isArray(data.books)?data.books:null);
+  if(!books)throw new Error("تنسيق بيانات الكتب غير صالح.");
+  const book=books.find(x=>x&&String(x.id)===id);
+  if(!book)throw new Error("لم نعثر على هذا الكتاب.");
+  const src=String(book.url||"").trim();
+  const parsed=new URL(src);
+  if(parsed.protocol!=="https:"||parsed.hostname!=="joebooks-pdf-gateway.jo-dz-jd.workers.dev"||!parsed.pathname.startsWith("/books/")||!parsed.pathname.toLowerCase().endsWith(".pdf"))throw new Error("هذه الرواية غير متاحة للقراءة عبر R2 بعد.");
+  document.getElementById("book-title").textContent=String(book.title||"قارئ الروايات");
+  document.title=(book.title||"قارئ الروايات")+" | مكتبة الأحلام";
+  status.textContent="جارٍ تحميل الرواية بمحرك PDFium…";
+  const module=await import("https://cdn.jsdelivr.net/npm/@embedpdf/snippet@2/dist/embedpdf.js");
+  const EmbedPDF=module.default,ZoomMode=module.ZoomMode;
+  if(!EmbedPDF||typeof EmbedPDF.init!=="function")throw new Error("تعذر تهيئة محرك القراءة.");
+  const options={type:"container",target:viewer,src};
+  if(ZoomMode?.FitWidth!==undefined)options.zoom={defaultZoomLevel:ZoomMode.FitWidth,minZoom:.5,maxZoom:4};
+  EmbedPDF.init(options);
+  const started=Date.now();
+  const check=()=>{if(viewer.childElementCount>0){status.style.display="none"}else if(Date.now()-started>30000){fail("تأخر فتح الرواية. تحقق من الاتصال ثم أعد المحاولة.")}else setTimeout(check,500)};
+  setTimeout(check,500);
+ }catch(e){console.error("R2 reader:",e);fail(e.message||"حدث خطأ أثناء فتح الرواية.")}
+})();
+</script>
+</body></html>
