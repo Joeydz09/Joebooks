@@ -270,9 +270,7 @@
           ) {
             const read = document.createElement("a");
             read.className = "btn read-r2";
-            read.href = r2Url.href;
-            read.target = "_blank";
-            read.rel = "noopener noreferrer";
+            read.href = "./reader-r2.html?pdf=" + encodeURIComponent(r2Url.href);
             read.textContent = "📖 اقرأ الرواية";
             actions.appendChild(read);
           }
