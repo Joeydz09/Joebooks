@@ -31,14 +31,22 @@ footer{margin-top:28px;color:var(--muted);font-size:12px;line-height:1.8}
 </main>
 <script>
 let books=[];
+function hasValidBookUrl(value){
+  const raw=String(value||"").trim();
+  if(!raw)return false;
+  try{
+    const url=new URL(raw,location.href);
+    return url.protocol==="https:" || (url.origin===location.origin && url.protocol===location.protocol);
+  }catch{return false}
+}
 async function loadBooks(){
   const response=await fetch("../books.json",{cache:"no-store"});
   if(!response.ok) throw new Error("BOOKS_JSON_LOAD_FAILED");
   const data=await response.json();
   if(!Array.isArray(data)) throw new Error("INVALID_BOOKS_JSON");
-  books=data.filter(b=>Number.isSafeInteger(Number(b.id)) && Number(b.id)>0 && b.title)
+  books=data.filter(b=>Number.isSafeInteger(Number(b.id)) && Number(b.id)>0 && b.title && hasValidBookUrl(b.url||b.link))
     .map(b=>({id:Number(b.id),title:String(b.title),author:String(b.author||"كاتب غير محدد"),
-      category:String(b.category||"غير مصنف"),url:String(b.url||""),cover:String(b.cover||""),synopsis:String(b.synopsis||"")}));
+      category:String(b.category||"غير مصنف"),url:String(b.url||b.link||""),cover:String(b.cover||""),synopsis:String(b.synopsis||"")}));
 }
 const storageKey="joebooks_maktabati_preview_v1";
 const api=window.JoebooksMaktabatiAPI;
@@ -96,6 +104,7 @@ async function init(){
   }else{
     try{saved=new Set(JSON.parse(localStorage.getItem(storageKey)||"[]"))}catch{saved=new Set()}
   }
+  saved=new Set([...saved].filter(id=>books.some(book=>book.id===Number(id))));
   loading=false;render();
 }
 init();

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="theme-color" content="#0b1426">
+  <title>اختبار PDFium - لا تقسم الفرق | مكتبة الأحلام</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b1426;--gold:#d8bd83;--text:#e8edf5}
+    *{box-sizing:border-box}
+    html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+    body{display:flex;flex-direction:column;overflow:hidden}
+    header{flex:none;padding:12px 14px;background:#101d33;border-bottom:1px solid #34435a;text-align:center}
+    h1{font-size:16px;margin:0 0 5px;color:var(--gold)}
+    #status{font-size:12px;color:#cbd5e1;line-height:1.7}
+    #viewer{flex:1;min-height:0;width:100%;background:#e5e7eb}
+    #viewer iframe,#viewer>div{max-width:100%}
+    footer{flex:none;padding:8px 12px;text-align:center;background:#101d33;font-size:12px}
+    a{color:var(--gold);text-decoration:none}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>اختبار محرك PDFium — لا تقسم الفرق</h1>
+    <div id="status">جار تحميل عارض PDFium… قد يستغرق التحميل الأول بعض الوقت.</div>
+  </header>
+  <main id="viewer" aria-label="عارض الرواية"></main>
+  <footer><a href="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/never-split" target="_blank" rel="noopener">فتح ملف PDF الأصلي مباشرة</a></footer>
+  <script type="module">
+    const status = document.getElementById('status');
+    const target = document.getElementById('viewer');
+    const pdfUrl = 'https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/never-split';
+    try {
+      status.textContent = 'جار تهيئة محرك PDFium وتحميل الرواية…';
+      const { default: EmbedPDF } = await import('https://cdn.jsdelivr.net/npm/@embedpdf/snippet@2/dist/embedpdf.js');
+      EmbedPDF.init({
+        type: 'container',
+        target,
+        src: pdfUrl
+      });
+      status.textContent = 'بدأ العارض التحميل. انتظر ظهور الصفحات…';
+      window.setTimeout(() => {
+        if (target.childElementCount === 0) {
+          status.textContent = 'لم يظهر العارض بعد. تحقق من اتصال الإنترنت ثم أعد فتح الصفحة.';
+        } else {
+          status.textContent = 'إذا ظهرت الصفحات، افحص اتصال الحروف العربية.';
+        }
+      }, 20000);
+    } catch (error) {
+      console.error('PDFium viewer error:', error);
+      status.textContent = 'تعذر تشغيل عارض PDFium: ' + (error?.message || 'خطأ غير معروف');
+    }
+  </script>
+</body>
+</html>

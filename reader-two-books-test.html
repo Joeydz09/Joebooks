@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <meta name="theme-color" content="#0b1426">
+  <title>اختبار عرض العربية | مكتبة الأحلام</title>
+  <style>
+    :root{color-scheme:dark;--navy:#0b1426;--panel:#111f35;--silver:#dce4ef;--muted:#9eacc0;--gold:#d6b66b}
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(ellipse at top,#172945 0,var(--navy) 58%);color:var(--silver);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+    header{padding:18px 14px;text-align:center;border-bottom:1px solid #ffffff18}
+    .brand{font-size:13px;color:var(--gold);margin-bottom:8px}
+    h1{font-size:22px;margin:0 0 7px}
+    .sub{color:var(--muted);font-size:13px;margin:0}
+    main{width:min(900px,calc(100% - 18px));margin:14px auto}
+    .toolbar,.controls{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;background:var(--panel);border:1px solid #ffffff20;border-radius:13px;padding:10px;margin-bottom:10px}
+    button{font:inherit;border:1px solid #ffffff30;border-radius:10px;padding:9px 12px;background:#1a2a43;color:var(--silver)}
+    button:disabled{opacity:.4}
+    #page-info{font-size:13px;min-width:75px;text-align:center}
+    #zoom-label{font-size:12px;color:var(--muted)}
+    .reader{overflow:hidden;border:1px solid #ffffff24;border-radius:14px;background:#18243a}
+    .controls{border:0;border-radius:0;margin:0;background:#111f35}
+    .canvas-wrap{min-height:60vh;display:flex;justify-content:center;align-items:flex-start;padding:8px;overflow:auto;background:#29364a}
+    canvas{display:block;max-width:100%;height:auto;background:white;box-shadow:0 4px 18px #0005}
+    #status{padding:20px 12px;text-align:center;color:var(--muted);font-size:14px;line-height:1.9}
+    #status.error{color:#ffd0c8}
+    .note{color:var(--muted);font-size:12px;line-height:1.9;text-align:center}
+    @media(max-width:600px){header{padding-top:14px}.controls{gap:6px;padding:8px}.controls button{padding:9px 11px}.canvas-wrap{padding:5px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">مكتبة الأحلام</div>
+    <h1>اختبار تحسين عرض العربية</h1>
+    <p class="sub">صفحة اختبار مستقلة — لا تغيّر القارئ الأصلي</p>
+  </header>
+  <main>
+    <div class="toolbar">
+      <button id="reload" type="button">إعادة تحميل الاختبار</button>
+      <a href="https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;font-size:13px">فتح PDF الأصلي ↗</a>
+    </div>
+    <section class="reader" aria-label="اختبار عرض صفحات الرواية">
+      <div class="controls">
+        <button id="prev" type="button" disabled>السابق</button>
+        <span id="page-info">— / —</span>
+        <button id="next" type="button" disabled>التالي</button>
+        <button id="zoom-out" type="button" disabled>−</button>
+        <span id="zoom-label">100%</span>
+        <button id="zoom-in" type="button" disabled>+</button>
+      </div>
+      <div class="canvas-wrap"><canvas id="pdf-canvas" aria-label="صفحة الرواية"></canvas></div>
+      <div id="status" role="status" aria-live="polite">جارٍ تجهيز الاختبار…</div>
+    </section>
+    <p class="note">هذه صفحة تجريبية تستخدم إعدادات إضافية للخطوط وخرائط المحارف. أخبرنا هل أصبحت الحروف العربية متصلة وواضحة.</p>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    (() => {
+      const src = "https://joebooks-pdf-gateway.jo-dz-jd.workers.dev/test/narcissi";
+      const base = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+      const canvas = document.getElementById("pdf-canvas");
+      const ctx = canvas.getContext("2d");
+      const status = document.getElementById("status");
+      const prev = document.getElementById("prev");
+      const next = document.getElementById("next");
+      const zin = document.getElementById("zoom-in");
+      const zout = document.getElementById("zoom-out");
+      const info = document.getElementById("page-info");
+      const zoomLabel = document.getElementById("zoom-label");
+      let pdf = null, pageNo = 1, scale = 1, task = null, renderTask = null;
+
+      if (!window.pdfjsLib) {
+        status.textContent = "تعذر تحميل مكتبة PDF.js.";
+        status.classList.add("error");
+        return;
+      }
+      pdfjsLib.GlobalWorkerOptions.workerSrc = base + "pdf.worker.min.js";
+
+      function message(value, error = false) {
+        status.textContent = value;
+        status.style.display = "block";
+        status.classList.toggle("error", error);
+      }
+      function controls() {
+        info.textContent = pdf ? pageNo + " / " + pdf.numPages : "— / —";
+        zoomLabel.textContent = Math.round(scale * 100) + "%";
+        prev.disabled = !pdf || pageNo <= 1;
+        next.disabled = !pdf || pageNo >= pdf.numPages;
+        zin.disabled = !pdf || scale >= 2.2;
+        zout.disabled = !pdf || scale <= .65;
+      }
+      async function draw() {
+        if (!pdf) return;
+        if (renderTask) { try { renderTask.cancel(); } catch (_) {} }
+        const page = await pdf.getPage(pageNo);
+        const viewport = page.getViewport({scale});
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(viewport.width * ratio);
+        canvas.height = Math.floor(viewport.height * ratio);
+        canvas.style.width = Math.floor(viewport.width) + "px";
+        canvas.style.height = Math.floor(viewport.height) + "px";
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        message("جارٍ عرض الصفحة " + pageNo + "…");
+        renderTask = page.render({canvasContext: ctx, viewport});
+        await renderTask.promise;
+        status.style.display = "none";
+        controls();
+      }
+      async function load() {
+        try {
+          if (task) { try { await task.destroy(); } catch (_) {} }
+          pdf = null; pageNo = 1; scale = 1;
+          canvas.width = 0; canvas.height = 0; controls();
+          message("جارٍ تحميل الرواية بإعدادات الخطوط المحسّنة…");
+          task = pdfjsLib.getDocument({
+            url: src,
+            withCredentials: false,
+            cMapUrl: base + "cmaps/",
+            cMapPacked: true,
+            standardFontDataUrl: base + "standard_fonts/",
+            useSystemFonts: true,
+            disableFontFace: false,
+            isEvalSupported: false
+          });
+          pdf = await task.promise;
+          controls();
+          await draw();
+        } catch (e) {
+          console.error("PDF.js Arabic test:", e);
+          message("تعذر عرض الاختبار: " + (e && e.message ? e.message : String(e)), true);
+        }
+      }
+      prev.addEventListener("click", () => { if (pageNo > 1) { pageNo--; draw().catch(e => message(e.message, true)); } });
+      next.addEventListener("click", () => { if (pdf && pageNo < pdf.numPages) { pageNo++; draw().catch(e => message(e.message, true)); } });
+      zin.addEventListener("click", () => { scale = Math.min(2.2, scale + .15); draw().catch(e => message(e.message, true)); });
+      zout.addEventListener("click", () => { scale = Math.max(.65, scale - .15); draw().catch(e => message(e.message, true)); });
+      document.getElementById("reload").addEventListener("click", load);
+      load();
+    })();
+  </script>
+</body>
+</html>
