@@ -98,6 +98,13 @@
       color: var(--navy);
     }
 
+    .read-r2 {
+      background: linear-gradient(135deg, #e5c779, #caa64f);
+      color: #241b08;
+      border: 1px solid rgba(255, 231, 165, .55);
+      box-shadow: 0 3px 12px rgba(202, 166, 79, .16);
+    }
+
     .back {
       background: transparent;
       color: var(--silver);
@@ -251,6 +258,27 @@
 
         const actions = document.createElement("div");
         actions.className = "actions";
+
+        // زر القراءة يظهر حصراً للكتب التي رُفع ملف PDF الخاص بها إلى R2.
+        try {
+          const r2Url = new URL(url);
+          if (
+            r2Url.protocol === "https:" &&
+            r2Url.hostname === "joebooks-pdf-gateway.jo-dz-jd.workers.dev" &&
+            r2Url.pathname.startsWith("/books/") &&
+            r2Url.pathname.toLowerCase().endsWith(".pdf")
+          ) {
+            const read = document.createElement("a");
+            read.className = "btn read-r2";
+            read.href = r2Url.href;
+            read.target = "_blank";
+            read.rel = "noopener noreferrer";
+            read.textContent = "📖 اقرأ الرواية";
+            actions.appendChild(read);
+          }
+        } catch (_) {
+          // لا يظهر زر القراءة إذا لم يكن رابط R2 صالحاً.
+        }
 
         if (url) {
           try {
