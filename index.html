@@ -2500,6 +2500,31 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
 
       const actions = createElement("div", "book-actions");
 
+      // زر القراءة الذهبي يظهر فقط إذا كان ملف PDF مستضافاً على بوابة R2.
+      let r2PdfUrl = "";
+      try {
+        const candidate = new URL(url);
+        if (
+          candidate.protocol === "https:" &&
+          candidate.hostname === "joebooks-pdf-gateway.jo-dz-jd.workers.dev" &&
+          candidate.pathname.startsWith("/books/") &&
+          candidate.pathname.toLowerCase().endsWith(".pdf")
+        ) {
+          r2PdfUrl = candidate.href;
+        }
+      } catch (_) {
+        // لا نعرض زر القراءة عند غياب رابط R2 صالح.
+      }
+
+      if (r2PdfUrl) {
+        const r2ReadLink = createElement("a", "open-book", "📖 اقرأ الرواية");
+        r2ReadLink.href = r2PdfUrl;
+        r2ReadLink.target = "_blank";
+        r2ReadLink.rel = "noopener noreferrer";
+        r2ReadLink.setAttribute("aria-label", "اقرأ رواية " + title);
+        actions.appendChild(r2ReadLink);
+      }
+
       const inAppReaderBooks = {
         "2073": "narcissi",
         "2074": "never-split"
