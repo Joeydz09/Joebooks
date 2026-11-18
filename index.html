@@ -2517,7 +2517,8 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         // لا نعرض زر القراءة عند غياب رابط R2 صالح.
       }
 
-      if (r2PdfUrl) {
+      // الكتابان 2073 و2074 لهما قارئ مخصص؛ لا نعرض لهما زر قراءة R2 المكرر.
+      if (r2PdfUrl && !["2073", "2074"].includes(String(book.id))) {
         const r2ReadLink = createElement("a", "open-book", "📖 اقرأ الرواية");
         r2ReadLink.href = "./reader-r2.html?pdf=" + encodeURIComponent(r2PdfUrl);
         r2ReadLink.setAttribute("aria-label", "اقرأ رواية " + title);
