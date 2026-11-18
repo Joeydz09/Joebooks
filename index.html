@@ -2536,12 +2536,14 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
         actions.appendChild(readLink);
       }
 
-      if (url) {
+      const telegramUrl = String(book.telegram_url || "").trim();
+      const downloadUrl = telegramUrl || url;
+      if (downloadUrl) {
         const downloadLink = createElement("a", "open-book download-book", "⬇️ تحميل الكتاب");
-        downloadLink.href = url;
+        downloadLink.href = downloadUrl;
         downloadLink.target = "_blank";
         downloadLink.rel = "noopener noreferrer";
-        downloadLink.setAttribute("aria-label", "فتح كتاب " + title + " على تيليجرام");
+        downloadLink.setAttribute("aria-label", telegramUrl ? "فتح منشور تيليجرام للكتاب " + title : "فتح رابط الكتاب " + title);
         actions.appendChild(downloadLink);
       } else {
         actions.appendChild(createElement("span", "no-link", "لا يتوفر رابط تحميل لهذا الكتاب"));
