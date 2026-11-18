@@ -278,18 +278,18 @@
           // لا يظهر زر القراءة إذا لم يكن رابط R2 صالحاً.
         }
 
-        if (url) {
+        const telegramUrl = String(book.telegram_url || "").trim();
+        if (telegramUrl) {
           try {
-            const bookUrl = new URL(url);
-
+            const postUrl = new URL(telegramUrl);
             if (
-              bookUrl.protocol === "https:" &&
-              (bookUrl.hostname === "t.me" || bookUrl.hostname === "www.t.me") &&
-              /^\/quotes_90\/\d+\/?$/.test(bookUrl.pathname)
+              postUrl.protocol === "https:" &&
+              (postUrl.hostname === "t.me" || postUrl.hostname === "www.t.me") &&
+              /^\/quotes_90\/\d+\/?$/.test(postUrl.pathname)
             ) {
               const download = document.createElement("a");
               download.className = "btn";
-              download.href = bookUrl.href;
+              download.href = postUrl.href;
               download.target = "_blank";
               download.rel = "noopener noreferrer";
               download.textContent = "📥 فتح المنشور وتحميل الكتاب";
