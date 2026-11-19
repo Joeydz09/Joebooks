@@ -2527,6 +2527,18 @@ document.getElementById("clearContinueReading")?.addEventListener("click", () =>
 
       
 
+      const inAppReaderBooks = {
+        "2073": "narcissi",
+        "2074": "never-split"
+      };
+      const readerKey = inAppReaderBooks[String(book.id)];
+      if (readerKey) {
+        const readLink = createElement("a", "open-book read-in-app", "📖 اقرأ الرواية");
+        readLink.href = "./reader-two-books.html?book=" + readerKey;
+        readLink.setAttribute("aria-label", "اقرأ رواية " + title + " داخل التطبيق");
+        actions.appendChild(readLink);
+      }
+
       const telegramUrl = String(book.telegram_url || "").trim();
       const downloadUrl = telegramUrl || url;
       if (downloadUrl) {
