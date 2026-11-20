@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Joebooks | لوحة الإدارة</title>
+<style>
+:root{--bg:#081326;--panel:#101f38;--panel2:#142744;--line:#263a59;--text:#edf3fb;--muted:#9eafc6;--gold:#d7b66b;--blue:#7aa7e8;--green:#7fc8a1;--red:#e58c8c}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#142b4b 0,transparent 35%),var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
+button{font:inherit;cursor:pointer}.shell{display:grid;grid-template-columns:260px 1fr;min-height:100vh}.side{padding:26px 18px;border-left:1px solid var(--line);background:#09172b}.brand{display:flex;gap:12px;align-items:center;padding:0 8px 25px;border-bottom:1px solid var(--line)}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#e4c77d,#9e7b38);display:grid;place-items:center;color:#17243a;font-weight:bold;font-size:20px}.brand b{display:block;font-size:17px}.brand small{color:var(--muted)}.navlabel{font-size:11px;color:#7186a4;margin:25px 10px 10px}.nav{display:grid;gap:6px}.nav button{border:1px solid transparent;background:transparent;color:#b8c6d9;text-align:right;padding:12px 13px;border-radius:10px;display:flex;gap:12px;align-items:center}.nav button:hover,.nav button.active{background:#172b49;border-color:#294362;color:#fff}.nav .ico{width:20px;text-align:center;color:var(--gold)}.sidefoot{position:sticky;top:90vh;margin-top:45px;padding:13px;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:12px;line-height:1.8}.main{padding:28px 34px;max-width:1500px;width:100%;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}.eyebrow{color:var(--gold);font-size:12px;margin-bottom:8px}.top h1{font-size:25px;margin:0}.user{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px}.avatar{width:38px;height:38px;border-radius:50%;background:#263e60;display:grid;place-items:center;color:#fff}.notice{border:1px solid #735f36;background:#30291b;color:#ead7a6;border-radius:12px;padding:13px 16px;line-height:1.8;font-size:13px;margin-bottom:23px}.notice strong{color:#ffe2a0}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0}.stat,.panel{background:linear-gradient(145deg,#12233d,#0e1d33);border:1px solid var(--line);border-radius:15px}.stat{padding:18px}.stathead{color:var(--muted);font-size:12px;display:flex;justify-content:space-between}.stat strong{display:block;font-size:27px;margin:13px 0 5px}.stat small{color:#8296b2}.stat .sym{color:var(--gold);font-size:19px}.grid2{display:grid;grid-template-columns:1.35fr 1fr;gap:15px}.panel{padding:20px;margin-bottom:15px}.panelhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px}.panel h2{font-size:16px;margin:0}.muted{color:var(--muted);font-size:12px}.btn{border:1px solid #395476;background:#1b3557;color:#eaf2ff;padding:9px 13px;border-radius:9px;font-size:12px}.btn.gold{background:#b8954d;border-color:#c5a45f;color:#17243a;font-weight:bold}.btn:disabled{opacity:.45;cursor:not-allowed}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:13px 10px;text-align:right;border-bottom:1px solid #223653;white-space:nowrap}th{color:#8fa4c1;font-size:11px;font-weight:normal}td{color:#dce6f4}.status{border-radius:30px;padding:5px 9px;font-size:11px;background:#203c35;color:#9cdbb8}.status.warn{background:#40351f;color:#e9cb81}.status.info{background:#1e3553;color:#a9c9f7}.quick{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick button{background:#152944;border:1px solid #294361;color:#dce8f8;border-radius:11px;padding:15px;text-align:right}.quick span{display:block;color:var(--gold);font-size:18px;margin-bottom:8px}.activity{display:grid;gap:14px}.event{display:flex;gap:12px;align-items:flex-start;font-size:12px;color:#c8d5e6}.dot{width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:4px;flex:none}.event small{display:block;color:#8195b2;margin-top:4px}.view{display:none}.view.active{display:block}.empty{padding:35px;text-align:center;color:var(--muted);line-height:2}.search{background:#0a192d;border:1px solid var(--line);color:#fff;padding:10px 13px;border-radius:9px;min-width:230px}.tag{font-size:11px;color:#a9c9f7;background:#1b3554;padding:5px 8px;border-radius:20px}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.side{border-left:0;border-bottom:1px solid var(--line);padding:15px}.brand{padding-bottom:12px}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap}.navlabel,.sidefoot{display:none}.main{padding:20px 15px}.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+@media(max-width:480px){.stats{grid-template-columns:1fr 1fr}.stat{padding:13px}.stat strong{font-size:22px}.top{align-items:flex-start}.user span{display:none}.search{min-width:0;width:100%}.quick{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side">
+ <div class="brand"><div class="logo">J</div><div><b>Joebooks</b><small>لوحة الإدارة</small></div></div>
+ <div class="navlabel">إدارة المكتبة</div>
+ <nav class="nav" aria-label="القائمة الرئيسية">
+  <button class="active" data-view="dashboard"><span class="ico">◈</span>الرئيسية</button>
+  <button data-view="books"><span class="ico">▤</span>الكتب</button>
+  <button data-view="categories"><span class="ico">▦</span>التصنيفات</button>
+  <button data-view="daily"><span class="ico">✦</span>المحتوى اليومي</button>
+  <button data-view="pages"><span class="ico">▣</span>صفحات الموقع</button>
+  <div class="navlabel">النظام</div>
+  <button data-view="files"><span class="ico">▧</span>الملفات والأغلفة</button>
+  <button data-view="analytics"><span class="ico">⌁</span>التحليلات</button>
+  <button data-view="settings"><span class="ico">⚙</span>الإعدادات</button>
+  <button data-view="logs"><span class="ico">◷</span>سجل العمليات</button>
+ </nav>
+ <div class="sidefoot">مدير واحد فقط<br>وصول محمي — لا توجد حسابات عامة</div>
+</aside>
+<main class="main">
+ <header class="top"><div><div class="eyebrow">مكتبتك، تحت إدارتك</div><h1 id="pageTitle">نظرة عامة</h1></div><div class="user"><span>حساب المدير</span><div class="avatar">م</div></div></header>
+ <div class="notice"><strong>نسخة واجهة أولية — غير متصلة بالبيانات.</strong> الأرقام والمحتوى الظاهر أدناه أمثلة شكلية فقط. لا يوجد تسجيل دخول أو اتصال بـ GitHub أو Cloudflare في هذه النسخة، ولا يمكنها تعديل الموقع.</div>
+ <section class="view active" id="dashboard">
+  <div class="stats">
+   <article class="stat"><div class="stathead">إجمالي الكتب <span class="sym">▤</span></div><strong>—</strong><small>يظهر بعد ربط books.json</small></article>
+   <article class="stat"><div class="stathead">كتب تحتاج مراجعة <span class="sym">◷</span></div><strong>—</strong><small>بيانات ناقصة أو روابط غير صالحة</small></article>
+   <article class="stat"><div class="stathead">الأغلفة <span class="sym">▧</span></div><strong>—</strong><small>بعد فحص مجلد covers</small></article>
+   <article class="stat"><div class="stathead">تغييرات بانتظار النشر <span class="sym">⇧</span></div><strong>0</strong><small>لا توجد تغييرات محفوظة</small></article>
+  </div>
+  <div class="grid2">
+   <div>
+    <section class="panel"><div class="panelhead"><h2>مساحة العمل</h2><span class="tag">المرحلة الأولى</span></div><div class="quick">
+     <button data-go="books"><span>＋</span>إدارة الكتب</button><button data-go="daily"><span>✦</span>المحتوى اليومي</button><button data-go="files"><span>▧</span>فحص الملفات</button><button data-go="logs"><span>◷</span>سجل العمليات</button>
+    </div></section>
+    <section class="panel"><div class="panelhead"><h2>حالة الربط</h2><span class="muted">لم يتم الإعداد بعد</span></div><table><tbody><tr><td>GitHub — Joeydz09/Joebooks</td><td><span class="status warn">بانتظار الربط</span></td></tr><tr><td>Cloudflare Worker API</td><td><span class="status warn">غير مُعد</span></td></tr><tr><td>قاعدة بيانات الإدارة</td><td><span class="status warn">غير مُنشأة</span></td></tr><tr><td>حماية دخول المدير</td><td><span class="status warn">غير مُفعّلة</span></td></tr></tbody></table></section>
+   </div>
+   <div>
+    <section class="panel"><div class="panelhead"><h2>آخر النشاطات</h2><span class="muted">تجريبي</span></div><div class="empty">سيظهر هنا سجل التعديلات والنشر بعد تفعيل النظام.<br>لن تُسجّل أي عملية قبل ربط قاعدة البيانات.</div></section>
+    <section class="panel"><div class="panelhead"><h2>قواعد النشر</h2></div><div class="activity"><div class="event"><i class="dot"></i><div>معاينة التغييرات قبل إرسالها إلى GitHub</div></div><div class="event"><i class="dot"></i><div>إنشاء فرع مستقل وطلب مراجعة Pull Request</div></div><div class="event"><i class="dot"></i><div>عدم الدمج في main إلا بعد موافقتك النهائية</div></div><div class="event"><i class="dot"></i><div>نسخة احتياطية وسجل عمليات لكل نشر</div></div></div></section>
+   </div>
+  </div>
+ </section>
+ <section class="view" id="books"><section class="panel"><div class="panelhead"><h2>إدارة الكتب</h2><button class="btn" disabled>＋ إضافة كتاب (بعد الربط)</button></div><div class="empty">ستُحمّل قائمة الكتب من books.json في وضع القراءة فقط أولاً.<br>لن يتاح التعديل أو الحذف قبل تفعيل الحماية والنسخ الاحتياطي.</div></section></section>
+ <section class="view" id="categories"><section class="panel"><div class="panelhead"><h2>التصنيفات</h2></div><div class="empty">إدارة التصنيفات وربطها بالكتب — بانتظار مصدر البيانات.</div></section></section>
+ <section class="view" id="daily"><section class="panel"><div class="panelhead"><h2>المحتوى اليومي</h2></div><div class="empty">إدارة الكتاب اليومي والاقتباس اليومي عبر daily-content.json بعد التحقق من بنيته.</div></section></section>
+ <section class="view" id="pages"><section class="panel"><div class="panelhead"><h2>صفحات الموقع</h2></div><div class="empty">إدارة محتوى الصفحات الرئيسية والصفحات الثابتة دون المساس بتكامل Maktabati.</div></section></section>
+ <section class="view" id="files"><section class="panel"><div class="panelhead"><h2>الملفات والأغلفة</h2></div><div class="empty">فحص الأغلفة وروابط PDF وملفات R2. لن يُحذف أي ملف من R2 تلقائياً عند حذف سجل كتاب.</div></section></section>
+ <section class="view" id="analytics"><section class="panel"><div class="panelhead"><h2>التحليلات</h2></div><div class="empty">يمكن إضافة تقارير GoatCounter بعد تحديد صلاحيات القراءة ومصدر البيانات.</div></section></section>
+ <section class="view" id="settings"><section class="panel"><div class="panelhead"><h2>إعدادات الموقع واللوحة</h2></div><div class="empty">إعدادات المدير، تكامل GitHub، Worker، النسخ الاحتياطي وسياسات النشر.<br>لن تُعرض الأسرار أو مفاتيح API في الواجهة.</div></section></section>
+ <section class="view" id="logs"><section class="panel"><div class="panelhead"><h2>سجل العمليات</h2></div><div class="empty">سجل غير قابل للتعديل يعرض المستخدم والوقت والعملية والملفات المتأثرة ونتيجة النشر.</div></section></section>
+</main>
+</div>
+<script>
+const titles={dashboard:"نظرة عامة",books:"إدارة الكتب",categories:"التصنيفات",daily:"المحتوى اليومي",pages:"صفحات الموقع",files:"الملفات والأغلفة",analytics:"التحليلات",settings:"الإعدادات",logs:"سجل العمليات"};
+function show(id){document.querySelectorAll(".view").forEach(x=>x.classList.toggle("active",x.id===id));document.querySelectorAll("[data-view]").forEach(x=>x.classList.toggle("active",x.dataset.view===id));document.getElementById("pageTitle").textContent=titles[id]||titles.dashboard;window.scrollTo({top:0,behavior:"smooth"});}
+document.querySelectorAll("[data-view]").forEach(x=>x.addEventListener("click",()=>show(x.dataset.view)));
+document.querySelectorAll("[data-go]").forEach(x=>x.addEventListener("click",()=>show(x.dataset.go)));
+</script>
+</body></html>
