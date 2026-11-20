@@ -1,0 +1,7 @@
+name = "joebooks-admin-api"
+main = "src/index.ts"
+compatibility_date = "2026-11-20"
+workers_dev = false
+
+# Configure a dedicated admin hostname/route after Cloudflare Access is ready.
+# Do not attach this Worker to the public Joebooks site until Access is enforced.
