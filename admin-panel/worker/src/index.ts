@@ -13,6 +13,7 @@ interface Env {
 }
 
 const MAX_BOOKS_BYTES = 4 * 1024 * 1024;
+const MAX_DAILY_BYTES = 256 * 1024;
 const encoder = new TextEncoder();
 
 function json(
@@ -111,7 +112,7 @@ export default {
       return json({ error: "method_not_allowed" }, 405, origin, env);
     }
 
-    if (url.pathname !== "/api/health" && url.pathname !== "/api/books") {
+    if (url.pathname !== "/api/health" && url.pathname !== "/api/books" && url.pathname !== "/api/daily") {
       return json({ error: "not_found" }, 404, origin, env);
     }
 
@@ -130,8 +131,11 @@ export default {
       return json({ error: "github_read_not_configured" }, 503, origin, env);
     }
 
+    const isDaily = url.pathname === "/api/daily";
+    const sourceFile = isDaily ? "daily-content.json" : "books.json";
+    const maxBytes = isDaily ? MAX_DAILY_BYTES : MAX_BOOKS_BYTES;
     const githubUrl = new URL(
-      `https://api.github.com/repos/${encodeURIComponent(env.GITHUB_OWNER)}/${encodeURIComponent(env.GITHUB_REPO)}/contents/books.json`,
+      `https://api.github.com/repos/${encodeURIComponent(env.GITHUB_OWNER)}/${encodeURIComponent(env.GITHUB_REPO)}/contents/${sourceFile}`,
     );
     githubUrl.searchParams.set("ref", env.GITHUB_BRANCH);
 
@@ -151,13 +155,13 @@ export default {
       }
 
       const contentLength = Number(upstream.headers.get("content-length") || 0);
-      if (contentLength > MAX_BOOKS_BYTES) {
-        return json({ error: "books_file_too_large" }, 413, origin, env);
+      if (contentLength > maxBytes) {
+        return json({ error: isDaily ? "daily_file_too_large" : "books_file_too_large" }, 413, origin, env);
       }
 
       const body = await upstream.text();
-      if (encoder.encode(body).byteLength > MAX_BOOKS_BYTES) {
-        return json({ error: "books_file_too_large" }, 413, origin, env);
+      if (encoder.encode(body).byteLength > maxBytes) {
+        return json({ error: isDaily ? "daily_file_too_large" : "books_file_too_large" }, 413, origin, env);
       }
 
       let parsed: unknown;
@@ -165,6 +169,45 @@ export default {
         parsed = JSON.parse(body);
       } catch {
         return json({ error: "invalid_books_json" }, 502, origin, env);
+      }
+
+      if (isDaily) {
+        if (
+          !parsed ||
+          typeof parsed !== "object" ||
+          (parsed as { timezone?: unknown }).timezone !== "Africa/Algiers" ||
+          !Array.isArray((parsed as { quotes?: unknown }).quotes)
+        ) {
+          return json({ error: "unexpected_daily_format" }, 502, origin, env);
+        }
+
+        const quotes = (parsed as { quotes: unknown[] }).quotes;
+        const validDays = new Set<number>();
+        for (const item of quotes) {
+          if (
+            !item ||
+            typeof item !== "object" ||
+            !Number.isInteger((item as { day?: unknown }).day) ||
+            Number((item as { day: number }).day) < 1 ||
+            Number((item as { day: number }).day) > 30 ||
+            typeof (item as { text?: unknown }).text !== "string" ||
+            !(item as { text: string }).text.trim()
+          ) {
+            return json({ error: "invalid_daily_quote" }, 502, origin, env);
+          }
+          validDays.add(Number((item as { day: number }).day));
+        }
+        if (quotes.length !== 30 || validDays.size !== 30) {
+          return json({ error: "incomplete_daily_quotes" }, 502, origin, env);
+        }
+
+        return json({
+          source: "github",
+          repository: `${env.GITHUB_OWNER}/${env.GITHUB_REPO}`,
+          branch: env.GITHUB_BRANCH,
+          timezone: "Africa/Algiers",
+          quotes,
+        }, 200, origin, env);
       }
 
       if (!Array.isArray(parsed)) {
