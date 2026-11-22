@@ -3,6 +3,7 @@
 This Worker is intentionally read-only. It exposes only:
 - `GET /api/health` — checks the protected API without requiring a GitHub token.
 - `GET /api/books` — reads `books.json` from the configured GitHub branch and requires a server-side GitHub token.
+- `GET /api/daily` — reads and validates `daily-content.json` (30 quotes, days 1–30, `Africa/Algiers`) from the configured GitHub branch; requires the same Cloudflare Access administrator authentication and GitHub read secret.
 
 All other paths and all non-GET methods are rejected. CORS preflight (`OPTIONS`) is answered only for the one exact configured frontend origin; it exposes no application data and does not bypass authentication for GET requests. No write, commit, PR, merge, R2-delete, or D1 mutation endpoints exist in this stage.
 
